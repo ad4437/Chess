@@ -1,6 +1,6 @@
 
 public class Player {
-	private boolean white;
+	private final boolean white;
 	
 	public Player(boolean stateInput) {
 		white = stateInput;
