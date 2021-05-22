@@ -7,7 +7,15 @@ public class Space {
 	public Space(int rowInput, int colInput) {
 		row = rowInput; 
 		col = colInput;
+		piece = null;
 	}
+	
+	public Space(int rowInput, int colInput, Piece pieceInput) {
+		row  = rowInput; 
+		col = colInput; 
+		piece = pieceInput;
+	}
+	
 	
 	public int getRow() {
 		return row; 
