@@ -6,7 +6,10 @@ public class Game {
 	private boolean turn;
 	
 	public Game() {
-
+		p1 = new Player(true);
+		p2 = new Player(false);
+		b = new Board();
+		turn = true;
 	}
 	
 	public boolean isInteractable() {
