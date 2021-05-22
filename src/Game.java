@@ -6,7 +6,7 @@ public class Game {
 	private boolean turn;
 	
 	public Game() {
-		
+
 	}
 	
 	public boolean isInteractable() {
