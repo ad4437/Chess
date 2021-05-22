@@ -47,7 +47,7 @@ public class Board {
 		arr[row][3] = new Space(row,3,new Queen(color,null));
 		
 		//Initializes board with a king
-		arr[row][4] = new Space(row,3,new Queen(color,null));
+		arr[row][4] = new Space(row,4,new Queen(color,null));
 		
 		
 	}
