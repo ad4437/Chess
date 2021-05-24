@@ -9,8 +9,7 @@ public class Queen extends ChessPiece {
 
 
 	public boolean canMove(Board board, Space start, Space end) {
-
-		return false;
+		return(Rook.rookMovement(board, start, end) || Bishop.bishopMovement(board, start, end));
 	}
 
 }
