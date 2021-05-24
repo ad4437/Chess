@@ -2,11 +2,22 @@
 public class Board {
 	private Space[][] arr;
 	
-	public Board() {
+	public Board(boolean empty) {
 		arr = new Space[8][8];
+		if(empty)
 		init();
 	}
 	
+	
+	
+	
+	public void initEmpty() {
+		for(int row = 0; row < arr.length; row++) {
+			for(int col = 0; col < arr[0].length; col++) {
+				arr[row][col] = new Space(row,col,null);
+			}
+		}
+	}
 	
 	public void init() {
 		

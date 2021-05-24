@@ -8,7 +8,7 @@ public class Game {
 	public Game() {
 		p1 = new Player(true);
 		p2 = new Player(false);
-		b = new Board();
+		b = new Board(false);
 		turn = true;
 	}
 	
