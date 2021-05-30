@@ -23,13 +23,7 @@ public class Board {
 	
 	
 	// returns -1 if space is not found
-	private int findSpaceIndex(boolean color, Space s) {
-		ArrayList<Space> colorSpacePieces;
-		if(color) {
-			colorSpacePieces = whiteSpacePieces;
-		} else {
-			colorSpacePieces = blackSpacePieces;
-		}
+	private int findSpaceIndex(ArrayList<Space> colorSpacePieces, Space s) {
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
 			if(s.equals(colorSpacePieces.get(i))) {
 				return i;
@@ -39,13 +33,7 @@ public class Board {
 	}
 	
 	// returns -1 if space is not found(not needed)
-	private int findKingIndex(boolean color) {
-		ArrayList<Space> colorSpacePieces;
-		if(color) {
-			colorSpacePieces = whiteSpacePieces;
-		} else {
-			colorSpacePieces = blackSpacePieces;
-		}
+	private int findKingIndex(ArrayList<Space> colorSpacePieces) {
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
 			if(colorSpacePieces.get(i).getPiece() instanceof King) {
 				return i;
@@ -55,28 +43,16 @@ public class Board {
 	}
 	
 	
-	private void replaceSpace(boolean color, Space oldSpace,Space newSpace) {
-		ArrayList<Space> colorSpacePieces;
-		int index = findSpaceIndex(color,oldSpace);
-		
-		if(color) {
-			colorSpacePieces = whiteSpacePieces;
-		} else {
-			colorSpacePieces = blackSpacePieces;
-		}
+	private void replaceSpace(ArrayList<Space> colorSpacePieces, Space oldSpace,Space newSpace) {
+		int index = findSpaceIndex(colorSpacePieces,oldSpace);
+	
 		colorSpacePieces.remove(index);
 		colorSpacePieces.add(newSpace);
 	}
 	
-	private void removeSpace(boolean color,Space beingRemoved) {
-		ArrayList<Space> colorSpacePieces;
-		int index = findSpaceIndex(color,beingRemoved);
+	private void removeSpace(ArrayList<Space> colorSpacePieces,Space beingRemoved) {
+		int index = findSpaceIndex(colorSpacePieces,beingRemoved);
 		
-		if(color) {
-			colorSpacePieces = whiteSpacePieces;
-		} else {
-			colorSpacePieces = blackSpacePieces;
-		}
 		colorSpacePieces.remove(index);
 	}
 	
