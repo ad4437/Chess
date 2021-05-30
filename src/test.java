@@ -13,7 +13,10 @@ class test {
 		Board b = new Board(true);
 		b.getSpace(2,1).setPiece(new Pawn(false,null));
 		b.getSpace(3,2).setPiece(new Pawn(false,null));
+		System.out.println(ChessPiece.isAvailable(b.getSpace(2, 1), b.getSpace(3,2)));
 		assertFalse(ChessPiece.isAvailable(b.getSpace(2, 1), b.getSpace(3,2)));
+		b.printBoard();
+		b.printBoard();
 	}
 	
 	

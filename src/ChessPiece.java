@@ -1,4 +1,5 @@
 import java.awt.Image;
+import java.util.ArrayList;
 
 public abstract class ChessPiece extends Piece{
 	private boolean white;
@@ -25,5 +26,8 @@ public abstract class ChessPiece extends Piece{
 	
 	public abstract boolean canMove(Board board, Space start, Space end);
 	
+	public abstract ArrayList<Space> spacesCanMove(Space start,Board board);
+	
+	public abstract ArrayList<Space> spacesCanCapture(Space start,Board board);
 
 }

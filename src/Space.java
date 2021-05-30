@@ -34,4 +34,25 @@ public class Space {
 	}
 	
 	
+	public boolean equals(Object a) {
+		if(a instanceof Space) {
+			if(((Space)a).getRow() == this.getRow() &&  ((Space)a).getCol() == this.getCol()) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	
+	
+	public String toString() {
+		if(this.getPiece() == null) {
+			return "*";
+		} else {
+			return this.getPiece().toString();
+		}
+	}
+	
 }
