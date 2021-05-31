@@ -20,13 +20,13 @@ public class Queen extends ChessPiece {
 
 
 
-	public ArrayList<Space> spacesCanMove(Space start, Board board) {
-		return spacesCanCapture(start,board);
+	public ArrayList<Space> getMoveableSpaces(Space start, Board board) {
+		return getMoveableSpaces(start,board);
 	}
 
 
 
-	public ArrayList<Space> spacesCanCapture(Space start, Board board) {
+	public ArrayList<Space> getCaptureableSpaces(Space start, Board board) {
 		ArrayList<Space> spacesCanCapture = new ArrayList<Space>();
 		ArrayList<Space> rookSpaces = Rook.getRookSpaces(start, board);
 		ArrayList<Space> bishopSpaces = Bishop.getBishopSpaces(start, board);

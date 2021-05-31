@@ -47,9 +47,9 @@ public class Pawn extends ChessPiece {
 
 
 
-	public ArrayList<Space> spacesCanMove(Space start, Board board) {
+	public ArrayList<Space> getMoveableSpaces(Space start, Board board) {
 		ArrayList<Space> spacesCanMove = new ArrayList<Space>();
-		ArrayList<Space> spacesCanCapture = spacesCanCapture(start, board);
+		ArrayList<Space> spacesCanCapture = getCaptureableSpaces(start, board);
 		final int LOWER_BOUNDS = 0;
 		final int UPPER_BOUNDS = 7;
 		final int INCREMENT;
@@ -88,12 +88,11 @@ public class Pawn extends ChessPiece {
 
 
 	
-	public ArrayList<Space> spacesCanCapture(Space start, Board board) {
+	public ArrayList<Space> getCaptureableSpaces(Space start, Board board) {
 		ArrayList<Space> spacesCanCapture = new ArrayList<Space>(); 
 		final int INCREMENT;
 		final int LOWER_BOUNDS = 0;
 		final int UPPER_BOUNDS = 7;
-		
 		
 		if(isWhite()) {
 			INCREMENT = -1;
@@ -110,5 +109,8 @@ public class Pawn extends ChessPiece {
 		
 		return spacesCanCapture;
 	}
+
+
+
 
 }

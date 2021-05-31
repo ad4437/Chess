@@ -52,13 +52,13 @@ public class Rook extends ChessPiece{
 
 
 	
-	public ArrayList<Space> spacesCanMove(Space start, Board board) {
+	public ArrayList<Space> getMoveableSpaces(Space start, Board board) {
 		return getRookSpaces(start,board);
 	}
 
 
 
-	public ArrayList<Space> spacesCanCapture(Space start, Board board) {
+	public ArrayList<Space> getCaptureableSpaces(Space start, Board board) {
 		return getRookSpaces(start,board);
 	}
 	
@@ -79,10 +79,12 @@ public class Rook extends ChessPiece{
 		final int LOWER_BOUNDS = 0;
 		int currentRow = start.getRow() + ROW_INCREMENT;
 		int currentCol = start.getCol();
+		
 		while(currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS && board.getSpace(currentRow, currentCol) == null) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 			currentRow += ROW_INCREMENT;
 		}
+		
 		if((currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS) && (currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS) && isAvailable(start, board.getSpace(currentRow, currentCol))) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 		}
@@ -94,10 +96,12 @@ public class Rook extends ChessPiece{
 		final int LOWER_BOUNDS = 0;
 		int currentRow = start.getRow();
 		int currentCol = start.getCol() + COL_INCREMENT;
+		
 		while(currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS && board.getSpace(currentRow, currentCol) == null) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 			currentCol += COL_INCREMENT;
 		}
+		
 		if((currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS) && (currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS) && isAvailable(start, board.getSpace(currentRow, currentCol))) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 		}

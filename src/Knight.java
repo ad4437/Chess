@@ -26,26 +26,26 @@ public class Knight extends ChessPiece {
 
 
 
-	public ArrayList<Space> spacesCanMove(Space start, Board board) {
-		return spacesCanCapture(start,board);
+	public ArrayList<Space> getMoveableSpaces(Space start, Board board) {
+		return getCaptureableSpaces(start,board);
 	}
 
 
 
-	public ArrayList<Space> spacesCanCapture(Space start, Board board) {
+	public ArrayList<Space> getCaptureableSpaces(Space start, Board board) {
 		ArrayList<Space> spacesCanCapture = new ArrayList<Space>();
-		spacesCanHelper(spacesCanCapture,start,board,1,3);
-		spacesCanHelper(spacesCanCapture,start,board,-1,3);
-		spacesCanHelper(spacesCanCapture,start,board,1,-3);
-		spacesCanHelper(spacesCanCapture,start,board,-1,-3);
-		spacesCanHelper(spacesCanCapture,start,board,3,1);
-		spacesCanHelper(spacesCanCapture,start,board,-3,1);
-		spacesCanHelper(spacesCanCapture,start,board,3,-1);
-		spacesCanHelper(spacesCanCapture,start,board,-3,-1);
+		spacesHelper(spacesCanCapture,start,board,1,3);
+		spacesHelper(spacesCanCapture,start,board,-1,3);
+		spacesHelper(spacesCanCapture,start,board,1,-3);
+		spacesHelper(spacesCanCapture,start,board,-1,-3);
+		spacesHelper(spacesCanCapture,start,board,3,1);
+		spacesHelper(spacesCanCapture,start,board,-3,1);
+		spacesHelper(spacesCanCapture,start,board,3,-1);
+		spacesHelper(spacesCanCapture,start,board,-3,-1);
 		return spacesCanCapture;
 	}
 		
-	private void spacesCanHelper(ArrayList<Space> spacesCanMove,Space start, Board board,final int ROW_ADDENDS, final int COL_ADDENDS) {
+	private void spacesHelper(ArrayList<Space> spacesCanMove,Space start, Board board,final int ROW_ADDENDS, final int COL_ADDENDS) {
 		final int UPPER_BOUNDS = 7;
 		final int LOWER_BOUNDS = 0;
 		Space end = board.getSpace(start.getRow() + ROW_ADDENDS, start.getCol() + COL_ADDENDS);

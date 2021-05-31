@@ -56,26 +56,26 @@ public class Bishop extends ChessPiece{
 	}
 	
 	
-	public ArrayList<Space> spacesCanMove(Space start,Board board) {
+	public ArrayList<Space> getMoveableSpaces(Space start,Board board) {
 		return getBishopSpaces(start,board);
 	}
 	
 
 
-	public ArrayList<Space> spacesCanCapture(Space start,Board board) {
+	public ArrayList<Space> getCaptureableSpaces(Space start,Board board) {
 		return getBishopSpaces(start,board);
 	}
 	
 	public static ArrayList<Space> getBishopSpaces(Space start, Board board) {
 		ArrayList<Space> spacesCanCapture = new ArrayList<Space>();
-		spacesCanHelper(spacesCanCapture,start,board,1,1); 
-		spacesCanHelper(spacesCanCapture,start,board,-1,-1);
-		spacesCanHelper(spacesCanCapture,start,board,-1,1);
-		spacesCanHelper(spacesCanCapture,start,board,1,-1);
+		spacesHelper(spacesCanCapture,start,board,1,1); 
+		spacesHelper(spacesCanCapture,start,board,-1,-1);
+		spacesHelper(spacesCanCapture,start,board,-1,1);
+		spacesHelper(spacesCanCapture,start,board,1,-1);
 		return spacesCanCapture;
 	}
 	
-	private static void spacesCanHelper(ArrayList<Space> spacesCanMove,Space start,Board board,final int ROW_INCREMENT, final int COL_INCREMENT) {
+	private static void spacesHelper(ArrayList<Space> spacesCanMove,Space start,Board board,final int ROW_INCREMENT, final int COL_INCREMENT) {
 		final int UPPER_BOUNDS = 7;
 		final int LOWER_BOUNDS = 0;
 		int currentRow = start.getRow() + ROW_INCREMENT;

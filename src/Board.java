@@ -33,13 +33,13 @@ public class Board {
 	}
 	
 	// returns -1 if space is not found(not needed)
-	private int findKingIndex(ArrayList<Space> colorSpacePieces) {
+	private Space findKingSpace(ArrayList<Space> colorSpacePieces) {
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
 			if(colorSpacePieces.get(i).getPiece() instanceof King) {
-				return i;
+				return colorSpacePieces.get(i);
 			}
 		}
-		return -1;
+		return null;
 	}
 	
 	
@@ -57,8 +57,49 @@ public class Board {
 	}
 	
 	
+	//note to self, it doesn't check the starting position of the king space
+	public boolean isCheckmate(boolean kingColor) {
+		ArrayList<Space> colorSpacePieces;
+		ArrayList<Space> kingSpacesMove;
+		Space kingOriginalSpace;
+		if(kingColor) {
+			colorSpacePieces = whiteSpacePieces;
+		} else {
+			colorSpacePieces = blackSpacePieces;
+		}
+		
+		kingOriginalSpace = this.findKingSpace(colorSpacePieces);
+		kingSpacesMove = ((ChessPiece)kingOriginalSpace.getPiece()).getMoveableSpaces(kingOriginalSpace, this);
+		
+		for(int i = 0; i < kingSpacesMove.size(); i++) {
+			if(!(isCheck(kingColor,kingSpacesMove.get(i)))) {
+				return false;
+			}
+		}
+		
+		
+		return false;
+	}
 	
-
+	public boolean isCheck(boolean kingColor,Space kingLocation) {
+		ArrayList<Space> colorSpacePieces;
+		ArrayList<Space> currentCaptureSpaces;
+		if(kingColor) {
+			colorSpacePieces = blackSpacePieces;
+		} else {
+			colorSpacePieces = whiteSpacePieces;
+		}
+		
+		for(int i = 0; i < colorSpacePieces.size(); i++) {
+			currentCaptureSpaces = ((ChessPiece)colorSpacePieces.get(i).getPiece()).getCaptureableSpaces(colorSpacePieces.get(i),this);
+			for(int j = 0; j < currentCaptureSpaces.size(); j++) {
+				if(currentCaptureSpaces.get(i).equals(kingLocation)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 	
 	

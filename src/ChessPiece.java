@@ -26,8 +26,8 @@ public abstract class ChessPiece extends Piece{
 	
 	public abstract boolean canMove(Board board, Space start, Space end);
 	
-	public abstract ArrayList<Space> spacesCanMove(Space start,Board board);
+	public abstract ArrayList<Space> getMoveableSpaces(Space start,Board board);
 	
-	public abstract ArrayList<Space> spacesCanCapture(Space start,Board board);
+	public abstract ArrayList<Space> getCaptureableSpaces(Space start,Board board);
 
 }
