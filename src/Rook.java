@@ -2,9 +2,10 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 public class Rook extends ChessPiece{
-
+	boolean firstMove;
 	public Rook(boolean stateInput, Image imageInput) {
 		super(stateInput, imageInput);
+		firstMove = true;
 	}
 
 
@@ -51,6 +52,13 @@ public class Rook extends ChessPiece{
 	}
 
 
+	public boolean getMoveFirst() {
+		return firstMove;
+	}
+	
+	public void setFirstMove(boolean input) {
+		firstMove = input;
+	}
 	
 	public ArrayList<Space> getMoveableSpaces(Space start, Board board) {
 		return getRookSpaces(start,board);
