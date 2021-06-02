@@ -4,11 +4,11 @@ import java.util.ArrayList;
 public class King extends ChessPiece {
 	private boolean firstMove;
 	public King(boolean stateInput, Image imageInput) {
-		super(stateInput, imageInput);
+		super(stateInput, getBufferedImage(stateInput, "K"));
 		firstMove = true;
 	}
-
-	public boolean canMove(Board board, Space start, Space end) {
+	
+	public boolean canMove(Board board,Space start,Space end) {
 		boolean inCheck = board.isCheck(isWhite(), start);
 		if(end.getPiece() instanceof Rook && ((ChessPiece)end.getPiece()).isWhite() == this.isWhite() && !(inCheck)) {
 			if(((Rook)end.getPiece()).getMoveFirst() == true && this.getFirstMove() == true) {
@@ -18,11 +18,7 @@ public class King extends ChessPiece {
 			} 
 			return false;
 		} else {
-			ArrayList<Space> moveableSpaces = getMoveableSpaces(start,board);
-			for(int i = 0; i < moveableSpaces.size(); i++) {
-				if(moveableSpaces.get(i).equals(end)) return true;
-			}
-			return false;
+			return(super.canMove(board, start, end));
 		}
 	}
 	
@@ -70,4 +66,26 @@ public class King extends ChessPiece {
 			spacesCanCapture.add(board.getSpace(currentRow, currentCol));
 		}
 	}
+	
+	
+	/*
+	 * Deprecated
+	public boolean canMove(Board board, Space start, Space end) {
+		boolean inCheck = board.isCheck(isWhite(), start);
+		if(end.getPiece() instanceof Rook && ((ChessPiece)end.getPiece()).isWhite() == this.isWhite() && !(inCheck)) {
+			if(((Rook)end.getPiece()).getMoveFirst() == true && this.getFirstMove() == true) {
+				if(((Rook)end.getPiece()).canMove(board, end, start)) {
+					return true;
+				}
+			} 
+			return false;
+		} else {
+			ArrayList<Space> moveableSpaces = getMoveableSpaces(start,board);
+			for(int i = 0; i < moveableSpaces.size(); i++) {
+				if(moveableSpaces.get(i).equals(end)) return true;
+			}
+			return false;
+		}
+	}
+	*/
 }

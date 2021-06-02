@@ -4,49 +4,23 @@ import java.util.ArrayList;
 public class Pawn extends ChessPiece {
 	private boolean firstMove;
 	public Pawn(boolean stateInput, Image imageInput) {
-		super(stateInput, imageInput);
-		firstMove = false;
+		super(stateInput, getBufferedImage(stateInput, "P"));
+		firstMove = true;
 	}
 
-
-	public boolean canMove(Board board, Space start, Space end) {
-		if(!(isAvailable(start, end))) {
-			return false;
-		}
-		
-		final int increment;
-		
-		if(isWhite()) {
-			increment = -1;
-		} else {
-			increment = 1;
-		}
-		
-		if(end.getPiece() != null) {
-			return(start.getRow() + increment == end.getRow() && Math.abs(end.getCol() - start.getCol()) == 1);
-		} else {
-			if(firstMove) {
-				if(start.getRow() + (increment * 2) == end.getRow() && start.getCol() == end.getCol()) {
-					if(board.getSpace(start.getRow() + increment, start.getCol()).getPiece() != null) {
-						return false;
-					} else {
-						return true;
-					}
-				} else {
-					return (start.getRow() + increment == end.getRow() && start.getCol() == end.getCol());
-				}
-			} else {
-				return(start.getRow() + increment == end.getRow() && start.getCol() == end.getCol());
-			}
-		}
-	}
 	
 	public String toString() {
 		return "P";
 	}
 
-
-
+	public boolean getFirstMove() {
+		return firstMove;
+	}
+	
+	public void setFirstMove(boolean input) {
+		firstMove = input;
+	}
+		
 	public ArrayList<Space> getMoveableSpaces(Space start, Board board) {
 		ArrayList<Space> spacesCanMove = new ArrayList<Space>();
 		ArrayList<Space> spacesCanCapture = getCaptureableSpaces(start, board);
@@ -69,7 +43,6 @@ public class Pawn extends ChessPiece {
 		
 		
 		if(firstMove) {
-			firstMove = false;
 			if((start.getRow() + INCREMENT >= LOWER_BOUNDS && start.getRow() + INCREMENT <= UPPER_BOUNDS) && board.getSpace(start.getRow() + INCREMENT, start.getCol()).getPiece() == null) {
 				spacesCanMove.add(board.getSpace(start.getRow() + INCREMENT, start.getCol()));
 				if((start.getRow() + (INCREMENT * 2) >= LOWER_BOUNDS && start.getRow() + (INCREMENT * 2) <= UPPER_BOUNDS) && board.getSpace(start.getRow() + (INCREMENT * 2), start.getCol()).getPiece() == null) {
@@ -109,6 +82,42 @@ public class Pawn extends ChessPiece {
 		
 		return spacesCanCapture;
 	}
+	
+	
+	/*
+	 * Deprecated
+	public boolean canMove(Board board, Space start, Space end) {
+		if(!(isAvailable(start, end))) {
+			return false;
+		}
+		
+		final int increment;
+		
+		if(isWhite()) {
+			increment = -1;
+		} else {
+			increment = 1;
+		}
+		
+		if(end.getPiece() != null) {
+			return(start.getRow() + increment == end.getRow() && Math.abs(end.getCol() - start.getCol()) == 1);
+		} else {
+			if(firstMove) {
+				if(start.getRow() + (increment * 2) == end.getRow() && start.getCol() == end.getCol()) {
+					if(board.getSpace(start.getRow() + increment, start.getCol()).getPiece() != null) {
+						return false;
+					} else {
+						return true;
+					}
+				} else {
+					return (start.getRow() + increment == end.getRow() && start.getCol() == end.getCol());
+				}
+			} else {
+				return(start.getRow() + increment == end.getRow() && start.getCol() == end.getCol());
+			}
+		}
+	}
+	*/
 
 
 

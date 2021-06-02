@@ -12,24 +12,6 @@ public class Board {
 		else init();
 	}
 	
-	public ArrayList<Space> getBlackSpacePieces() {
-		return blackSpacePieces;
-	}
-	
-	public ArrayList<Space> getWhiteSpacePieces() {
-		return whiteSpacePieces;
-	}
-	
-	public void initEmpty() {
-		for(int row = 0; row < boardSpaces.length; row++) {
-			for(int col = 0; col < boardSpaces[0].length; col++) {
-				boardSpaces[row][col] = new Space(row,col,null);
-			}
-		}
-	}
-	
-	
-	
 	private void init() {
 		blackSpacePieces = new ArrayList<Space>();
 		whiteSpacePieces = new ArrayList<Space>();
@@ -54,96 +36,13 @@ public class Board {
 
 	}
 	
-	public Space getSpace(int row, int col) {
-		return boardSpaces[row][col];
-	}
-	
-	//precondition start contains a chess piece
-	public boolean movePiece(boolean startColor,Space start,Space end) {
-		ArrayList<Space> currentColorSpacePieces;
-		ArrayList<Space> otherColorSpacePieces;
-		if(startColor) {
-			currentColorSpacePieces = whiteSpacePieces;
-			otherColorSpacePieces = blackSpacePieces;
-		} else {
-			currentColorSpacePieces = blackSpacePieces;
-			otherColorSpacePieces = whiteSpacePieces;
-		}
-		
-		if(((ChessPiece)start.getPiece()).canMove(this, start, end)) {
-			if(end.getPiece() == null) {
-				end.setPiece(start.getPiece());
-				start.setPiece(null);
-				replaceSpace(currentColorSpacePieces,start,end);
-			} else if(movePieceHelperIsCastling(start,end)) {
-				final Space ROOK_END_SPACE;
-				final Space KING_END_SPACE;
-				if(end.getCol() == 0) {
-					KING_END_SPACE = getSpace(start.getRow(),2);
-					ROOK_END_SPACE = getSpace(start.getRow(),3);
-				} else {
-					KING_END_SPACE = getSpace(start.getRow(),6);
-					ROOK_END_SPACE = getSpace(start.getRow(),5);
-				}
-				KING_END_SPACE.setPiece(start.getPiece());
-				movePieceHelperFirstMove(start);
-				start.setPiece(null);
-				replaceSpace(currentColorSpacePieces,start,KING_END_SPACE);
-				ROOK_END_SPACE.setPiece(end.getPiece());
-				movePieceHelperFirstMove(end);
-				end.setPiece(null);
-				replaceSpace(currentColorSpacePieces,end,ROOK_END_SPACE);
-			} else if(end != null) {
-				removeSpace(otherColorSpacePieces, end);
-				end.setPiece(start.getPiece());
-				start.setPiece(null);
-				replaceSpace(currentColorSpacePieces,start,end);
-			}
-			movePieceHelperFirstMove(end);
-			movePieceHelperPawn(end);
-			return true;
-		} 
-		return false;
-	}
-	
-	private void movePieceHelperFirstMove(Space s) {
-		if(s.getPiece() instanceof Rook) {
-			((Rook)s.getPiece()).setFirstMove(false);
-		}
-		if(s.getPiece() instanceof King) {
-			((King)s.getPiece()).setFirstMove(false);
-		}
-	}
-	
-	private boolean movePieceHelperIsCastling(Space start, Space end) {
-		if((start.getPiece() instanceof King && end.getPiece() instanceof Rook)) {
-			if(((ChessPiece)start.getPiece()).isWhite() == ((ChessPiece)end.getPiece()).isWhite()) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private void movePieceHelperPawn(Space end) {
-		if(end.getPiece() instanceof Pawn) {
-			boolean color =  ((ChessPiece)end.getPiece()).isWhite();
-			if((color == true && end.getRow() == 0) || (color == false && end.getRow() == 7)) {
-				int input = 0; //placeholder code
-				//add code to get input from user
-				switch(input) {
-				case 1:
-					end.setPiece(new Queen(color,null));
-				case 2:
-					end.setPiece(new Rook(color,null));
-				case 3:
-					end.setPiece(new Bishop(color,null));
-				case 4:
-					end.setPiece(new Knight(color,null));
-				}
+	public void initEmpty() {
+		for(int row = 0; row < boardSpaces.length; row++) {
+			for(int col = 0; col < boardSpaces[0].length; col++) {
+				boardSpaces[row][col] = new Space(row,col,null);
 			}
 		}
 	}
-	
 	
 	//white = true, black = false 
 	private void initHelper(int row, boolean color) {
@@ -184,50 +83,128 @@ public class Board {
 		
 	}
 	
-	public void printBoard() {
-		for(int row = 0; row < boardSpaces.length; row++) {
-			for(int col = 0; col < boardSpaces[0].length; col++) {
-				System.out.print(boardSpaces[row][col]);
-				System.out.print(" ");
-			}
-			System.out.println();
-		}
-		System.out.println();
+	
+	public ArrayList<Space> getBlackSpacePieces() {
+		return blackSpacePieces;
 	}
 	
-	
-	
-	private int findSpaceIndex(ArrayList<Space> colorSpacePieces, Space s) {
-		for(int i = 0; i < colorSpacePieces.size(); i++) {
-			if(s.equals(colorSpacePieces.get(i))) {
-				return i;
-			}
-		}
-		return -1;
+	public ArrayList<Space> getWhiteSpacePieces() {
+		return whiteSpacePieces;
 	}
-	
 
-	private Space findKingSpace(ArrayList<Space> colorSpacePieces) {
-		for(int i = 0; i < colorSpacePieces.size(); i++) {
-			if(colorSpacePieces.get(i).getPiece() instanceof King) {
-				return colorSpacePieces.get(i);
+	public Space getSpace(int row, int col) {
+		return boardSpaces[row][col];
+	}
+	
+	//precondition start contains a chess piece
+	public boolean movePiece(boolean startColor,Space start,Space end) {
+		ArrayList<Space> currentColorSpacePieces;
+		ArrayList<Space> otherColorSpacePieces;
+		if(startColor) {
+			currentColorSpacePieces = whiteSpacePieces;
+			otherColorSpacePieces = blackSpacePieces;
+		} else {
+			currentColorSpacePieces = blackSpacePieces;
+			otherColorSpacePieces = whiteSpacePieces;
+		}
+		movePieceHelperFirstMove(end);
+		movePieceHelperFirstMove(start);
+		if(((ChessPiece)start.getPiece()).canMove(this, start, end)) {
+			if(end.getPiece() == null) {
+				end.setPiece(start.getPiece());
+				start.setPiece(null);
+				replaceSpace(currentColorSpacePieces,start,end);
+			} else if(movePieceHelperIsCastling(start,end)) {
+				final Space ROOK_END_SPACE;
+				final Space KING_END_SPACE;
+				if(end.getCol() == 0) {
+					KING_END_SPACE = getSpace(start.getRow(),2);
+					ROOK_END_SPACE = getSpace(start.getRow(),3);
+				} else {
+					KING_END_SPACE = getSpace(start.getRow(),6);
+					ROOK_END_SPACE = getSpace(start.getRow(),5);
+				}
+				KING_END_SPACE.setPiece(start.getPiece());
+				movePieceHelperFirstMove(start);
+				start.setPiece(null);
+				replaceSpace(currentColorSpacePieces,start,KING_END_SPACE);
+				ROOK_END_SPACE.setPiece(end.getPiece());
+				movePieceHelperFirstMove(end);
+				end.setPiece(null);
+				replaceSpace(currentColorSpacePieces,end,ROOK_END_SPACE);
+			} else if(end != null) {
+				removeSpace(otherColorSpacePieces, end);
+				end.setPiece(start.getPiece());
+				start.setPiece(null);
+				replaceSpace(currentColorSpacePieces,start,end);
+			}
+			movePieceHelperPawn(end);
+			return true;
+		} 
+		return false;
+	}
+	
+	private void movePieceHelperFirstMove(Space s) {
+		if(s.getPiece() instanceof Rook) {
+			((Rook)s.getPiece()).setFirstMove(false);
+		}
+		else if(s.getPiece() instanceof King) {
+			((King)s.getPiece()).setFirstMove(false);
+		}
+		else if(s.getPiece() instanceof Pawn) {
+			((Pawn)s.getPiece()).setFirstMove(false);
+		}
+	}
+	
+	private boolean movePieceHelperIsCastling(Space start, Space end) {
+		if((start.getPiece() instanceof King && end.getPiece() instanceof Rook)) {
+			if(((ChessPiece)start.getPiece()).isWhite() == ((ChessPiece)end.getPiece()).isWhite()) {
+				return true;
 			}
 		}
-		return null;
+		return false;
+	}
+	
+	private void movePieceHelperPawn(Space end) {
+		if(end.getPiece() instanceof Pawn) {
+			boolean color =  ((ChessPiece)end.getPiece()).isWhite();
+			if((color == true && end.getRow() == 0) || (color == false && end.getRow() == 7)) {
+				int input = 0; //placeholder code
+				//add code to get input from user
+				switch(input) {
+				case 1:
+					end.setPiece(new Queen(color,null));
+				case 2:
+					end.setPiece(new Rook(color,null));
+				case 3:
+					end.setPiece(new Bishop(color,null));
+				case 4:
+					end.setPiece(new Knight(color,null));
+				}
+			}
+		}
 	}
 	
 	
-	private void replaceSpace(ArrayList<Space> colorSpacePieces, Space oldSpace,Space newSpace) {
-		int index = findSpaceIndex(colorSpacePieces,oldSpace);
 	
-		colorSpacePieces.remove(index);
-		colorSpacePieces.add(newSpace);
-	}
-	
-	private void removeSpace(ArrayList<Space> colorSpacePieces,Space beingRemoved) {
-		int index = findSpaceIndex(colorSpacePieces,beingRemoved);
+	public boolean isCheck(boolean kingColor,Space kingLocation) {
+		ArrayList<Space> colorSpacePieces;
+		ArrayList<Space> currentCaptureSpaces;
+		if(kingColor) {
+			colorSpacePieces = blackSpacePieces;
+		} else {
+			colorSpacePieces = whiteSpacePieces;
+		}
 		
-		colorSpacePieces.remove(index);
+		for(int i = 0; i < colorSpacePieces.size(); i++) {
+			currentCaptureSpaces = ((ChessPiece)colorSpacePieces.get(i).getPiece()).getCaptureableSpaces(colorSpacePieces.get(i),this);
+			for(int j = 0; j < currentCaptureSpaces.size(); j++) {
+				if(currentCaptureSpaces.get(j).equals(kingLocation)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	
@@ -324,25 +301,51 @@ public class Board {
 		return enemyPieces;
 	}
 	
-	public boolean isCheck(boolean kingColor,Space kingLocation) {
-		ArrayList<Space> colorSpacePieces;
-		ArrayList<Space> currentCaptureSpaces;
-		if(kingColor) {
-			colorSpacePieces = blackSpacePieces;
-		} else {
-			colorSpacePieces = whiteSpacePieces;
-		}
-		
+	
+	private int findSpaceIndex(ArrayList<Space> colorSpacePieces, Space s) {
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
-			currentCaptureSpaces = ((ChessPiece)colorSpacePieces.get(i).getPiece()).getCaptureableSpaces(colorSpacePieces.get(i),this);
-			for(int j = 0; j < currentCaptureSpaces.size(); j++) {
-				if(currentCaptureSpaces.get(j).equals(kingLocation)) {
-					return true;
-				}
+			if(s.equals(colorSpacePieces.get(i))) {
+				return i;
 			}
 		}
-		return false;
+		return -1;
 	}
 	
+
+	private Space findKingSpace(ArrayList<Space> colorSpacePieces) {
+		for(int i = 0; i < colorSpacePieces.size(); i++) {
+			if(colorSpacePieces.get(i).getPiece() instanceof King) {
+				return colorSpacePieces.get(i);
+			}
+		}
+		return null;
+	}
+	
+	
+	private void replaceSpace(ArrayList<Space> colorSpacePieces, Space oldSpace,Space newSpace) {
+		int index = findSpaceIndex(colorSpacePieces,oldSpace);
+	
+		colorSpacePieces.remove(index);
+		colorSpacePieces.add(newSpace);
+	}
+	
+	private void removeSpace(ArrayList<Space> colorSpacePieces,Space beingRemoved) {
+		int index = findSpaceIndex(colorSpacePieces,beingRemoved);
+		
+		colorSpacePieces.remove(index);
+	}
+	
+	
+	
+	public void printBoard() {
+		for(int row = 0; row < boardSpaces.length; row++) {
+			for(int col = 0; col < boardSpaces[0].length; col++) {
+				System.out.print(boardSpaces[row][col]);
+				System.out.print(" ");
+			}
+			System.out.println();
+		}
+		System.out.println();
+	}
 	
 }

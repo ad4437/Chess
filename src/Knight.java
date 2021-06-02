@@ -4,21 +4,10 @@ import java.util.ArrayList;
 public class Knight extends ChessPiece {
 
 	public Knight(boolean stateInput, Image imageInput) {
-		super(stateInput, imageInput);
+		super(stateInput, getBufferedImage(stateInput, "N"));
 		
 	}
 
-
-	public boolean canMove(Board board, Space start, Space end) {
-		if(!(isAvailable(start, end))) return false;
-		
-		int rowDifference = Math.abs(end.getRow() - start.getRow());
-		int colDifference = Math.abs(end.getCol() - start.getCol());
-		
-		if(rowDifference == 1 && colDifference == 2 || rowDifference == 2 && colDifference == 1) return true;
-		else return false;
-		
-	}
 	
 	public String toString() {
 		return "N";
@@ -53,6 +42,21 @@ public class Knight extends ChessPiece {
 			spacesCanMove.add(end);
 		}
 	}
+	
+	
+	/*
+	 * Deprecated
+	public boolean canMove(Board board, Space start, Space end) {
+		if(!(isAvailable(start, end))) return false;
+		
+		int rowDifference = Math.abs(end.getRow() - start.getRow());
+		int colDifference = Math.abs(end.getCol() - start.getCol());
+		
+		if(rowDifference == 1 && colDifference == 2 || rowDifference == 2 && colDifference == 1) return true;
+		else return false;
+		
+	}
+	*/
 	
 
 }

@@ -4,48 +4,11 @@ import java.util.ArrayList;
 public class Rook extends ChessPiece{
 	boolean firstMove;
 	public Rook(boolean stateInput, Image imageInput) {
-		super(stateInput, imageInput);
+		super(stateInput, getBufferedImage(stateInput, "R"));
 		firstMove = true;
 	}
 
-
-	public boolean canMove(Board board, Space start, Space end) {
-		return Rook.rookMovement(board,start,end);
-	}
 	
-	public static boolean rookMovement(Board board, Space start, Space end) {
-		if(!(isAvailable(start, end))) return false;
-		int rowDifference = Math.abs(end.getRow() - start.getRow());
-		int colDifference = Math.abs(end.getCol() - start.getCol());
-		final int INCREMENT;
-
-		
-		if(rowDifference != 0 && colDifference == 0) {
-			if(end.getRow() < start.getRow()) {
-				INCREMENT = -1;
-			} else {
-				INCREMENT = 1;
-			}
-			for(int i = start.getRow() + INCREMENT; i != end.getRow(); i += INCREMENT) {
-				if(board.getSpace(i, start.getCol()).getPiece() != null) return false;
-			}
-			return true;
-		} else if(rowDifference == 0 && colDifference != 0) {
-			if(end.getCol() < start.getCol()) {
-				INCREMENT = -1;
-			} else {
-				INCREMENT = 1;
-			}
-			for(int i = start.getCol() + INCREMENT; i != end.getCol(); i += INCREMENT) {
-				if(board.getSpace(start.getRow(),i).getPiece() != null) return false;
-			}
-			return true;
-		} else {
-			return false;
-		}
-
-		
-	}
 	
 	public String toString() {
 		return "R";
@@ -114,5 +77,44 @@ public class Rook extends ChessPiece{
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 		}
 	}
+	
+	
+	/*
+	public boolean canMove(Board board, Space start, Space end) {
+		return Rook.rookMovement(board,start,end);
+	}
+	
+	public static boolean rookMovement(Board board, Space start, Space end) {
+		if(!(isAvailable(start, end))) return false;
+		int rowDifference = Math.abs(end.getRow() - start.getRow());
+		int colDifference = Math.abs(end.getCol() - start.getCol());
+		final int INCREMENT;
+
+		
+		if(rowDifference != 0 && colDifference == 0) {
+			if(end.getRow() < start.getRow()) {
+				INCREMENT = -1;
+			} else {
+				INCREMENT = 1;
+			}
+			for(int i = start.getRow() + INCREMENT; i != end.getRow(); i += INCREMENT) {
+				if(board.getSpace(i, start.getCol()).getPiece() != null) return false;
+			}
+			return true;
+		} else if(rowDifference == 0 && colDifference != 0) {
+			if(end.getCol() < start.getCol()) {
+				INCREMENT = -1;
+			} else {
+				INCREMENT = 1;
+			}
+			for(int i = start.getCol() + INCREMENT; i != end.getCol(); i += INCREMENT) {
+				if(board.getSpace(start.getRow(),i).getPiece() != null) return false;
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
+	*/
 
 }

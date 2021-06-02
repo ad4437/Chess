@@ -4,16 +4,10 @@ import java.util.ArrayList;
 public class Queen extends ChessPiece {
 
 	public Queen(boolean stateInput, Image imageInput) {
-		super(stateInput, imageInput);
+		super(stateInput, ChessPiece.getBufferedImage(stateInput,"Q"));
 		
 	}
-
-
-	public boolean canMove(Board board, Space start, Space end) {
-		return(Rook.rookMovement(board, start, end) || Bishop.bishopMovement(board, start, end));
-	}
-	
-	
+		
 	public String toString() {
 		return "Q";
 	}
@@ -38,5 +32,13 @@ public class Queen extends ChessPiece {
 		}
 		return spacesCanCapture;
 	}
+	
+	
+	/* 
+	 * Deprecated 
+	public boolean canMove(Board board, Space start, Space end) {
+		return(Rook.rookMovement(board, start, end) || Bishop.bishopMovement(board, start, end));
+	}
+	*/
 
 }

@@ -9,13 +9,6 @@ public class Game {
 		turn = true;
 	}
 	
-	public boolean isInteractable(Space space) {
-		if(space.getPiece() instanceof ChessPiece) {
-			return(((ChessPiece)space.getPiece()).isWhite() == turn);
-		}
-		return false;
-	}
-	
 	public boolean Turn(Space start, Space end) {
 		if(board.movePiece(turn, start, end)) {
 			if(isGameOver()) {
@@ -25,11 +18,6 @@ public class Game {
 			}
 		}
 		return false;
-	}
-	
-	public void reset() {
-		board = new Board(false);
-		turn = true;
 	}
 	
 	private boolean isGameOver() {
@@ -43,6 +31,21 @@ public class Game {
 		}
 		return false;
 	}
+	
+	public boolean isInteractable(Space space) {
+		if(space.getPiece() instanceof ChessPiece) {
+			return(((ChessPiece)space.getPiece()).isWhite() == turn);
+		}
+		return false;
+	}
+	
+	
+	public void reset() {
+		board = new Board(false);
+		turn = true;
+	}
+	
+
 	
 	public String getState() {
 		return state;
