@@ -132,9 +132,9 @@ public class Board {
 				//add code to get input from user
 				switch(input) {
 				case 1:
-					end.setPiece(new Queen(color, null));
+					end.setPiece(new Queen(color,null));
 				case 2:
-					end.setPiece(new Rook(color, null));
+					end.setPiece(new Rook(color,null));
 				case 3:
 					end.setPiece(new Bishop(color,null));
 				case 4:

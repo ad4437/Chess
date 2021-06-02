@@ -5,7 +5,7 @@ public class King extends ChessPiece {
 	private boolean firstMove;
 	public King(boolean stateInput, Image imageInput) {
 		super(stateInput, imageInput);
-		firstMove = false;
+		firstMove = true;
 	}
 
 	public boolean canMove(Board board, Space start, Space end) {
