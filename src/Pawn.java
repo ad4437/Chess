@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Pawn extends ChessPiece {
 	private boolean firstMove;
-	public Pawn(boolean stateInput, Image imageInput) {
+	public Pawn(boolean stateInput) {
 		super(stateInput, getBufferedImage(stateInput, "P"));
 		firstMove = true;
 	}

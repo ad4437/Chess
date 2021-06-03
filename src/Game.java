@@ -50,4 +50,8 @@ public class Game {
 	public String getState() {
 		return state;
 	}
+	
+	public Board getBoard() {
+		return board;
+	}
 }

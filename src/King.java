@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class King extends ChessPiece {
 	private boolean firstMove;
-	public King(boolean stateInput, Image imageInput) {
+	public King(boolean stateInput) {
 		super(stateInput, getBufferedImage(stateInput, "K"));
 		firstMove = true;
 	}

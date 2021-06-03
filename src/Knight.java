@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Knight extends ChessPiece {
 
-	public Knight(boolean stateInput, Image imageInput) {
+	public Knight(boolean stateInput) {
 		super(stateInput, getBufferedImage(stateInput, "N"));
 		
 	}

@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Bishop extends ChessPiece{
 
-	public Bishop(boolean stateInput, Image imageInput) {
+	public Bishop(boolean stateInput) {
 		super(stateInput, getBufferedImage(stateInput,"B") );
 		
 	}

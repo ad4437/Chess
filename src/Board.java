@@ -21,9 +21,9 @@ public class Board {
 		
 		//Add pawns to both sides of the board
 		for(int i = 0; i < 8; i++) {
-			boardSpaces[6][i] = new Space(6,i,new Pawn(true,null));
+			boardSpaces[6][i] = new Space(6,i,new Pawn(true));
 			whiteSpacePieces.add(boardSpaces[6][i]);
-			boardSpaces[1][i] = new Space(1,i,new Pawn(false,null));
+			boardSpaces[1][i] = new Space(1,i,new Pawn(false));
 			blackSpacePieces.add(boardSpaces[1][i]);
 		}
 		
@@ -55,29 +55,29 @@ public class Board {
 		
 		
 		//Initializes board with rooks
-		boardSpaces[row][0] = new Space(row,0,new Rook(color,null));
+		boardSpaces[row][0] = new Space(row,0,new Rook(color));
 		colorSpacePieces.add(boardSpaces[row][0]);
-		boardSpaces[row][7] = new Space(row,7,new Rook(color,null));
+		boardSpaces[row][7] = new Space(row,7,new Rook(color));
 		colorSpacePieces.add(boardSpaces[row][7]);
 		
 		//Initializes board with knights
-		boardSpaces[row][1] = new Space(row,1,new Knight(color,null));
+		boardSpaces[row][1] = new Space(row,1,new Knight(color));
 		colorSpacePieces.add(boardSpaces[row][1]);
-		boardSpaces[row][6] = new Space(row,6,new Knight(color,null));
+		boardSpaces[row][6] = new Space(row,6,new Knight(color));
 		colorSpacePieces.add(boardSpaces[row][6]);
 		
 		//Initializes board with bishops
-		boardSpaces[row][2] = new Space(row,2,new Bishop(color,null));
+		boardSpaces[row][2] = new Space(row,2,new Bishop(color));
 		colorSpacePieces.add(boardSpaces[row][2]);
-		boardSpaces[row][5] = new Space(row,5,new Bishop(color,null));
+		boardSpaces[row][5] = new Space(row,5,new Bishop(color));
 		colorSpacePieces.add(boardSpaces[row][5]);
 		
 		//Initializes board with a queen
-		boardSpaces[row][3] = new Space(row,3,new Queen(color,null));
+		boardSpaces[row][3] = new Space(row,3,new Queen(color));
 		colorSpacePieces.add(boardSpaces[row][3]);
 		
 		//Initializes board with a king
-		boardSpaces[row][4] = new Space(row,4,new King(color,null));
+		boardSpaces[row][4] = new Space(row,4,new King(color));
 		colorSpacePieces.add(boardSpaces[row][4]);
 		
 		
@@ -173,13 +173,13 @@ public class Board {
 				//add code to get input from user
 				switch(input) {
 				case 1:
-					end.setPiece(new Queen(color,null));
+					end.setPiece(new Queen(color));
 				case 2:
-					end.setPiece(new Rook(color,null));
+					end.setPiece(new Rook(color));
 				case 3:
-					end.setPiece(new Bishop(color,null));
+					end.setPiece(new Bishop(color));
 				case 4:
-					end.setPiece(new Knight(color,null));
+					end.setPiece(new Knight(color));
 				}
 			}
 		}

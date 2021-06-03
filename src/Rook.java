@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Rook extends ChessPiece{
 	boolean firstMove;
-	public Rook(boolean stateInput, Image imageInput) {
+	public Rook(boolean stateInput) {
 		super(stateInput, getBufferedImage(stateInput, "R"));
 		firstMove = true;
 	}
