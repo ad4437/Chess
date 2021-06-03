@@ -7,14 +7,14 @@ public class Board {
 	ArrayList<Space> whiteSpacePieces;
 	
 	public Board(boolean empty) {
+		blackSpacePieces = new ArrayList<Space>();
+		whiteSpacePieces = new ArrayList<Space>();
 		boardSpaces = new Space[8][8];
 		if(empty) initEmpty();
 		else init();
 	}
 	
 	private void init() {
-		blackSpacePieces = new ArrayList<Space>();
-		whiteSpacePieces = new ArrayList<Space>();
 		
 		initHelper(0, false);
 		initHelper(7, true); 

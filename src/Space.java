@@ -49,7 +49,7 @@ public class Space {
 	
 	public String toString() {
 		if(this.getPiece() == null) {
-			return "*";
+			return (String.format("%d,%d", this.getRow(),this.getCol()));
 		} else {
 			return this.getPiece().toString();
 		}

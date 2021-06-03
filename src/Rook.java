@@ -39,8 +39,8 @@ public class Rook extends ChessPiece{
 		spacesCanHelperRow(spacesCanCapture,start,board,1);
 		spacesCanHelperRow(spacesCanCapture,start,board,-1);
 		spacesCanHelperCol(spacesCanCapture,start,board,1);
-		spacesCanHelperCol(spacesCanCapture,start,board,1);
-		return null;
+		spacesCanHelperCol(spacesCanCapture,start,board,-1);
+		return spacesCanCapture;
 	}
 	
 	
@@ -51,7 +51,7 @@ public class Rook extends ChessPiece{
 		int currentRow = start.getRow() + ROW_INCREMENT;
 		int currentCol = start.getCol();
 		
-		while(currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS && board.getSpace(currentRow, currentCol) == null) {
+		while(currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS && board.getSpace(currentRow, currentCol).getPiece() == null) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 			currentRow += ROW_INCREMENT;
 		}
@@ -68,7 +68,7 @@ public class Rook extends ChessPiece{
 		int currentRow = start.getRow();
 		int currentCol = start.getCol() + COL_INCREMENT;
 		
-		while(currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS && board.getSpace(currentRow, currentCol) == null) {
+		while(currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS && board.getSpace(currentRow, currentCol).getPiece() == null) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 			currentCol += COL_INCREMENT;
 		}
