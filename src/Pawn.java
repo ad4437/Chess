@@ -34,7 +34,6 @@ public class Pawn extends ChessPiece {
 			}
 		}
 		
-		
 		if(isWhite()) {
 			INCREMENT = -1;
 		} else {
@@ -43,14 +42,14 @@ public class Pawn extends ChessPiece {
 		
 		
 		if(firstMove) {
-			if((start.getRow() + INCREMENT >= LOWER_BOUNDS && start.getRow() + INCREMENT <= UPPER_BOUNDS) && board.getSpace(start.getRow() + INCREMENT, start.getCol()).getPiece() == null) {
+			if((start.getRow() + INCREMENT >= LOWER_BOUNDS && start.getRow() + INCREMENT <= UPPER_BOUNDS) && (board.getSpace(start.getRow() + INCREMENT,start.getCol()).getPiece()) == null) {
 				spacesCanMove.add(board.getSpace(start.getRow() + INCREMENT, start.getCol()));
 				if((start.getRow() + (INCREMENT * 2) >= LOWER_BOUNDS && start.getRow() + (INCREMENT * 2) <= UPPER_BOUNDS) && board.getSpace(start.getRow() + (INCREMENT * 2), start.getCol()).getPiece() == null) {
 					spacesCanMove.add(board.getSpace(start.getRow() + (INCREMENT * 2), start.getCol()));
 				}
 			}
 		} else {
-			if((start.getRow() + INCREMENT >= LOWER_BOUNDS && start.getRow() + INCREMENT <= UPPER_BOUNDS) && board.getSpace(start.getRow() + INCREMENT, start.getCol()).getPiece() == null) {
+			if((start.getRow() + INCREMENT >= LOWER_BOUNDS && start.getRow() + INCREMENT <= UPPER_BOUNDS) && (board.getSpace(start.getRow() + (INCREMENT * 2),start.getCol()).getPiece()) == null) {
 				spacesCanMove.add(board.getSpace(start.getRow() + INCREMENT, start.getCol()));
 			}
 		}

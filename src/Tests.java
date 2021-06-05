@@ -12,7 +12,120 @@ import java.util.ArrayList;
 
 
 
-
+class testPawn {
+	private Board board;
+	
+	@Test
+	void test1() {
+		
+		board = new Board(true);
+		
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		ArrayList<Space> pawnMethodSpaces;
+		
+		whatShouldBeThere.add(new Space(5,0));
+		whatShouldBeThere.add(new Space(4,0));
+	
+		Space pawnSpace = TestingMethods.addPieceToBoard(new Pawn(true), board, 6, 0);
+		pawnMethodSpaces = ((Pawn)pawnSpace.getPiece()).getMoveableSpaces(pawnSpace, board);
+		
+		assertTrue(TestingMethods.areEqual(whatShouldBeThere, pawnMethodSpaces));
+	}
+	
+	void test2() {
+		
+		board = new Board(true);
+		
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		ArrayList<Space> pawnMethodSpaces;
+		
+		whatShouldBeThere.add(new Space(5,0));
+		
+		Pawn p = new Pawn(true);
+		p.setFirstMove(false);
+		Space pawnSpace = TestingMethods.addPieceToBoard(p, board, 6, 0);
+		
+		pawnMethodSpaces = ((Pawn)pawnSpace.getPiece()).getMoveableSpaces(pawnSpace, board);
+		
+		assertTrue(TestingMethods.areEqual(whatShouldBeThere, pawnMethodSpaces));
+	}
+	
+	void test3() {
+		
+		board = new Board(true);
+		
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		ArrayList<Space> pawnMethodSpaces;
+		
+		whatShouldBeThere.add(new Space(4,0));
+		whatShouldBeThere.add(new Space(3,0));
+	
+		Space pawnSpace = TestingMethods.addPieceToBoard(new Pawn(false), board, 2, 0);
+		pawnMethodSpaces = ((Pawn)pawnSpace.getPiece()).getMoveableSpaces(pawnSpace, board);
+		
+		assertTrue(TestingMethods.areEqual(whatShouldBeThere, pawnMethodSpaces));
+	}
+	
+	void test4() {
+		
+		board = new Board(true);
+		
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		ArrayList<Space> pawnMethodSpaces;
+		
+		whatShouldBeThere.add(new Space(3,0));
+		
+		Pawn p = new Pawn(false);
+		p.setFirstMove(false);
+		Space pawnSpace = TestingMethods.addPieceToBoard(p, board, 2, 0);
+		
+		pawnMethodSpaces = ((Pawn)pawnSpace.getPiece()).getMoveableSpaces(pawnSpace, board);
+		
+		assertTrue(TestingMethods.areEqual(whatShouldBeThere, pawnMethodSpaces));
+	}
+	
+	@Test
+	void test5() {
+		
+		board = new Board(true);
+		
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		ArrayList<Space> pawnMethodSpaces;
+		
+		whatShouldBeThere.add(new Space(5,0));
+		whatShouldBeThere.add(new Space(4,1));
+		whatShouldBeThere.add(new Space(5,1));
+	
+		Space pawnSpace = TestingMethods.addPieceToBoard(new Pawn(true), board, 6, 1);
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 5, 0);
+		TestingMethods.addPieceToBoard(new Pawn(true), board, 5, 2);
+		
+		pawnMethodSpaces = ((Pawn)pawnSpace.getPiece()).getMoveableSpaces(pawnSpace, board);
+		
+		assertTrue(TestingMethods.areEqual(whatShouldBeThere, pawnMethodSpaces));
+	}
+	
+	@Test
+	void test6() {
+		
+		board = new Board(true);
+		
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		ArrayList<Space> pawnMethodSpaces;
+		
+		whatShouldBeThere.add(new Space(5,4));
+		whatShouldBeThere.add(new Space(6,4));
+		whatShouldBeThere.add(new Space(5,5));
+	
+		Space pawnSpace = TestingMethods.addPieceToBoard(new Pawn(false), board, 4, 4);
+		TestingMethods.addPieceToBoard(new Pawn(true), board, 5, 5);
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 5, 6);
+		
+		pawnMethodSpaces = ((Pawn)pawnSpace.getPiece()).getMoveableSpaces(pawnSpace, board);
+		
+		assertTrue(TestingMethods.areEqual(whatShouldBeThere, pawnMethodSpaces));
+	}
+}
 
 
 class testRook {
@@ -48,8 +161,6 @@ class testRook {
 		whatShouldBeThere.add(new Space(0,2));
 			
 	ArrayList<Space> rookMethodSpaces = ((Rook)rookSpace.getPiece()).getMoveableSpaces(rookSpace,board);	
-	System.out.println(rookMethodSpaces);
-	System.out.println(whatShouldBeThere);
 	assertTrue(TestingMethods.areEqual(whatShouldBeThere,rookMethodSpaces));
 	}
 	
@@ -218,6 +329,121 @@ class testBishop {
 		bishopMethodSpaces= ((Bishop)bishopSpace.getPiece()).getMoveableSpaces(bishopSpace,board);
 
 		assertTrue(TestingMethods.areEqual(whatShouldBeThere,bishopMethodSpaces));
+	}
+}
+
+
+
+/*
+class testMisc {
+	private Game game;
+	
+	@Test
+	void test1() {
+		game = new Game();
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 4, 4);
+		TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 3,2);
+		TestingMethods.addPieceToBoard(new Rook(false), game.getBoard(), 4, 2);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 0, 0);
+		assertTrue(game.Turn(game.getBoard().getSpace(3, 2), game.getBoard().getSpace(4, 2)));
+		game.getBoard().printBoard();
+	}
+}
+*/
+
+class testKnight {
+	private Board board;
+	
+	@Test
+	void test1() {
+		board = new Board(true);
+		
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		ArrayList<Space> knightMethodSpaces;
+
+		//right 
+		whatShouldBeThere.add(new Space(2,5));
+		whatShouldBeThere.add(new Space(3,6));
+		whatShouldBeThere.add(new Space(5,6));
+		whatShouldBeThere.add(new Space(6,5));
+				
+
+		//up 
+		whatShouldBeThere.add(new Space(2,3));
+		whatShouldBeThere.add(new Space(3,2));
+
+		//left
+		whatShouldBeThere.add(new Space(6,3));
+		
+		//south
+		whatShouldBeThere.add(new Space(5,2));
+
+		Space knightSpace = TestingMethods.addPieceToBoard(new Knight(true), board, 4, 4);
+		knightMethodSpaces = ((Knight)knightSpace.getPiece()).getMoveableSpaces(knightSpace,board);
+		
+		System.out.println(knightMethodSpaces);
+		System.out.println(whatShouldBeThere);
+		
+		assertTrue(TestingMethods.areEqual(whatShouldBeThere,knightMethodSpaces));
+
+	}
+	
+	
+	@Test
+	void test2() {
+		board = new Board(true);
+		
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		ArrayList<Space> knightMethodSpaces;
+
+		whatShouldBeThere.add(new Space(6,2));
+		whatShouldBeThere.add(new Space(5,1));
+
+		Space knightSpace = TestingMethods.addPieceToBoard(new Knight(true), board, 7, 0);
+		knightMethodSpaces = ((Knight)knightSpace.getPiece()).getMoveableSpaces(knightSpace,board);
+		
+		System.out.println(knightMethodSpaces);
+		System.out.println(whatShouldBeThere);
+		
+		assertTrue(TestingMethods.areEqual(whatShouldBeThere,knightMethodSpaces));
+
+	}
+	
+
+	@Test
+	void test3() {
+		board = new Board(true);
+		
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		ArrayList<Space> knightMethodSpaces;
+
+		whatShouldBeThere.add(new Space(6,2));
+
+
+		Space knightSpace = TestingMethods.addPieceToBoard(new Knight(true), board, 7, 0);
+		TestingMethods.addPieceToBoard(new Pawn(true), board, 5, 1);
+		knightMethodSpaces = ((Knight)knightSpace.getPiece()).getMoveableSpaces(knightSpace,board);
+
+		assertTrue(TestingMethods.areEqual(whatShouldBeThere,knightMethodSpaces));
+
+	}
+	
+	@Test
+	void test4() {
+		board = new Board(true);
+		
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		ArrayList<Space> knightMethodSpaces;
+
+		whatShouldBeThere.add(new Space(6,2));
+		whatShouldBeThere.add(new Space(5,1));
+
+		Space knightSpace = TestingMethods.addPieceToBoard(new Knight(true), board, 7, 0);
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 5, 1);
+		knightMethodSpaces = ((Knight)knightSpace.getPiece()).getMoveableSpaces(knightSpace,board);
+
+		assertTrue(TestingMethods.areEqual(whatShouldBeThere,knightMethodSpaces));
+
 	}
 }
 

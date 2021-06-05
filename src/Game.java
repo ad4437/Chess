@@ -9,18 +9,23 @@ public class Game {
 		turn = true;
 	}
 	
-	public boolean Turn(Space start, Space end) {
-		if(board.movePiece(turn, start, end)) {
-			if(isGameOver()) {
-				return true;
-			} else {
-				turn = !turn;
-			}
+	//returns true if the move has been made, false otherwise
+	public boolean attemptMove(Space start, Space end) {
+		return(board.movePiece(turn, start, end));
+	}
+	
+
+	
+	public boolean isInteractable(Space space) {
+		if(space.getPiece() instanceof ChessPiece) {
+			return(((ChessPiece)space.getPiece()).isWhite() == turn);
 		}
 		return false;
 	}
 	
-	private boolean isGameOver() {
+	
+	
+	public boolean isGameOver() {
 		if(board.getBlackSpacePieces().size() == 1 && board.getWhiteSpacePieces().size() == 1) {
 			state = "tie";
 			return true;
@@ -32,20 +37,12 @@ public class Game {
 		return false;
 	}
 	
-	public boolean isInteractable(Space space) {
-		if(space.getPiece() instanceof ChessPiece) {
-			return(((ChessPiece)space.getPiece()).isWhite() == turn);
-		}
-		return false;
-	}
-	
 	
 	public void reset() {
 		board = new Board(false);
 		turn = true;
 	}
 	
-
 	
 	public String getState() {
 		return state;

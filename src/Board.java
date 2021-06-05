@@ -15,6 +15,8 @@ public class Board {
 	}
 	
 	private void init() {
+		blackSpacePieces = new ArrayList<Space>();
+		whiteSpacePieces = new ArrayList<Space>();
 		
 		initHelper(0, false);
 		initHelper(7, true); 
@@ -37,6 +39,9 @@ public class Board {
 	}
 	
 	public void initEmpty() {
+		blackSpacePieces = new ArrayList<Space>();
+		whiteSpacePieces = new ArrayList<Space>();
+		
 		for(int row = 0; row < boardSpaces.length; row++) {
 			for(int col = 0; col < boardSpaces[0].length; col++) {
 				boardSpaces[row][col] = new Space(row,col,null);
@@ -107,9 +112,9 @@ public class Board {
 			currentColorSpacePieces = blackSpacePieces;
 			otherColorSpacePieces = whiteSpacePieces;
 		}
-		movePieceHelperFirstMove(end);
-		movePieceHelperFirstMove(start);
 		if(((ChessPiece)start.getPiece()).canMove(this, start, end)) {
+			movePieceHelperFirstMove(end);
+			movePieceHelperFirstMove(start);
 			if(end.getPiece() == null) {
 				end.setPiece(start.getPiece());
 				start.setPiece(null);
@@ -335,17 +340,5 @@ public class Board {
 		colorSpacePieces.remove(index);
 	}
 	
-	
-	
-	public void printBoard() {
-		for(int row = 0; row < boardSpaces.length; row++) {
-			for(int col = 0; col < boardSpaces[0].length; col++) {
-				System.out.print(boardSpaces[row][col]);
-				System.out.print(" ");
-			}
-			System.out.println();
-		}
-		System.out.println();
-	}
 	
 }
