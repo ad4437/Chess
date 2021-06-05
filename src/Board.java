@@ -38,6 +38,8 @@ public class Board {
 
 	}
 	
+
+	
 	public void initEmpty() {
 		blackSpacePieces = new ArrayList<Space>();
 		whiteSpacePieces = new ArrayList<Space>();
@@ -103,8 +105,9 @@ public class Board {
 	
 	//precondition start contains a chess piece
 	public boolean movePiece(boolean startColor,Space start,Space end) {
-		ArrayList<Space> currentColorSpacePieces;
-		ArrayList<Space> otherColorSpacePieces;
+		ArrayList<Space> currentColorSpacePieces = null;
+		ArrayList<Space> otherColorSpacePieces = null;
+
 		if(startColor) {
 			currentColorSpacePieces = whiteSpacePieces;
 			otherColorSpacePieces = blackSpacePieces;
@@ -112,41 +115,47 @@ public class Board {
 			currentColorSpacePieces = blackSpacePieces;
 			otherColorSpacePieces = whiteSpacePieces;
 		}
-		if(((ChessPiece)start.getPiece()).canMove(this, start, end)) {
-			movePieceHelperFirstMove(end);
-			movePieceHelperFirstMove(start);
-			if(end.getPiece() == null) {
-				end.setPiece(start.getPiece());
-				start.setPiece(null);
-				replaceSpace(currentColorSpacePieces,start,end);
-			} else if(movePieceHelperIsCastling(start,end)) {
-				final Space ROOK_END_SPACE;
-				final Space KING_END_SPACE;
-				if(end.getCol() == 0) {
-					KING_END_SPACE = getSpace(start.getRow(),2);
-					ROOK_END_SPACE = getSpace(start.getRow(),3);
-				} else {
-					KING_END_SPACE = getSpace(start.getRow(),6);
-					ROOK_END_SPACE = getSpace(start.getRow(),5);
-				}
-				KING_END_SPACE.setPiece(start.getPiece());
-				movePieceHelperFirstMove(start);
-				start.setPiece(null);
-				replaceSpace(currentColorSpacePieces,start,KING_END_SPACE);
-				ROOK_END_SPACE.setPiece(end.getPiece());
-				movePieceHelperFirstMove(end);
-				end.setPiece(null);
-				replaceSpace(currentColorSpacePieces,end,ROOK_END_SPACE);
-			} else if(end != null) {
-				removeSpace(otherColorSpacePieces, end);
-				end.setPiece(start.getPiece());
-				start.setPiece(null);
-				replaceSpace(currentColorSpacePieces,start,end);
-			}
-			movePieceHelperPawn(end);
+		
+		if(((ChessPiece)start.getPiece()).canMove(this, start, end) && this.copy().simulateMoveForCheck(start, end)) {
+			moveMutator(currentColorSpacePieces, otherColorSpacePieces ,start, end);
 			return true;
 		} 
 		return false;
+	}
+	
+	
+	
+	private void moveMutator(ArrayList<Space> currentColorSpacePieces, ArrayList<Space> otherColorSpacePieces,Space start,Space end) {
+		movePieceHelperFirstMove(end);
+		movePieceHelperFirstMove(start);
+		if(end.getPiece() == null) {
+			end.setPiece(start.getPiece());
+			start.setPiece(null);
+			replaceSpace(currentColorSpacePieces,start,end);
+		} else if(movePieceHelperIsCastling(start,end)) {
+			final Space ROOK_END_SPACE;
+			final Space KING_END_SPACE;
+			if(end.getCol() == 0) {
+				KING_END_SPACE = getSpace(start.getRow(),2);
+				ROOK_END_SPACE = getSpace(start.getRow(),3);
+			} else {
+				KING_END_SPACE = getSpace(start.getRow(),6);
+				ROOK_END_SPACE = getSpace(start.getRow(),5);
+			}
+			KING_END_SPACE.setPiece(start.getPiece());
+			movePieceHelperFirstMove(start);
+			start.setPiece(null);
+			replaceSpace(currentColorSpacePieces,start,KING_END_SPACE);
+			ROOK_END_SPACE.setPiece(end.getPiece());
+			movePieceHelperFirstMove(end);
+			end.setPiece(null);
+			replaceSpace(currentColorSpacePieces,end,ROOK_END_SPACE);
+		} else if(end != null) {
+			removeSpace(otherColorSpacePieces, end);
+			end.setPiece(start.getPiece());
+			start.setPiece(null);
+			replaceSpace(currentColorSpacePieces,start,end);
+		}
 	}
 	
 	private void movePieceHelperFirstMove(Space s) {
@@ -200,12 +209,12 @@ public class Board {
 		} else {
 			colorSpacePieces = whiteSpacePieces;
 		}
-		
+	
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
-			currentCaptureSpaces = ((ChessPiece)colorSpacePieces.get(i).getPiece()).getCaptureableSpaces(colorSpacePieces.get(i),this);
-			for(int j = 0; j < currentCaptureSpaces.size(); j++) {
-				if(currentCaptureSpaces.get(j).equals(kingLocation)) {
-					return true;
+				currentCaptureSpaces = ((ChessPiece)colorSpacePieces.get(i).getPiece()).getCaptureableSpaces(colorSpacePieces.get(i),this);
+				for(int j = 0; j < currentCaptureSpaces.size(); j++) {
+					if(currentCaptureSpaces.get(j).equals(kingLocation)) {
+						return true;
 				}
 			}
 		}
@@ -279,7 +288,7 @@ public class Board {
 		
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
 			for(int j = 0; j < enemyMoveableSpaces.size(); j++) {
-				if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), enemyMoveableSpaces.get(j))) {
+				if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), enemyMoveableSpaces.get(j)) && this.copy().simulateMoveForCheck(colorSpacePieces.get(i), enemyMoveableSpaces.get(j))) {
 					return true;
 				}
 			}
@@ -317,7 +326,7 @@ public class Board {
 	}
 	
 
-	private Space findKingSpace(ArrayList<Space> colorSpacePieces) {
+	protected Space findKingSpace(ArrayList<Space> colorSpacePieces) {
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
 			if(colorSpacePieces.get(i).getPiece() instanceof King) {
 				return colorSpacePieces.get(i);
@@ -339,6 +348,52 @@ public class Board {
 		
 		colorSpacePieces.remove(index);
 	}
+	
+	//make sure this is only invoked on a cloned board
+	//postcondition returns true if the move causes the king to not be in check
+	public boolean simulateMoveForCheck(Space start, Space end) {
+		ArrayList<Space> currentColorSpacePieces = null;
+		ArrayList<Space> otherColorSpacePieces = null;
+		
+		boolean startColor = ((ChessPiece)start.getPiece()).isWhite();
+		if(startColor) {
+			currentColorSpacePieces = whiteSpacePieces;
+			otherColorSpacePieces = blackSpacePieces;
+		} else {
+			currentColorSpacePieces = blackSpacePieces;
+			otherColorSpacePieces = whiteSpacePieces;
+		}
+		
+		moveMutator(currentColorSpacePieces,otherColorSpacePieces, start, end);
+		
+		Space kingSpace = findKingSpace(currentColorSpacePieces);
+
+		return !(isCheck(startColor,kingSpace));
+	}
+	
+	public Board copy() {
+		Board clonedBoard = new Board(true);
+		copyArrayList(clonedBoard.getBlackSpacePieces(),blackSpacePieces);
+		copyArrayList(clonedBoard.getWhiteSpacePieces(),whiteSpacePieces);
+		addListPiecesToBoard(clonedBoard,blackSpacePieces);
+		addListPiecesToBoard(clonedBoard,whiteSpacePieces);
+		return clonedBoard;
+	}
+	
+	private void addListPiecesToBoard(Board board,ArrayList<Space> list) {
+		for(int i = 0; i < list.size(); i++) {
+			Space space = list.get(i);
+			board.getSpace(space.getRow(), space.getCol()).setPiece(space.getPiece());
+		}
+	}
+
+	
+	private void copyArrayList(ArrayList<Space> listCloned, ArrayList<Space> listOrginal) {
+		for(int i = 0; i < listOrginal.size(); i++) {
+			listCloned.add(listOrginal.get(i).copy());
+		}
+	}
+	
 	
 	
 }

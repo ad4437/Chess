@@ -70,6 +70,10 @@ public class King extends ChessPiece {
 		}
 	}
 	
+	public Piece copy() {
+		 return new King(this.isWhite());
+	}
+	
 	
 	/*
 	 * Deprecated

@@ -48,6 +48,9 @@ public class Knight extends ChessPiece {
 		}
 	}
 	
+	public Piece copy() {
+		 return new Knight(this.isWhite());
+	}
 	
 	/*
 	 * Deprecated

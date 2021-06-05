@@ -1,5 +1,5 @@
 
-public class Space {
+public class Space  {
 	private int row;
 	private int col;
 	private Piece piece; 
@@ -14,6 +14,15 @@ public class Space {
 		row  = rowInput; 
 		col = colInput; 
 		piece = pieceInput;
+	}
+	
+	
+	public Space copy() {
+		Space s = new Space(row,col);
+		if(this.getPiece() != null) {
+			s.setPiece(((ChessPiece)this.getPiece()).copy());  
+		}
+		return s;
 	}
 	
 	

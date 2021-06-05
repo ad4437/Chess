@@ -334,22 +334,24 @@ class testBishop {
 
 
 
-/*
+
 class testMisc {
 	private Game game;
 	
 	@Test
 	void test1() {
 		game = new Game();
+		game.getBoard().initEmpty();
 		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 4, 4);
 		TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 3,2);
 		TestingMethods.addPieceToBoard(new Rook(false), game.getBoard(), 4, 2);
-		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 0, 0);
-		assertTrue(game.Turn(game.getBoard().getSpace(3, 2), game.getBoard().getSpace(4, 2)));
-		game.getBoard().printBoard();
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 1, 1);
+
+
+		assertTrue(game.attemptMove(game.getBoard().getSpace(3, 2),game.getBoard().getSpace(4, 2)));
 	}
 }
-*/
+
 
 class testKnight {
 	private Board board;
@@ -381,8 +383,6 @@ class testKnight {
 		Space knightSpace = TestingMethods.addPieceToBoard(new Knight(true), board, 4, 4);
 		knightMethodSpaces = ((Knight)knightSpace.getPiece()).getMoveableSpaces(knightSpace,board);
 		
-		System.out.println(knightMethodSpaces);
-		System.out.println(whatShouldBeThere);
 		
 		assertTrue(TestingMethods.areEqual(whatShouldBeThere,knightMethodSpaces));
 
@@ -401,9 +401,6 @@ class testKnight {
 
 		Space knightSpace = TestingMethods.addPieceToBoard(new Knight(true), board, 7, 0);
 		knightMethodSpaces = ((Knight)knightSpace.getPiece()).getMoveableSpaces(knightSpace,board);
-		
-		System.out.println(knightMethodSpaces);
-		System.out.println(whatShouldBeThere);
 		
 		assertTrue(TestingMethods.areEqual(whatShouldBeThere,knightMethodSpaces));
 

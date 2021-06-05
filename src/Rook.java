@@ -78,6 +78,9 @@ public class Rook extends ChessPiece{
 		}
 	}
 	
+	public Piece copy() {
+		 return new Rook(this.isWhite());
+	}
 	
 	/*
 	public boolean canMove(Board board, Space start, Space end) {

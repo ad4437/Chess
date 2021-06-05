@@ -33,6 +33,9 @@ public class Queen extends ChessPiece {
 		return spacesCanCapture;
 	}
 	
+	public Piece copy() {
+		 return new Queen(this.isWhite());
+	}
 	
 	/* 
 	 * Deprecated 

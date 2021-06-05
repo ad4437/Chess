@@ -3,7 +3,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.*;
-public abstract class ChessPiece extends Piece{
+public abstract class ChessPiece extends Piece implements Cloneable{
 	private boolean white;
 	private static BufferedImage WHITE_PAWN_IMAGE;
 	private static BufferedImage WHITE_ROOK_IMAGE;
@@ -99,6 +99,9 @@ public abstract class ChessPiece extends Piece{
 		}
 		return false;
 	}
+	
+	public abstract Piece copy();
+	
 	
 	public abstract ArrayList<Space> getMoveableSpaces(Space start,Board board);
 	

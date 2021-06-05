@@ -49,6 +49,11 @@ public class Bishop extends ChessPiece{
 		
 	}
 	
+
+
+	public Piece copy() {
+		return new Bishop(this.isWhite());
+	}
 	
 	/*
 	 * Deprecated

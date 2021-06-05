@@ -82,6 +82,9 @@ public class Pawn extends ChessPiece {
 		return spacesCanCapture;
 	}
 	
+	public Piece copy() {
+		 return new Pawn(this.isWhite());
+	}
 	
 	/*
 	 * Deprecated
