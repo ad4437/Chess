@@ -116,7 +116,7 @@ public class Board {
 			otherColorSpacePieces = whiteSpacePieces;
 		}
 		
-		if(((ChessPiece)start.getPiece()).canMove(this, start, end) && this.copy().simulateMoveForCheck(start, end)) {
+		if(((ChessPiece)start.getPiece()).canMove(this, start, end) && this.simulateMoveForCheck(start, end)) {
 			moveMutator(currentColorSpacePieces, otherColorSpacePieces ,start, end);
 			return true;
 		} 
@@ -211,9 +211,9 @@ public class Board {
 		}
 	
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
-				currentCaptureSpaces = ((ChessPiece)colorSpacePieces.get(i).getPiece()).getCaptureableSpaces(colorSpacePieces.get(i),this);
-				for(int j = 0; j < currentCaptureSpaces.size(); j++) {
-					if(currentCaptureSpaces.get(j).equals(kingLocation)) {
+			currentCaptureSpaces = ((ChessPiece)colorSpacePieces.get(i).getPiece()).getCaptureableSpaces(colorSpacePieces.get(i),this);
+			for(int j = 0; j < currentCaptureSpaces.size(); j++) {
+				if(currentCaptureSpaces.get(j).equals(kingLocation)) {
 						return true;
 				}
 			}
@@ -235,25 +235,32 @@ public class Board {
 		
 		kingOriginalSpace = this.findKingSpace(colorSpacePieces);
 		enemySpaces = getEnemyCheckPieces(kingColor,kingOriginalSpace);
-		
-		if(checkmateCanMoveHelper(kingColor,kingOriginalSpace)) return false;
+		if(checkmateCanMoveHelper(kingColor)) return false;
 		if(checkmateCanCaptureHelper(enemySpaces,kingColor)) return false;
-		if(enemySpaces.size() == 1 && checkmateCanBlockHelper(enemySpaces.get(0), kingColor))return false;
+		if(enemySpaces.size() == 1 && checkmateCanBlockHelper(enemySpaces.get(0), kingColor)) return false;
+		
 		return true;
 
 	}
 	
-	private boolean checkmateCanMoveHelper(boolean kingColor,Space kingLocation) {
+	private boolean checkmateCanMoveHelper(boolean kingColor) {
+		Board clonedBoard = this.copy();
+		ArrayList<Space> colorSpacePieces;
+		if(kingColor) {
+			colorSpacePieces = clonedBoard.getWhiteSpacePieces();
+		} else {
+			colorSpacePieces = clonedBoard.getBlackSpacePieces();
+		}
+		Space kingLocation = clonedBoard.findKingSpace(colorSpacePieces);
 		ArrayList<Space> kingSpacesMove;
-		kingSpacesMove = ((ChessPiece)kingLocation.getPiece()).getMoveableSpaces(kingLocation, this);
+		kingSpacesMove = ((ChessPiece)kingLocation.getPiece()).getMoveableSpaces(kingLocation, clonedBoard);
 		
 		for(int i = 0; i < kingSpacesMove.size(); i++) {
-			if(!(isCheck(kingColor,kingSpacesMove.get(i)))) {
-				return false;
+			if(this.simulateMoveForCheck(kingLocation, kingSpacesMove.get(i))) {
+				return true;
 			}
 		}
-		
-		return true;
+		return false;
 	}
 	
 	private boolean checkmateCanCaptureHelper(ArrayList<Space> enemySpaces, boolean kingColor) {
@@ -263,15 +270,13 @@ public class Board {
 		} else {
 			colorSpacePieces = blackSpacePieces;
 		}
-		
-		if(enemySpaces.size() > 1) return true;
-		
+		if(enemySpaces.size() > 1)  {
+			return false;
+		}
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
-			for(int j = 0; j < enemySpaces.size(); j++) {
-				if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), enemySpaces.get(j))) {
+				if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), enemySpaces.get(0))) {
 					return true;
 				}
-			}
 		}
 		return false;
 		
@@ -288,7 +293,7 @@ public class Board {
 		
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
 			for(int j = 0; j < enemyMoveableSpaces.size(); j++) {
-				if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), enemyMoveableSpaces.get(j)) && this.copy().simulateMoveForCheck(colorSpacePieces.get(i), enemyMoveableSpaces.get(j))) {
+				if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), enemyMoveableSpaces.get(j)) && this.simulateMoveForCheck(colorSpacePieces.get(i), enemyMoveableSpaces.get(j))) {
 					return true;
 				}
 			}
@@ -305,7 +310,6 @@ public class Board {
 		} else {
 			colorSpacePieces = whiteSpacePieces;
 		}
-		
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
 			if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), kingLocation)) {
 				enemyPieces.add(colorSpacePieces.get(i));
@@ -352,23 +356,27 @@ public class Board {
 	//make sure this is only invoked on a cloned board
 	//postcondition returns true if the move causes the king to not be in check
 	public boolean simulateMoveForCheck(Space start, Space end) {
+		Board clonedBoard = this.copy();
+		Space clonedStart = clonedBoard.getSpace(start.getRow(), start.getCol());
+		Space clonedEnd = clonedBoard.getSpace(end.getRow(), end.getCol());
+		
 		ArrayList<Space> currentColorSpacePieces = null;
 		ArrayList<Space> otherColorSpacePieces = null;
 		
 		boolean startColor = ((ChessPiece)start.getPiece()).isWhite();
 		if(startColor) {
-			currentColorSpacePieces = whiteSpacePieces;
-			otherColorSpacePieces = blackSpacePieces;
-		} else {
-			currentColorSpacePieces = blackSpacePieces;
-			otherColorSpacePieces = whiteSpacePieces;
+			currentColorSpacePieces = clonedBoard.getWhiteSpacePieces();
+			otherColorSpacePieces = clonedBoard.getBlackSpacePieces();
+		} else { 
+			currentColorSpacePieces = clonedBoard.getBlackSpacePieces();
+			otherColorSpacePieces = clonedBoard.getWhiteSpacePieces();
 		}
 		
-		moveMutator(currentColorSpacePieces,otherColorSpacePieces, start, end);
+		clonedBoard.moveMutator(currentColorSpacePieces,otherColorSpacePieces, clonedStart, clonedEnd);
 		
-		Space kingSpace = findKingSpace(currentColorSpacePieces);
+		Space kingSpace = clonedBoard.findKingSpace(currentColorSpacePieces);
 
-		return !(isCheck(startColor,kingSpace));
+		return !(clonedBoard.isCheck(startColor,kingSpace));
 	}
 	
 	public Board copy() {
@@ -393,7 +401,4 @@ public class Board {
 			listCloned.add(listOrginal.get(i).copy());
 		}
 	}
-	
-	
-	
 }

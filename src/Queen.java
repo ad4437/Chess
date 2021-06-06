@@ -15,7 +15,7 @@ public class Queen extends ChessPiece {
 
 
 	public ArrayList<Space> getMoveableSpaces(Space start, Board board) {
-		return getMoveableSpaces(start,board);
+		return getCaptureableSpaces(start,board);
 	}
 
 

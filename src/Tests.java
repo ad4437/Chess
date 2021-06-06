@@ -350,6 +350,62 @@ class testMisc {
 
 		assertTrue(game.attemptMove(game.getBoard().getSpace(3, 2),game.getBoard().getSpace(4, 2)));
 	}
+	/*
+	@Test
+	void test2() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 4, 4);
+		TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 3,2);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 1, 1);
+
+		assertFalse(game.isGameOver());
+	}
+	*/
+	
+	@Test
+	void test3() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 4, 4);
+		TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 3,2);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 0, 0);
+		TestingMethods.addPieceToBoard(new Queen(true), game.getBoard(), 1, 0);
+		TestingMethods.addPieceToBoard(new Queen(true), game.getBoard(), 1, 1);
+		TestingMethods.addPieceToBoard(new Queen(true), game.getBoard(), 0, 1);
+
+		assertTrue(game.isGameOver());
+	}
+	
+	@Test
+	void test4() {
+		Board board = new Board(true);
+		
+		Space s = TestingMethods.addPieceToBoard(new King(true), board, 7, 4);
+		Space end = TestingMethods.addPieceToBoard(new Rook(true), board, 7,0);
+		System.out.println(((ChessPiece)end.getPiece()).getMoveableSpaces(end, board));
+		assertTrue(board.movePiece(true, s, end));
+	}
+	@Test
+	void test5() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		Space s = TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 0, 4);
+		Space end = TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 0,0);
+		((King)s.getPiece()).setFirstMove(false);
+		
+		assertFalse(((King)s.getPiece()).canMove(game.getBoard(), s, end));
+	}
+	@Test
+	void test6() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		Space s = TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 0, 4);
+		Space end = TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 0,0);
+		game.attemptMove(s, end);
+		
+		assertTrue((game.getBoard().getSpace(0, 2).getPiece() != null) && ((game.getBoard().getSpace(0, 3).getPiece() != null)));
+	}
 }
 
 
@@ -441,6 +497,64 @@ class testKnight {
 
 		assertTrue(TestingMethods.areEqual(whatShouldBeThere,knightMethodSpaces));
 
+	}
+}
+
+class testKing {
+	private Board board;
+	
+	@Test
+	void Test1() {
+		board = new Board(true);
+		TestingMethods.addPieceToBoard(new King(false), board, 0, 0);
+		TestingMethods.addPieceToBoard(new Queen(true), board, 1, 0);
+		TestingMethods.addPieceToBoard(new Queen(true), board, 1, 1);
+		TestingMethods.addPieceToBoard(new Queen(true), board, 0, 1);
+		
+		assertFalse(board.movePiece(false,board.getSpace(0, 0),board.getSpace(1, 0)));
+	}
+	
+	@Test
+	void Test2() {
+		board = new Board(true);
+		TestingMethods.addPieceToBoard(new King(false), board, 0, 0);
+		TestingMethods.addPieceToBoard(new Queen(true), board, 1, 0);
+		TestingMethods.addPieceToBoard(new Queen(true), board, 1, 1);
+		TestingMethods.addPieceToBoard(new Queen(true), board, 0, 1);
+		
+		assertTrue(board.isCheckmate(false));
+	}
+	
+	@Test
+	void Test3() {
+		board = new Board(true);
+		TestingMethods.addPieceToBoard(new King(false), board, 0, 0);
+		TestingMethods.addPieceToBoard(new Rook(true), board, 3, 0);
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 1, 1);
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 0, 1);
+	
+		assertTrue(board.isCheckmate(false));
+	}
+	@Test
+	void Test4() {
+		board = new Board(true);
+		TestingMethods.addPieceToBoard(new King(false), board, 0, 0);
+		TestingMethods.addPieceToBoard(new Rook(true), board, 3, 0);
+		TestingMethods.addPieceToBoard(new Rook(false), board, 1, 1);
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 0, 1);
+		
+		assertFalse(board.isCheckmate(false));
+	}
+	@Test
+	void Test5() {
+		board = new Board(true);
+		TestingMethods.addPieceToBoard(new King(false), board, 0, 0);
+		TestingMethods.addPieceToBoard(new Rook(true), board, 3, 0);
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 1, 1);
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 0, 1);
+		TestingMethods.addPieceToBoard(new Rook(false), board, 3, 1);
+		
+		assertFalse(board.isCheckmate(false));
 	}
 }
 

@@ -29,12 +29,13 @@ public class Game {
 		if(board.getBlackSpacePieces().size() == 1 && board.getWhiteSpacePieces().size() == 1) {
 			state = "tie";
 			return true;
-		} else if(board.isCheckmate(turn)) {
+		} else if(board.isCheckmate(!turn)) {
 			if(turn) state = "white wins";
 			else state = "black wins";
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 	
 	

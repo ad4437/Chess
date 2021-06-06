@@ -24,13 +24,18 @@ public class Rook extends ChessPiece{
 	}
 	
 	public ArrayList<Space> getMoveableSpaces(Space start, Board board) {
-		return getRookSpaces(start,board);
+		return getCaptureableSpaces(start,board);
 	}
 
 
 
 	public ArrayList<Space> getCaptureableSpaces(Space start, Board board) {
-		return getRookSpaces(start,board);
+		ArrayList<Space> spacesCanCapture = new ArrayList<Space>();
+		spacesCanHelperRow(spacesCanCapture,start,board,1);
+		spacesCanHelperRow(spacesCanCapture,start,board,-1);
+		otherSpacesCanHelperCol(spacesCanCapture,start,board,1);
+		otherSpacesCanHelperCol(spacesCanCapture,start,board,-1);
+		return spacesCanCapture;
 	}
 	
 	
@@ -56,7 +61,7 @@ public class Rook extends ChessPiece{
 			currentRow += ROW_INCREMENT;
 		}
 		
-		if((currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS) && (currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS) && isAvailable(start, board.getSpace(currentRow, currentCol))) {
+		if((currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS) && (currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS) && (isAvailable(start, board.getSpace(currentRow, currentCol)))) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 		}
 		
@@ -78,9 +83,39 @@ public class Rook extends ChessPiece{
 		}
 	}
 	
+	private void otherSpacesCanHelperCol(ArrayList<Space> spacesCanMove,Space start,Board board,final int COL_INCREMENT) {
+		final int UPPER_BOUNDS = 7;
+		final int LOWER_BOUNDS = 0;
+		int currentRow = start.getRow();
+		int currentCol = start.getCol() + COL_INCREMENT;
+		
+		while(currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS && board.getSpace(currentRow, currentCol).getPiece() == null) {
+			spacesCanMove.add(board.getSpace(currentRow, currentCol));
+			currentCol += COL_INCREMENT;
+		}
+		
+		if((currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS) && (currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS)) {
+			if(isAvailable(start, board.getSpace(currentRow, currentCol)) || helper(board,currentRow, currentCol)) {
+				spacesCanMove.add(board.getSpace(currentRow, currentCol));
+			}
+		}
+	}
+	
+	private boolean helper(Board board,int row, int col) {
+		Space space = board.getSpace(row, col);
+		if(space.getPiece() instanceof King) {
+			return(((King)space.getPiece()).isWhite() == this.isWhite() && this.firstMove && (((King)space.getPiece()).getFirstMove()));
+		}
+		return false;
+	}
+	
 	public Piece copy() {
 		 return new Rook(this.isWhite());
 	}
+
+
+
+
 	
 	/*
 	public boolean canMove(Board board, Space start, Space end) {
