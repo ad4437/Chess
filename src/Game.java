@@ -9,7 +9,6 @@ public class Game {
 		turn = true;
 	}
 	
-	//returns true if the move has been made, false otherwise
 	public boolean attemptMove(Space start, Space end) {
 		return(board.movePiece(turn, start, end));
 	}
@@ -23,7 +22,14 @@ public class Game {
 		return false;
 	}
 	
+	public Space getAnyPawnForTransform() {
+		return board.getAnyPawnAtEnd(turn);
+	}
 	
+	//userInput values: 1 = Queen, 2 = Rook, 3 = Bishop, 4 = Knight
+	public void transformPawn(Space pawnSpace, int userInput) {
+		board.pawnTransform(turn, pawnSpace, userInput);
+	}
 	
 	public boolean isGameOver() {
 		if(board.getBlackSpacePieces().size() == 1 && board.getWhiteSpacePieces().size() == 1) {

@@ -2,9 +2,8 @@ import java.util.ArrayList;
 
 public class Board {
 	private Space[][] boardSpaces;
-	
-	ArrayList<Space> blackSpacePieces;
-	ArrayList<Space> whiteSpacePieces;
+	private ArrayList<Space> blackSpacePieces;
+	private ArrayList<Space> whiteSpacePieces;
 	
 	public Board(boolean empty) {
 		blackSpacePieces = new ArrayList<Space>();
@@ -50,8 +49,7 @@ public class Board {
 			}
 		}
 	}
-	
-	//white = true, black = false 
+	 
 	private void initHelper(int row, boolean color) {
 		ArrayList<Space> colorSpacePieces;
 		if(color) {
@@ -60,33 +58,26 @@ public class Board {
 			colorSpacePieces = blackSpacePieces;
 		}
 		
-		
-		//Initializes board with rooks
 		boardSpaces[row][0] = new Space(row,0,new Rook(color));
 		colorSpacePieces.add(boardSpaces[row][0]);
 		boardSpaces[row][7] = new Space(row,7,new Rook(color));
 		colorSpacePieces.add(boardSpaces[row][7]);
 		
-		//Initializes board with knights
 		boardSpaces[row][1] = new Space(row,1,new Knight(color));
 		colorSpacePieces.add(boardSpaces[row][1]);
 		boardSpaces[row][6] = new Space(row,6,new Knight(color));
 		colorSpacePieces.add(boardSpaces[row][6]);
 		
-		//Initializes board with bishops
 		boardSpaces[row][2] = new Space(row,2,new Bishop(color));
 		colorSpacePieces.add(boardSpaces[row][2]);
 		boardSpaces[row][5] = new Space(row,5,new Bishop(color));
 		colorSpacePieces.add(boardSpaces[row][5]);
 		
-		//Initializes board with a queen
 		boardSpaces[row][3] = new Space(row,3,new Queen(color));
 		colorSpacePieces.add(boardSpaces[row][3]);
 		
-		//Initializes board with a king
 		boardSpaces[row][4] = new Space(row,4,new King(color));
 		colorSpacePieces.add(boardSpaces[row][4]);
-		
 		
 	}
 	
@@ -179,25 +170,6 @@ public class Board {
 		return false;
 	}
 	
-	private void movePieceHelperPawn(Space end) {
-		if(end.getPiece() instanceof Pawn) {
-			boolean color =  ((ChessPiece)end.getPiece()).isWhite();
-			if((color == true && end.getRow() == 0) || (color == false && end.getRow() == 7)) {
-				int input = 0; //placeholder code
-				//add code to get input from user
-				switch(input) {
-				case 1:
-					end.setPiece(new Queen(color));
-				case 2:
-					end.setPiece(new Rook(color));
-				case 3:
-					end.setPiece(new Bishop(color));
-				case 4:
-					end.setPiece(new Knight(color));
-				}
-			}
-		}
-	}
 	
 	
 	
@@ -353,8 +325,7 @@ public class Board {
 		colorSpacePieces.remove(index);
 	}
 	
-	//make sure this is only invoked on a cloned board
-	//postcondition returns true if the move causes the king to not be in check
+
 	public boolean simulateMoveForCheck(Space start, Space end) {
 		Board clonedBoard = this.copy();
 		Space clonedStart = clonedBoard.getSpace(start.getRow(), start.getCol());
@@ -399,6 +370,35 @@ public class Board {
 	private void copyArrayList(ArrayList<Space> listCloned, ArrayList<Space> listOrginal) {
 		for(int i = 0; i < listOrginal.size(); i++) {
 			listCloned.add(listOrginal.get(i).copy());
+		}
+	}
+	
+	
+	public Space getAnyPawnAtEnd(boolean turn) { 
+		final int ROW;
+		if(turn) {
+			ROW = 0;
+		} else {
+			ROW = 7;
+		}
+		for(int i = 0; i < 8; i++) {
+			if(getSpace(ROW,i).getPiece() instanceof Pawn && ((ChessPiece)getSpace(ROW,i).getPiece()).isWhite() == turn ) {
+				return getSpace(ROW,i);
+			}
+		} 
+		return null;
+	}
+	
+	public void pawnTransform(boolean pieceColor, Space end, int input) {
+		switch(input) {
+		case 1:
+			end.setPiece(new Queen(pieceColor));
+		case 2:
+			end.setPiece(new Rook(pieceColor));
+		case 3:
+			end.setPiece(new Bishop(pieceColor));
+		case 4:
+			end.setPiece(new Knight(pieceColor));
 		}
 	}
 }
