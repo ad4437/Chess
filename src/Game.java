@@ -13,7 +13,9 @@ public class Game {
 		return(board.movePiece(turn, start, end));
 	}
 	
-
+	public void nextTurn() {
+		turn = !turn;
+	}
 	
 	public boolean isInteractable(Space space) {
 		if(space.getPiece() instanceof ChessPiece) {
@@ -22,7 +24,7 @@ public class Game {
 		return false;
 	}
 	
-	public Space getAnyPawnForTransform() {
+	public Space getThisTurnPawnForTransform() {
 		return board.getAnyPawnAtEnd(turn);
 	}
 	
