@@ -1,7 +1,7 @@
 
 public class Game {
 	private Board board;
-	String state;
+	private String state;
 	private boolean turn;
 	
 	public Game() {
