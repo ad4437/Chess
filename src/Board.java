@@ -4,6 +4,7 @@ public class Board {
 	private Space[][] boardSpaces;
 	private ArrayList<Space> blackSpacePieces;
 	private ArrayList<Space> whiteSpacePieces;
+	private String state;
 	
 	public Board(boolean empty) {
 		blackSpacePieces = new ArrayList<Space>();
