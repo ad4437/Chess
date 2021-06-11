@@ -34,7 +34,6 @@ public abstract class ChessPiece extends Piece implements Cloneable{
 	
 	public abstract Piece copy();
 	
-	
 	public abstract ArrayList<Space> getMoveableSpaces(Space start,Board board);
 	
 	public abstract ArrayList<Space> getCaptureableSpaces(Space start,Board board);
