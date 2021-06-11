@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class Knight extends ChessPiece {
 
 	public Knight(boolean stateInput) {
-		super(stateInput, getBufferedImage(stateInput, "N"));
+		super(stateInput);
 		
 	}
 
 	
 	public String toString() {
-		return "N";
+		return "Knight";
 	}
 
 

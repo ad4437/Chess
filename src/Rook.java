@@ -4,14 +4,12 @@ import java.util.ArrayList;
 public class Rook extends ChessPiece{
 	boolean firstMove;
 	public Rook(boolean stateInput) {
-		super(stateInput, getBufferedImage(stateInput, "R"));
+		super(stateInput);
 		firstMove = true;
 	}
 
-	
-	
 	public String toString() {
-		return "R";
+		return "Rook";
 	}
 
 

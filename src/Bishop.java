@@ -4,12 +4,12 @@ import java.util.ArrayList;
 public class Bishop extends ChessPiece{
 
 	public Bishop(boolean stateInput) {
-		super(stateInput, getBufferedImage(stateInput,"B") );
+		super(stateInput);
 		
 	}
 	
 	public String toString() {
-		return "B";
+		return "Bishop";
 	}
 	
 	public ArrayList<Space> getMoveableSpaces(Space start,Board board) {

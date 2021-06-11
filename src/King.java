@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class King extends ChessPiece {
 	private boolean firstMove;
 	public King(boolean stateInput) {
-		super(stateInput, getBufferedImage(stateInput, "K"));
+		super(stateInput);
 		firstMove = true;
 	}
 	
@@ -34,7 +34,7 @@ public class King extends ChessPiece {
 	}
 
 	public String toString() {
-		return "K";
+		return "King";
 	}
 
 	
