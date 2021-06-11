@@ -4,12 +4,12 @@ import java.util.ArrayList;
 public class Queen extends ChessPiece {
 
 	public Queen(boolean stateInput) {
-		super(stateInput, ChessPiece.getBufferedImage(stateInput,"Q"));
+		super(stateInput);
 		
 	}
 		
 	public String toString() {
-		return "Q";
+		return "Queen";
 	}
 
 

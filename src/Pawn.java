@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class Pawn extends ChessPiece {
 	private boolean firstMove;
 	public Pawn(boolean stateInput) {
-		super(stateInput, getBufferedImage(stateInput, "P"));
+		super(stateInput);
 		firstMove = true;
 	}
 
 	
 	public String toString() {
-		return "P";
+		return "Pawn";
 	}
 
 	public boolean getFirstMove() {

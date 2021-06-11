@@ -1,20 +1,8 @@
-import java.awt.Image;
+import java.awt.image.BufferedImage;;
 
 public class Piece {
 	
-	private Image s;
-	
-	
 	public Piece() { 
-		s = null;
-	}
-	
-	public Piece(Image imageInput) {
-		s = imageInput;
-	}
-	
-	public Image getImage() {
-		return s;
 	}
 	
 }
