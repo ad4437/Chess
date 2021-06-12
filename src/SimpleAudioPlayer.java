@@ -3,11 +3,9 @@
  * https://www.geeksforgeeks.org/play-audio-file-using-java/
  */
 
-// Java program to play an Audio
-// file using Clip Object
+// Java program to play an Audio file using Clip Object
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -18,21 +16,25 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class SimpleAudioPlayer
 {
 
-	// to store current position
 	Long currentFrame;
 	Clip clip;
-	
-	// current status of clip
-	String status;
+	boolean isOn = false;
 	
 	AudioInputStream audioInputStream;
 	static String filePath;
 
-	// constructor to initialize streams and clip
-	public SimpleAudioPlayer(String path)
-		throws UnsupportedAudioFileException,
-		IOException, LineUnavailableException
+	public SimpleAudioPlayer() {}
+	
+	public SimpleAudioPlayer(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException
 	{
+		setPath(path);
+	}
+	
+	public void setPath(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+		if (path == null) {
+			filePath = null;
+			return;
+		}
 		filePath = path;
 		// create AudioInputStream object
 		audioInputStream =
@@ -51,14 +53,13 @@ public class SimpleAudioPlayer
 	{
 		//start the clip
 		clip.start();
-		
-		status = "play";
 	}
 	
 	// Method to restart the audio
 	public void restart() throws IOException, LineUnavailableException,
 											UnsupportedAudioFileException
 	{
+		if (filePath == null) return;
 		clip.stop();
 		clip.close();
 		resetAudioStream();
