@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
 public class SettingsPanel extends JPanel {
@@ -56,6 +57,15 @@ public class SettingsPanel extends JPanel {
         popup.setTitle("Settings");
         popup.setVisible(true);
         popup.setResizable(false);
+        
+    	JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+    	
+        popup.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+            	topFrame.setEnabled(true);
+            }
+        });
         
         Container pane = popup.getContentPane();
         pane.setPreferredSize(new Dimension(250,300));
@@ -151,6 +161,8 @@ public class SettingsPanel extends JPanel {
 		settingsIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(settingsIcon);
+            	topFrame.setEnabled(false);
             	settingsPopup();
             }
 		});
