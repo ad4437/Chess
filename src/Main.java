@@ -8,8 +8,8 @@ public class Main {
 		boolean isGameOver = false;
 		
 		Game game = new Game();
-		GUI gui = new GUI(game);
-		gui.draw();
+		App app = new App(game);
+		app.run();
 		
 //		while (!isGameOver) {
 //			

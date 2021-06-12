@@ -1,5 +1,5 @@
 /*
- * Code Taken From GeeksForGeeks
+ * Code Modeled After GeeksForGeeks Code
  * https://www.geeksforgeeks.org/play-audio-file-using-java/
  */
 
@@ -37,8 +37,7 @@ public class SimpleAudioPlayer
 		}
 		filePath = path;
 		// create AudioInputStream object
-		audioInputStream =
-				AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+		audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
 		
 		// create clip reference
 		clip = AudioSystem.getClip();
