@@ -1,4 +1,7 @@
+package game;
+
 import java.util.ArrayList;
+import pieces.*;
 
 public class Board {
 	private Space[][] boardSpaces;

@@ -1,3 +1,5 @@
+package game;
+
 import javax.swing.*;
 
 public class PieceLabel extends JLabel {

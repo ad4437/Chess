@@ -1,3 +1,6 @@
+package game;
+
+import pieces.*;
 
 public class Game {
 	private Board board;

@@ -1,9 +1,11 @@
 /*
  * Code Modeled After GeeksForGeeks Code
  * https://www.geeksforgeeks.org/play-audio-file-using-java/
+ * 
  */
 
-// Java program to play an Audio file using Clip Object
+package game;
+
 import java.io.File;
 import java.io.IOException;
 

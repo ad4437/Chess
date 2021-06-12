@@ -1,3 +1,5 @@
+import game.*;
+
 import java.io.IOException;
 
 import javax.sound.sampled.LineUnavailableException;

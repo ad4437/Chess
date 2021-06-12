@@ -1,3 +1,4 @@
+package pieces;
 
 public class Space  {
 	private int row;

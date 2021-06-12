@@ -1,3 +1,6 @@
+import game.*;
+import pieces.*;
+
 import java.awt.*;
 import java.io.IOException;
 

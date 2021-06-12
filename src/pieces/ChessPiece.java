@@ -1,8 +1,14 @@
+package pieces;
+
+import game.*;
+
+
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.*;
+
 public abstract class ChessPiece extends Piece implements Cloneable{
 	private boolean white;
 	
