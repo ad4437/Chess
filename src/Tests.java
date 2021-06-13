@@ -25,6 +25,7 @@ class testPawn {
 		assertTrue(TestingMethods.areEqual(whatShouldBeThere, pawnMethodSpaces));
 	}
 	
+	@Test
 	void test2() {
 		
 		board = new Board(true);
@@ -43,6 +44,7 @@ class testPawn {
 		assertTrue(TestingMethods.areEqual(whatShouldBeThere, pawnMethodSpaces));
 	}
 	
+	@Test
 	void test3() {
 		
 		board = new Board(true);
@@ -59,6 +61,7 @@ class testPawn {
 		assertTrue(TestingMethods.areEqual(whatShouldBeThere, pawnMethodSpaces));
 	}
 	
+	@Test
 	void test4() {
 		
 		board = new Board(true);
@@ -118,6 +121,66 @@ class testPawn {
 		
 		assertTrue(TestingMethods.areEqual(whatShouldBeThere, pawnMethodSpaces));
 	}
+	
+	//in passing
+	@Test
+	void test7() {
+		
+		board = new Board(true);
+		
+		Space s = TestingMethods.addPieceToBoard(new Pawn(false), board, 1, 0);
+		TestingMethods.addPieceToBoard(new Pawn(true), board, 6, 1);
+		board.movePiece(false, s, board.getSpace(3, 0));
+		board.movePiece(false, board.getSpace(3, 0), board.getSpace(4, 0));
+		board.movePiece(true,board.getSpace(6, 1),board.getSpace(4, 1));
+		assertTrue(board.movePiece(false, board.getSpace(4, 0), board.getSpace(5, 1)));
+		
+	}
+	
+	@Test
+	void test8() {
+		
+		board = new Board(true);
+		
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 1, 0);
+		Space s = TestingMethods.addPieceToBoard(new Pawn(true), board, 6, 1);
+		board.movePiece(true, s, board.getSpace(4, 1));
+		board.movePiece(true, board.getSpace(4, 1), board.getSpace(3, 1));
+		board.movePiece(false, board.getSpace(1, 0), board.getSpace(3, 0));
+		assertTrue(board.movePiece(true, board.getSpace(3, 1), board.getSpace(2, 0)));
+	}
+	
+	@Test
+	void test9() {
+		
+		board = new Board(true);
+		
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 1, 0);
+		Space s = TestingMethods.addPieceToBoard(new Pawn(true), board, 6, 1);
+		board.movePiece(true, s, board.getSpace(4, 1));
+		board.movePiece(true, board.getSpace(4, 1), board.getSpace(3, 1));
+		board.movePiece(false, board.getSpace(1, 0), board.getSpace(2, 0));
+		board.movePiece(false, board.getSpace(2, 0), board.getSpace(3, 0));
+		assertFalse(board.movePiece(true, board.getSpace(3, 1), board.getSpace(2, 0)));
+	}
+	
+	@Test
+	void test10() {
+		
+		board = new Board(true);
+		
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 1, 0);
+		Space s = TestingMethods.addPieceToBoard(new Pawn(true), board, 6, 1);
+		board.movePiece(true, s, board.getSpace(4, 1));
+		board.movePiece(true, board.getSpace(4, 1), board.getSpace(3, 1));
+		board.movePiece(false, board.getSpace(1, 0), board.getSpace(3, 0));
+		board.movePiece(true, board.getSpace(3, 1), board.getSpace(2, 0));
+		assertTrue(board.getSpace(3, 0).getPiece() == null);
+	}
+	
+	
+	
+	
 }
 
 

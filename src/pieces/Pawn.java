@@ -30,7 +30,7 @@ public class Pawn extends ChessPiece {
 		final int INCREMENT;
 		
 		for(int i = 0; i < spacesCanCapture.size(); i++) {
-			if(spacesCanCapture.get(i).getPiece() != null && ((ChessPiece)spacesCanCapture.get(i).getPiece()).isWhite() != ((ChessPiece)start.getPiece()).isWhite()) {
+			if(isInPassing(start,spacesCanCapture.get(i),board) || (spacesCanCapture.get(i).getPiece() != null && ((ChessPiece)spacesCanCapture.get(i).getPiece()).isWhite() != ((ChessPiece)start.getPiece()).isWhite())) {
 				spacesCanMove.add(spacesCanCapture.get(i));
 			}
 		}
@@ -55,17 +55,26 @@ public class Pawn extends ChessPiece {
 			}
 		}
 		
-		
 		return spacesCanMove;
 	}
 
-
+	private boolean isInPassing(Space start,Space end,Board board) {
+		if(isWhite()) {
+			if(6 - start.getRow() != 3) return false;
+		} else {
+			if(start.getRow() - 1 != 3) return false;
+		}
+		Piece piece = board.getSpace(start.getRow(), end.getCol()).getPiece();
+		if(!(piece instanceof Pawn)) return false;
+		if(((ChessPiece)piece).isWhite() == this.isWhite()) return false;
+		if(board.pieceMoveCount(piece) != 1) return false;
+		
+		return true;
+	}
 	
 	public ArrayList<Space> getCaptureableSpaces(Space start, Board board) {
 		ArrayList<Space> spacesCanCapture = new ArrayList<Space>(); 
 		final int INCREMENT;
-		final int LOWER_BOUNDS = 0;
-		final int UPPER_BOUNDS = 7;
 		
 		if(isWhite()) {
 			INCREMENT = -1;
@@ -82,6 +91,7 @@ public class Pawn extends ChessPiece {
 		
 		return spacesCanCapture;
 	}
+	
 	
 	public Piece copy() {
 		 return new Pawn(this.isWhite());

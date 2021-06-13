@@ -1,15 +1,19 @@
 package game;
 
+import java.util.ArrayList;
+
 import pieces.*;
 
 public class Game {
 	private Board board;
 	private String state;
 	private boolean turn;
+	public int moveRuleCount;
 	
 	public Game() {
 		board = new Board(false);
 		turn = true;
+		moveRuleCount = 0;
 	}
 	
 	public boolean attemptMove(Space start, Space end) {
@@ -38,17 +42,26 @@ public class Game {
 	}
 	
 	public boolean isGameOver() {
-		if(board.getBlackSpacePieces().size() == 1 && board.getWhiteSpacePieces().size() == 1) {
-			state = "tie";
+		ArrayList<Space> currentTurnPieces = board.getColorSpacePieces(turn);
+		ArrayList<Space> otherTurnPieces = board.getColorSpacePieces(!turn);
+		if(currentTurnPieces.size() == 1 && otherTurnPieces.size() == 1) {
+			state = "draw";
 			return true;
 		} else if(board.isCheckmate(!turn)) {
 			if(turn) state = "white wins";
 			else state = "black wins";
 			return true;
+		} else if(moveRuleCount > 50){
+			state = "draw";
+			return true;
 		} else {
 			return false;
 		}
 	}
+	
+	
+	
+	
 	
 	
 	public void reset() {

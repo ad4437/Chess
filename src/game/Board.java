@@ -2,11 +2,13 @@ package game;
 
 import java.util.ArrayList;
 import pieces.*;
+import pieces.Record;
 
 public class Board {
 	private Space[][] boardSpaces;
 	private ArrayList<Space> blackSpacePieces;
 	private ArrayList<Space> whiteSpacePieces;
+	private ArrayList<Record> recordings;
 	
 	public Board(boolean empty) {
 		blackSpacePieces = new ArrayList<Space>();
@@ -19,6 +21,7 @@ public class Board {
 	private void init() {
 		blackSpacePieces = new ArrayList<Space>();
 		whiteSpacePieces = new ArrayList<Space>();
+		recordings = new ArrayList<Record>();
 		
 		initHelper(0, false);
 		initHelper(7, true); 
@@ -45,6 +48,7 @@ public class Board {
 	public void initEmpty() {
 		blackSpacePieces = new ArrayList<Space>();
 		whiteSpacePieces = new ArrayList<Space>();
+		recordings = new ArrayList<Record>();
 		
 		for(int row = 0; row < boardSpaces.length; row++) {
 			for(int col = 0; col < boardSpaces[0].length; col++) {
@@ -52,14 +56,17 @@ public class Board {
 			}
 		}
 	}
+	
+	public ArrayList<Space> getColorSpacePieces(boolean color) {
+		if(color) {
+			return whiteSpacePieces;
+		} else {
+			return blackSpacePieces;
+		}
+	}
 	 
 	private void initHelper(int row, boolean color) {
-		ArrayList<Space> colorSpacePieces;
-		if(color) {
-			colorSpacePieces = whiteSpacePieces;
-		} else {
-			colorSpacePieces = blackSpacePieces;
-		}
+		ArrayList<Space> colorSpacePieces = getColorSpacePieces(color);
 		
 		boardSpaces[row][0] = new Space(row,0,new Rook(color));
 		colorSpacePieces.add(boardSpaces[row][0]);
@@ -112,6 +119,7 @@ public class Board {
 		
 		if(((ChessPiece)start.getPiece()).canMove(this, start, end) && this.simulateMoveForCheck(start, end)) {
 			moveMutator(currentColorSpacePieces, otherColorSpacePieces ,start, end);
+			recordings.add(new Record(end));
 			return true;
 		} 
 		return false;
@@ -122,7 +130,15 @@ public class Board {
 	private void moveMutator(ArrayList<Space> currentColorSpacePieces, ArrayList<Space> otherColorSpacePieces,Space start,Space end) {
 		movePieceHelperFirstMove(end);
 		movePieceHelperFirstMove(start);
-		if(end.getPiece() == null) {
+		
+		if(attemptingToPass(start,end)) {
+			end.setPiece(start.getPiece());
+			start.setPiece(null);
+			replaceSpace(currentColorSpacePieces,start,end);
+			Space s = this.getSpace(start.getRow(), end.getCol());
+			s.setPiece(null);
+			removeSpace(otherColorSpacePieces, s);
+		} else if(end.getPiece() == null) {
 			end.setPiece(start.getPiece());
 			start.setPiece(null);
 			replaceSpace(currentColorSpacePieces,start,end);
@@ -173,6 +189,15 @@ public class Board {
 		return false;
 	}
 	
+	private boolean attemptingToPass(Space start, Space end) {
+		if(start.getPiece() instanceof Pawn && end.getPiece() == null) {
+			Space s = this.getSpace(start.getRow(),end.getCol());
+			if((s.getPiece()) instanceof Pawn && ((Pawn)start.getPiece()).isWhite() != ((Pawn)s.getPiece()).isWhite()) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	
 	
@@ -314,10 +339,42 @@ public class Board {
 		return null;
 	}
 	
+	public int getMinorPieceSpace(ArrayList<Space> colorSpacePieces) {
+		int count = 0;
+		for(int i = 0; i < colorSpacePieces.size(); i++) {
+			if(colorSpacePieces.get(i).getPiece() instanceof Bishop || colorSpacePieces.get(i).getPiece() instanceof Knight) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	
+	public int getKnightPieceCount(ArrayList<Space> colorSpacePieces) {
+		int count = 0;
+		for(int i = 0; i < colorSpacePieces.size(); i++) {
+			if(colorSpacePieces.get(i).getPiece() instanceof Knight) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	public int getBishopPieceCount(ArrayList<Space> colorSpacePieces) {
+		int count = 0;
+		for(int i = 0; i < colorSpacePieces.size(); i++) {
+			if(colorSpacePieces.get(i).getPiece() instanceof Knight) {
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	
 	
 	private void replaceSpace(ArrayList<Space> colorSpacePieces, Space oldSpace,Space newSpace) {
 		int index = findSpaceIndex(colorSpacePieces,oldSpace);
-	
+		
 		colorSpacePieces.remove(index);
 		colorSpacePieces.add(newSpace);
 	}
@@ -403,5 +460,14 @@ public class Board {
 		case 4:
 			end.setPiece(new Knight(pieceColor));
 		}
+	}
+	
+	
+	public int pieceMoveCount(Piece piece) {
+		int count = 0;
+		for(int i = 0; i < recordings.size(); i++) {
+			if(recordings.get(i).getPiece().equals(piece)) count++; 
+		}
+		return count;
 	}
 }
