@@ -1,3 +1,6 @@
+import game.*;
+import pieces.*;
+
 import java.util.ArrayList;
 
 public class TestingMethods {

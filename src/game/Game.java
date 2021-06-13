@@ -1,3 +1,6 @@
+package game;
+
+import pieces.*;
 
 public class Game {
 	private Board board;
@@ -10,6 +13,7 @@ public class Game {
 	}
 	
 	public boolean attemptMove(Space start, Space end) {
+		if (start.getPiece() == null) return false;
 		return(board.movePiece(turn, start, end));
 	}
 	

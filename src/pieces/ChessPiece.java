@@ -1,8 +1,14 @@
+package pieces;
+
+import game.*;
+
+
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.*;
+
 public abstract class ChessPiece extends Piece implements Cloneable{
 	private boolean white;
 	
@@ -33,7 +39,6 @@ public abstract class ChessPiece extends Piece implements Cloneable{
 	}
 	
 	public abstract Piece copy();
-	
 	
 	public abstract ArrayList<Space> getMoveableSpaces(Space start,Board board);
 	

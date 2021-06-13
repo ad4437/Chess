@@ -1,9 +1,21 @@
+import game.*;
+
 import java.io.IOException;
 
-public class Main {
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
-	public static void main(String[] args) throws IOException {
-		GUI gui = new GUI();
-		gui.draw();
+public class Main {	
+	public static void main(String[] args) throws IOException, UnsupportedAudioFileException, LineUnavailableException {
+		boolean isGameOver = false;
+		
+		Game game = new Game();
+		App app = new App(game);
+		app.run();
+		
+//		while (!isGameOver) {
+//			
+//			game.nextTurn();
+//		}
 	}
 }
