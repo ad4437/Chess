@@ -64,11 +64,9 @@ public class King extends ChessPiece {
 	}
 	
 	private void spacesHelper(ArrayList<Space> spacesCanCapture,Space start, Board board,final int ROW_ADDENDS, final int COL_ADDENDS) {
-		final int UPPER_BOUNDS = 7;
-		final int LOWER_BOUNDS = 0;
 		int currentCol = start.getRow() + ROW_ADDENDS;
 		int currentRow = start.getCol() + COL_ADDENDS;
-		if((currentRow >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS) && (currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS) && isAvailable(start,board.getSpace(currentRow, currentCol))) {
+		if(isWithinBounds(currentRow) && isWithinBounds(currentCol) && isAvailable(start,board.getSpace(currentRow, currentCol))) {
 			spacesCanCapture.add(board.getSpace(currentRow, currentCol));
 		}
 	}

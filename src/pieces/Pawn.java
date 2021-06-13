@@ -27,8 +27,6 @@ public class Pawn extends ChessPiece {
 	public ArrayList<Space> getMoveableSpaces(Space start, Board board) {
 		ArrayList<Space> spacesCanMove = new ArrayList<Space>();
 		ArrayList<Space> spacesCanCapture = getCaptureableSpaces(start, board);
-		final int LOWER_BOUNDS = 0;
-		final int UPPER_BOUNDS = 7;
 		final int INCREMENT;
 		
 		for(int i = 0; i < spacesCanCapture.size(); i++) {
@@ -45,14 +43,14 @@ public class Pawn extends ChessPiece {
 		
 		
 		if(firstMove) {
-			if((start.getRow() + INCREMENT >= LOWER_BOUNDS && start.getRow() + INCREMENT <= UPPER_BOUNDS) && (board.getSpace(start.getRow() + INCREMENT,start.getCol()).getPiece()) == null) {
+			if( isWithinBounds(start.getRow() + INCREMENT) && (board.getSpace(start.getRow() + INCREMENT,start.getCol()).getPiece()) == null) {
 				spacesCanMove.add(board.getSpace(start.getRow() + INCREMENT, start.getCol()));
-				if((start.getRow() + (INCREMENT * 2) >= LOWER_BOUNDS && start.getRow() + (INCREMENT * 2) <= UPPER_BOUNDS) && board.getSpace(start.getRow() + (INCREMENT * 2), start.getCol()).getPiece() == null) {
+				if( isWithinBounds((start.getRow() + (INCREMENT * 2))) && board.getSpace(start.getRow() + (INCREMENT * 2), start.getCol()).getPiece() == null) {
 					spacesCanMove.add(board.getSpace(start.getRow() + (INCREMENT * 2), start.getCol()));
 				}
 			}
 		} else {
-			if((start.getRow() + INCREMENT >= LOWER_BOUNDS && start.getRow() + INCREMENT <= UPPER_BOUNDS) && (board.getSpace(start.getRow() + (INCREMENT * 2),start.getCol()).getPiece()) == null) {
+			if( isWithinBounds(start.getRow() + INCREMENT) && (board.getSpace(start.getRow() + (INCREMENT),start.getCol()).getPiece()) == null) {
 				spacesCanMove.add(board.getSpace(start.getRow() + INCREMENT, start.getCol()));
 			}
 		}
@@ -75,10 +73,10 @@ public class Pawn extends ChessPiece {
 			INCREMENT = 1;
 		}
 		
-		if((start.getRow() + INCREMENT >= LOWER_BOUNDS && start.getRow() + INCREMENT <= UPPER_BOUNDS) && (start.getCol() + 1 >= LOWER_BOUNDS && start.getCol() + 1 <= UPPER_BOUNDS)) {
+		if(isWithinBounds(start.getRow() + INCREMENT) && isWithinBounds(start.getCol() + 1)) {
 			spacesCanCapture.add(board.getSpace(start.getRow() + INCREMENT, start.getCol() + 1));
 		}
-		if((start.getRow() + INCREMENT >= LOWER_BOUNDS && start.getRow() + INCREMENT <= UPPER_BOUNDS) && (start.getCol() - 1  >= LOWER_BOUNDS && start.getCol() - 1 <= UPPER_BOUNDS)) {
+		if(isWithinBounds(start.getRow() + INCREMENT) && isWithinBounds(start.getCol() - 1)) {
 			spacesCanCapture.add(board.getSpace(start.getRow() + INCREMENT, start.getCol() - 1));
 		}
 		

@@ -38,12 +38,10 @@ public class Knight extends ChessPiece {
 	}
 		
 	private void spacesHelper(ArrayList<Space> spacesCanMove,Space start, Board board,final int ROW_ADDENDS, final int COL_ADDENDS) {
-		final int UPPER_BOUNDS = 7;
-		final int LOWER_BOUNDS = 0;
 		final int END_ROW = start.getRow() + ROW_ADDENDS;
 		final int END_COL = start.getCol() + COL_ADDENDS;
 		
-		if((END_COL >= LOWER_BOUNDS && END_COL <= UPPER_BOUNDS) && (END_ROW >= LOWER_BOUNDS && END_ROW <= UPPER_BOUNDS)) {
+		if(isWithinBounds(END_ROW) && isWithinBounds(END_COL)) {
 			Space end = board.getSpace(END_ROW,END_COL);
 			if(isAvailable(start, end)) {
 				spacesCanMove.add(end);	

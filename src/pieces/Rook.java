@@ -52,34 +52,30 @@ public class Rook extends ChessPiece{
 	
 	
 	private static void spacesCanHelperRow(ArrayList<Space> spacesCanMove,Space start,Board board,final int ROW_INCREMENT) {
-		final int UPPER_BOUNDS = 7;
-		final int LOWER_BOUNDS = 0;
 		int currentRow = start.getRow() + ROW_INCREMENT;
 		int currentCol = start.getCol();
 		
-		while(currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS && board.getSpace(currentRow, currentCol).getPiece() == null) {
+		while(isWithinBounds(currentRow) && board.getSpace(currentRow, currentCol).getPiece() == null) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 			currentRow += ROW_INCREMENT;
 		}
 		
-		if((currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS) && (currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS) && (isAvailable(start, board.getSpace(currentRow, currentCol)))) {
+		if(isWithinBounds(currentRow) && isWithinBounds(currentCol) && (isAvailable(start, board.getSpace(currentRow, currentCol)))) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 		}
 		
 	}
 	
 	private static void spacesCanHelperCol(ArrayList<Space> spacesCanMove,Space start,Board board,final int COL_INCREMENT) {
-		final int UPPER_BOUNDS = 7;
-		final int LOWER_BOUNDS = 0;
 		int currentRow = start.getRow();
 		int currentCol = start.getCol() + COL_INCREMENT;
 		
-		while(currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS && board.getSpace(currentRow, currentCol).getPiece() == null) {
+		while(isWithinBounds(currentCol) && board.getSpace(currentRow, currentCol).getPiece() == null) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 			currentCol += COL_INCREMENT;
 		}
 		
-		if((currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS) && (currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS) && isAvailable(start, board.getSpace(currentRow, currentCol))) {
+		if(isWithinBounds(currentRow) && isWithinBounds(currentCol) && isAvailable(start, board.getSpace(currentRow, currentCol))) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 		}
 	}

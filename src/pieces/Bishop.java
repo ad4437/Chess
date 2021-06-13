@@ -35,18 +35,16 @@ public class Bishop extends ChessPiece{
 	}
 	
 	private static void spacesHelper(ArrayList<Space> spacesCanMove,Space start,Board board,final int ROW_INCREMENT, final int COL_INCREMENT) {
-		final int UPPER_BOUNDS = 7;
-		final int LOWER_BOUNDS = 0;
 		int currentRow = start.getRow() + ROW_INCREMENT;
 		int currentCol = start.getCol() + COL_INCREMENT;
 		
-		while((currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS) && (currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS) && board.getSpace(currentRow, currentCol).getPiece() == null) {
+		while(isWithinBounds(currentRow) && isWithinBounds(currentCol) && board.getSpace(currentRow, currentCol).getPiece() == null) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 			currentRow += ROW_INCREMENT;
 			currentCol += COL_INCREMENT;
 		}
 		
-		if((currentRow >= LOWER_BOUNDS && currentRow <= UPPER_BOUNDS) && (currentCol >= LOWER_BOUNDS && currentCol <= UPPER_BOUNDS) && isAvailable(start, board.getSpace(currentRow, currentCol))) {
+		if(isWithinBounds(currentRow) && isWithinBounds(currentCol) && isAvailable(start, board.getSpace(currentRow, currentCol))) {
 			spacesCanMove.add(board.getSpace(currentRow, currentCol));
 		}
 		
