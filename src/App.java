@@ -16,7 +16,7 @@ public class App  {
 	 * yellow (selected) - #f6f668
 	 * red (invalid) - #b33430
 	 * hardBlack - #22201d 
-	 * softBlack - #272522
+	 * softBlack - #413e3c
 	 * 
 	 */
 	
@@ -24,7 +24,7 @@ public class App  {
 	
 	private JFrame frm;
 	private GridPanel boardPanel;
-	private SettingsPanel settingsPanel;
+	private SidePanel sidePanel;
     
 	private SimpleAudioPlayer audio = new SimpleAudioPlayer();
 	
@@ -41,21 +41,32 @@ public class App  {
 		pane.setPreferredSize(new Dimension(800,600));
 		pane.setLayout(new BoxLayout(pane, BoxLayout.LINE_AXIS));
 		
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		panel.setBackground(Color.decode("#413e3c"));
+		
+		JPanel settingsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		settingsPanel.setBackground(Color.decode("#413e3c"));
+				
+		sidePanel = new SidePanel();
+		sidePanel.setAudio(audio);
+		sidePanel.setBoardState(gameState.getBoard());
+		sidePanel.setPreferredSize(new Dimension(200,600));
+		sidePanel.setLayout(new BorderLayout());
+		sidePanel.draw(settingsPanel);
+
 		boardPanel = new GridPanel();
 		boardPanel.setGame(gameState);
 		boardPanel.setAudio(audio);
+		boardPanel.setSidePanel(sidePanel);
 		boardPanel.setPreferredSize(new Dimension(600,600));
 		boardPanel.setLayout(new GridLayout(8,8));
 		boardPanel.draw();
 
-		settingsPanel = new SettingsPanel();
-		settingsPanel.setAudio(audio);
-		settingsPanel.setPreferredSize(new Dimension(200,600));
-		settingsPanel.setLayout(new BorderLayout());
-		settingsPanel.draw();
-		
+		panel.add(sidePanel);
+		panel.add(settingsPanel);
 		pane.add(boardPanel);
-		pane.add(settingsPanel);
+		pane.add(panel);
 	}
 	
 	public void run() throws IOException, UnsupportedAudioFileException, LineUnavailableException {

@@ -8,20 +8,15 @@ public class Queen extends ChessPiece {
 
 	public Queen(boolean stateInput) {
 		super(stateInput);
-		
 	}
 		
 	public String toString() {
-		return "Queen";
+		return "queen";
 	}
-
-
 
 	public ArrayList<Space> getMoveableSpaces(Space start, Board board) {
 		return getCaptureableSpaces(start,board);
 	}
-
-
 
 	public ArrayList<Space> getCaptureableSpaces(Space start, Board board) {
 		ArrayList<Space> spacesCanCapture = new ArrayList<Space>();

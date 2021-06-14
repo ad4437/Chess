@@ -2,8 +2,10 @@ package game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -27,16 +29,41 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-public class SettingsPanel extends JPanel {
+import com.sun.glass.events.WindowEvent;
+
+import pieces.ChessPiece;
+import pieces.Piece;
+
+public class SidePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
+	private Board board;	
+	private JPanel whiteCaptured;
+	private JPanel blackCaptured;
+	private String currentSound = "hilo";
 	private SimpleAudioPlayer audio;
 	
 	public void setAudio(SimpleAudioPlayer audioIn) {
 		audio = audioIn;
-        setSoundPath("hilo"); // default sound
+        setSoundPath(currentSound); // default sound
 	}	
+	
+	public void setBoardState(Board brd) {
+		board = brd;
+	}
+	
+	private BufferedImage getSmImage(String name, boolean isWhite) throws IOException {
+		// returns small Piece Image
+		String color;
+		if (isWhite) color = "white";
+		else color = "black";
+		
+		String path = "assets/images/pieces/" + color + "/" + name + "-sm.png";
+		
+		return ImageIO.read(new File(path));
+	}
+	
 	private BufferedImage getIcon(String name) throws IOException {
 		String path = "assets/images/icons/" + name + ".png";
 		return ImageIO.read(new File(path));
@@ -49,6 +76,30 @@ public class SettingsPanel extends JPanel {
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+	}
+	
+	public void sync() throws IOException {
+		// sync the side panel with the current board state
+		whiteCaptured.removeAll();
+		blackCaptured.removeAll();
+		System.out.println(board.getWhiteCaptured().toString());
+		System.out.println(board.getBlackCaptured().toString());
+
+		// white captured
+		for (String piece : board.getWhiteCaptured()) {
+			JLabel label = new JLabel();
+			ImageIcon img = new ImageIcon(getSmImage(piece, true));
+			label.setIcon(img);
+			whiteCaptured.add(label);
+		}
+		
+		// black captured
+		for (String piece : board.getBlackCaptured()) {
+			JLabel label = new JLabel();
+			ImageIcon img = new ImageIcon(getSmImage(piece, false));
+			label.setIcon(img);
+			blackCaptured.add(label);
 		}
 	}
 	
@@ -81,83 +132,79 @@ public class SettingsPanel extends JPanel {
         // Sound Radio Buttons
         JRadioButton hiLo = new JRadioButton("High Low Note");
         hiLo.setActionCommand("hilo");
-        hiLo.setSelected(true);
+        hiLo.setSelected(currentSound.equals("hilo"));
         hiLo.setOpaque(false);
         hiLo.setForeground(Color.WHITE);
 
         JRadioButton quack = new JRadioButton("Quack");
         quack.setActionCommand("quack");
+        quack.setSelected(currentSound.equals("quack"));
         quack.setOpaque(false);
         quack.setForeground(Color.WHITE);
+        
+        JRadioButton bruh = new JRadioButton("Bruh");
+        bruh.setActionCommand("bruh");
+        bruh.setSelected(currentSound.equals("bruh"));
+        bruh.setOpaque(false);
+        bruh.setForeground(Color.WHITE);
 
         JRadioButton wrong = new JRadioButton("Wrong");
         wrong.setActionCommand("wrong");
+        wrong.setSelected(currentSound.equals("wrong"));
         wrong.setOpaque(false);
         wrong.setForeground(Color.WHITE);
 
         JRadioButton none = new JRadioButton("No Sound");
         none.setActionCommand("none");
+        none.setSelected(currentSound.equals("none"));
         none.setOpaque(false);
         none.setForeground(Color.WHITE);
 
         ButtonGroup group = new ButtonGroup();
         group.add(hiLo);
         group.add(quack);
+        group.add(bruh);
         group.add(wrong);
         group.add(none);
         
-        hiLo.addActionListener(new ActionListener() {
+        JButton done = new JButton("Save");
+        done.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-            	setSoundPath(e.getActionCommand());
+            	currentSound = group.getSelection().getActionCommand();
+            	setSoundPath(currentSound);
+            	popup.dispose();
+            	topFrame.setEnabled(true);
             }
         });
-        
-        quack.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	setSoundPath(e.getActionCommand());
-            }
-        });
-        
-        wrong.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	setSoundPath(e.getActionCommand());
-            }
-        });
-        
-        none.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	setSoundPath(null);
-            }
-        });
-        
-        JButton done = new JButton("Done");
 
         panel.add(soundLabel);
         panel.add(hiLo);
         panel.add(quack);
+        panel.add(bruh);
         panel.add(wrong);
         panel.add(none);
         panel.add(done);
-
 
         popup.add(panel);
         popup.pack();
 
 	}
 	
-	public void draw() throws IOException {
-		this.setBackground(Color.decode("#272522"));
-		JLabel settingsTitle = new JLabel("<HTML><u>Settings</u></HTML>", SwingConstants.CENTER);
-		settingsTitle.setForeground(Color.WHITE);
-		settingsTitle.setFont(settingsTitle.getFont().deriveFont(26.0f));
+	public void draw(JPanel panel) throws IOException {
+		this.setOpaque(false);
+		
+		whiteCaptured = new JPanel(new WrapLayout(FlowLayout.LEFT));
+		whiteCaptured.setOpaque(false);
+		
+		blackCaptured = new JPanel(new WrapLayout(FlowLayout.LEFT));
+		blackCaptured.setOpaque(false);
 
 		JLabel settingsIcon = new JLabel();
 		settingsIcon.setIcon(new ImageIcon(getIcon("settings")));
 		settingsIcon.setBorder(new EmptyBorder(10, 10, 10, 10));
+		settingsIcon.setOpaque(false);
 		settingsIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -165,12 +212,11 @@ public class SettingsPanel extends JPanel {
             	topFrame.setEnabled(false);
             	settingsPopup();
             }
-		});
-				
-		this.add(settingsIcon, BorderLayout.PAGE_END);
-		this.add(settingsTitle, BorderLayout.PAGE_START);
-		
-		// , BorderLayout.CENTER
+		});	
+
+		panel.add(settingsIcon);
+		this.add(blackCaptured, BorderLayout.PAGE_END);
+		this.add(whiteCaptured, BorderLayout.PAGE_START);		
 	}
 	
 	

@@ -10,10 +10,9 @@ public class Pawn extends ChessPiece {
 		super(stateInput);
 		firstMove = true;
 	}
-
 	
 	public String toString() {
-		return "Pawn";
+		return "pawn";
 	}
 
 	public boolean getFirstMove() {

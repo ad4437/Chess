@@ -10,7 +10,7 @@ public class Game {
 	private String state;
 	private boolean turn;
 	public int moveRuleCount;
-	
+
 	public Game() {
 		board = new Board(false);
 		turn = true;
@@ -95,7 +95,6 @@ public class Game {
 		return true;
 	}
 	
-	
 	/*
 	private boolean hasRepetition() {
 		ArrayList<Record> record = board.getRecordings();
@@ -109,12 +108,11 @@ public class Game {
 		return(record.get(index).equals(record.get(index - 2)) && record.get(index).equals(record.get(index - 4)));
 	}
 	*/
-	
+
 	public void reset() {
 		board = new Board(false);
 		turn = true;
 	}
-	
 	
 	public String getState() {
 		return state;

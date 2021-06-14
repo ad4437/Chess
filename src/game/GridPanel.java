@@ -19,16 +19,15 @@ public class GridPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 
-	private Game gameState;
-
-	private JPanel[][] grid = new JPanel[8][8];
-	private PieceLabel[][] pieces = new PieceLabel[8][8];
-	
+	private Game gameState;	
 	private Space start;
 	private Space end;
 	private int piecesSelected = 0;
-    
+	private SidePanel sidePanel;
 	private SimpleAudioPlayer audio;
+
+	private JPanel[][] grid = new JPanel[8][8];
+	private PieceLabel[][] pieces = new PieceLabel[8][8];
 	
 	public void setGame(Game gameStateIn) {
 		gameState = gameStateIn;
@@ -36,6 +35,10 @@ public class GridPanel extends JPanel {
 	
 	public void setAudio(SimpleAudioPlayer audioIn) {
 		audio = audioIn;
+	}
+	
+	public void setSidePanel(SidePanel sidePanelIn) {
+		sidePanel = sidePanelIn;
 	}
 	
 	private BufferedImage getImage(int r, int c) throws IOException {
@@ -97,7 +100,6 @@ public class GridPanel extends JPanel {
 			}
 		}
 	}
-	
 
 	public void draw() {
 		// Initializes grid and spaces
@@ -116,12 +118,16 @@ public class GridPanel extends JPanel {
 				piecePic.addMouseListener(new MouseAdapter() {
 	                @Override
 	                public void mouseClicked(MouseEvent e) {
-	                	piecesSelected++;
-	                	System.out.println(piecesSelected);
-	                	if (piecesSelected == 1) {
-	                		start = gameState.getBoard().getSpace(piecePic.getRow(), piecePic.getCol());
+	                	Space clicked = gameState.getBoard().getSpace(piecePic.getRow(), piecePic.getCol());
+	                	if (piecesSelected == 0) {
+		                	if (clicked.getPiece() == null) return;
+		                	piecesSelected++;
+		                	System.out.println(piecesSelected);
+	                		start = clicked;
 							select(start);
 	                	} else {
+		                	piecesSelected++;
+		                	System.out.println(piecesSelected);
 	                		end = gameState.getBoard().getSpace(piecePic.getRow(), piecePic.getCol());
 	                		if (!gameState.attemptMove(start, end)) {
 	                			System.out.println("Invalid Move");
@@ -134,7 +140,9 @@ public class GridPanel extends JPanel {
 								} catch (UnsupportedAudioFileException e2) {
 									e2.printStackTrace();
 								}
-	                		} 
+	                		} else {
+//	                			gameState.nextTurn();
+	                		}
 	                		resetBackground(start);
 	                		resetBackground(end);
                 			start = null;
@@ -142,6 +150,7 @@ public class GridPanel extends JPanel {
 	                		piecesSelected = 0;
 	                		try {
 								sync();
+								sidePanel.sync();
 							} catch (IOException e1) {
 								e1.printStackTrace();
 							}

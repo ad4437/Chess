@@ -8,18 +8,15 @@ public class Bishop extends ChessPiece{
 
 	public Bishop(boolean stateInput) {
 		super(stateInput);
-		
 	}
 	
 	public String toString() {
-		return "Bishop";
+		return "bishop";
 	}
 	
 	public ArrayList<Space> getMoveableSpaces(Space start,Board board) {
 		return getBishopSpaces(start,board);
 	}
-	
-
 
 	public ArrayList<Space> getCaptureableSpaces(Space start,Board board) {
 		return getBishopSpaces(start,board);

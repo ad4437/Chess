@@ -12,9 +12,8 @@ public class Rook extends ChessPiece{
 	}
 
 	public String toString() {
-		return "Rook";
+		return "rook";
 	}
-
 
 	public boolean getMoveFirst() {
 		return firstMove;

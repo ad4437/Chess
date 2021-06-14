@@ -1,6 +1,8 @@
 package game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 import pieces.*;
 import pieces.Record;
 
@@ -9,10 +11,15 @@ public class Board {
 	private ArrayList<Space> blackSpacePieces;
 	private ArrayList<Space> whiteSpacePieces;
 	private ArrayList<Record> recordings;
+	private ArrayList<String> whiteCaptured;
+	private ArrayList<String> blackCaptured;
 	
 	public Board(boolean empty) {
 		blackSpacePieces = new ArrayList<Space>();
 		whiteSpacePieces = new ArrayList<Space>();
+		whiteCaptured = new ArrayList<String>();
+		blackCaptured = new ArrayList<String>();
+		
 		boardSpaces = new Space[8][8];
 		if(empty) initEmpty();
 		else init();
@@ -42,8 +49,6 @@ public class Board {
 		}
 
 	}
-	
-
 	
 	public void initEmpty() {
 		blackSpacePieces = new ArrayList<Space>();
@@ -161,6 +166,8 @@ public class Board {
 			end.setPiece(null);
 			replaceSpace(currentColorSpacePieces,end,ROOK_END_SPACE);
 		} else if(end != null) {
+			if (((ChessPiece)end.getPiece()).isWhite()) whiteCaptured.add(end.getPiece().toString());
+			else blackCaptured.add(end.getPiece().toString());
 			removeSpace(otherColorSpacePieces, end);
 			end.setPiece(start.getPiece());
 			start.setPiece(null);
@@ -373,7 +380,7 @@ public class Board {
 	
 	
 	
-	private void replaceSpace(ArrayList<Space> colorSpacePieces, Space oldSpace,Space newSpace) {
+	private void replaceSpace(ArrayList<Space> colorSpacePieces, Space oldSpace, Space newSpace) {
 		int index = findSpaceIndex(colorSpacePieces,oldSpace);
 		
 		colorSpacePieces.remove(index);
@@ -434,6 +441,13 @@ public class Board {
 		}
 	}
 	
+	public ArrayList<String> getWhiteCaptured() {
+		return whiteCaptured;
+	}
+	
+	public ArrayList<String> getBlackCaptured() {
+		return blackCaptured;
+	}
 	
 	public Space getAnyPawnAtEnd(boolean turn) { 
 		final int ROW;
