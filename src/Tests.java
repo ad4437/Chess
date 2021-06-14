@@ -179,7 +179,20 @@ class testPawn {
 	}
 	
 	
-	
+	@Test
+	void test11() {
+		
+		board = new Board(true);
+		
+		TestingMethods.addPieceToBoard(new Pawn(false), board, 1, 0);
+		Space s = TestingMethods.addPieceToBoard(new Pawn(true), board, 6, 1);
+		TestingMethods.addPieceToBoard(new Rook(true), board, 7,7);
+		board.movePiece(true, s, board.getSpace(4, 1));
+		board.movePiece(true, board.getSpace(4, 1), board.getSpace(3, 1));
+		board.movePiece(false, board.getSpace(1, 0), board.getSpace(3, 0));
+		board.movePiece(true, board.getSpace(7,7), board.getSpace(7,6));
+		assertFalse(board.movePiece(true, board.getSpace(3, 1), board.getSpace(2, 0)));
+	}
 	
 }
 
