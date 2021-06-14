@@ -56,7 +56,7 @@ public class Game {
 			if(turn) state = "white wins";
 			else state = "black wins";
 			return true;
-		} else if(moveRuleCount > 50 || hasInsufficientPieces() || hasRepetition()){
+		} else if(moveRuleCount > 50 || hasInsufficientPieces() || hasNoMoreMoves(!turn)){
 			state = "draw";
 			return true;
 		} else {
@@ -85,8 +85,18 @@ public class Game {
 			return false;
 		}
 	}
+
+
+	private boolean hasNoMoreMoves(boolean color) {
+		ArrayList<Space> arrayList = board.getColorSpacePieces(color);
+		for(int i = 0; i < arrayList.size(); i++) {
+			if(((ChessPiece)arrayList.get(i)).getMoveableSpaces().size() != 0) return false; 	
+		}
+		return true;
+	}
 	
 	
+	/*
 	private boolean hasRepetition() {
 		ArrayList<Record> record = board.getRecordings();
 		
@@ -98,7 +108,7 @@ public class Game {
 	private boolean hasRepetionHelper(ArrayList<Record> record, int index) {
 		return(record.get(index).equals(record.get(index - 2)) && record.get(index).equals(record.get(index - 4)));
 	}
-	
+	*/
 	
 	public void reset() {
 		board = new Board(false);
