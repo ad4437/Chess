@@ -1,5 +1,5 @@
 package pieces;
-//only useful for pawn in passing/en passe and 
+//only useful for pawn in passing/en passe and Repetition
 public class Record {
 	private int row;
 	private int col;
@@ -33,7 +33,7 @@ public class Record {
 		return false;
 	}
 	
-	
+	/*
 	public String toString() {
 		String pieceColor = "";
 		if(color) {
@@ -44,5 +44,6 @@ public class Record {
 		
 		return(String.format("[%s %s] moves to %d %d", pieceColor,piece,row,col));
 	}
+	*/
 	
 }
