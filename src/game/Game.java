@@ -3,6 +3,7 @@ package game;
 import java.util.ArrayList;
 
 import pieces.*;
+import pieces.Record;
 
 public class Game {
 	private Board board;
@@ -55,7 +56,7 @@ public class Game {
 			if(turn) state = "white wins";
 			else state = "black wins";
 			return true;
-		} else if(moveRuleCount > 50 || hasInsufficientPieces()){
+		} else if(moveRuleCount > 50 || hasInsufficientPieces() || hasRepetition()){
 			state = "draw";
 			return true;
 		} else {
@@ -86,7 +87,17 @@ public class Game {
 	}
 	
 	
+	private boolean hasRepetition() {
+		ArrayList<Record> record = board.getRecordings();
+		
+		if(record.size() < 6 || record.size() % 2 == 1) return false;
+		
+		return(hasRepetionHelper(record, record.size() - 1) && hasRepetionHelper(record, record.size() - 2));
+	}
 	
+	private boolean hasRepetionHelper(ArrayList<Record> record, int index) {
+		return(record.get(index).equals(record.get(index - 2)) && record.get(index).equals(record.get(index - 4)));
+	}
 	
 	
 	public void reset() {

@@ -28,7 +28,7 @@ public class Record {
 	
 	public boolean equals(Object a) {
 		if(a instanceof Record) {
-			return false;
+			return (((Record)a).getRow() == this.getRow() && ((Record)a).getCol() == this.getCol() && ((Record)a).getPiece() == this.getPiece());
 		}
 		return false;
 	}

@@ -470,4 +470,8 @@ public class Board {
 		}
 		return count;
 	}
+	
+	public ArrayList<Record> getRecordings() {
+		return recordings;
+	}
 }
