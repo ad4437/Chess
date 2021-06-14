@@ -1,5 +1,5 @@
 package pieces;
-//only useful for pawn in passing/en passe
+//only useful for pawn in passing/en passe and 
 public class Record {
 	private int row;
 	private int col;

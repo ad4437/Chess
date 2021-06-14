@@ -18,6 +18,15 @@ public class Game {
 	
 	public boolean attemptMove(Space start, Space end) {
 		if (start.getPiece() == null) return false;
+		if(board.movePiece(turn, start, end)) {
+			if(start.getPiece() instanceof Pawn || end.getPiece() instanceof ChessPiece) {
+				moveRuleCount = 0;
+			} else {
+				moveRuleCount++;
+			}
+			
+			return true;
+		}
 		return(board.movePiece(turn, start, end));
 	}
 	
@@ -42,16 +51,11 @@ public class Game {
 	}
 	
 	public boolean isGameOver() {
-		ArrayList<Space> currentTurnPieces = board.getColorSpacePieces(turn);
-		ArrayList<Space> otherTurnPieces = board.getColorSpacePieces(!turn);
-		if(currentTurnPieces.size() == 1 && otherTurnPieces.size() == 1) {
-			state = "draw";
-			return true;
-		} else if(board.isCheckmate(!turn)) {
+		 if(board.isCheckmate(!turn)) {
 			if(turn) state = "white wins";
 			else state = "black wins";
 			return true;
-		} else if(moveRuleCount > 50){
+		} else if(moveRuleCount > 50 || hasInsufficientPieces()){
 			state = "draw";
 			return true;
 		} else {
@@ -59,6 +63,27 @@ public class Game {
 		}
 	}
 	
+	
+	private boolean hasInsufficientPieces() {
+		ArrayList<Space> whiteList = board.getWhiteSpacePieces();
+		ArrayList<Space> blackList = board.getBlackSpacePieces();
+		
+		return(insufficientPiecesHelper(whiteList, blackList) || insufficientPiecesHelper(blackList, whiteList));
+	}
+	
+	private boolean insufficientPiecesHelper(ArrayList<Space> arrayList1,ArrayList<Space> arrayList2) {
+		if (arrayList1.size() == 1 && arrayList2.size() == 1) {
+			return true;
+		} else if (arrayList1.size() == 2 && arrayList2.size() == 1){
+			return(board.getMinorPieceCount(arrayList1) == 1);
+		} else if (arrayList1.size() == 3 && arrayList2.size() == 1) {
+			return(board.getKnightPieceCount(arrayList1) == 2);
+		} else if (arrayList1.size() == 2 && arrayList2.size() == 2) {
+			return((board.getMinorPieceCount(arrayList1) == 1) && (board.getMinorPieceCount(arrayList2) == 1));
+		} else {
+			return false;
+		}
+	}
 	
 	
 	

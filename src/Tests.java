@@ -612,5 +612,15 @@ class testKing {
 		
 		assertFalse(board.isCheckmate(false));
 	}
+	
+	@Test
+	void Test6() {
+		board = new Board(true);
+		TestingMethods.addPieceToBoard(new Pawn(true), board, 1, 1);
+		TestingMethods.addPieceToBoard(new King(true), board, 2, 1);
+		TestingMethods.addPieceToBoard(new King(false), board, 0, 1);
+		
+		assertFalse(board.isCheckmate(false));
+	}
 }
 

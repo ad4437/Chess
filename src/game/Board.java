@@ -339,7 +339,7 @@ public class Board {
 		return null;
 	}
 	
-	public int getMinorPieceSpace(ArrayList<Space> colorSpacePieces) {
+	public int getMinorPieceCount(ArrayList<Space> colorSpacePieces) {
 		int count = 0;
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
 			if(colorSpacePieces.get(i).getPiece() instanceof Bishop || colorSpacePieces.get(i).getPiece() instanceof Knight) {
