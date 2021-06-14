@@ -16,15 +16,15 @@ public class King extends ChessPiece {
 		if(end.getPiece() instanceof Rook && ((ChessPiece)end.getPiece()).isWhite() == this.isWhite() && !(inCheck) && !(board.isCheck(isWhite(), end))) {
 			if(((Rook)end.getPiece()).getMoveFirst() == true && this.getFirstMove() == true) {
 				if(((Rook)end.getPiece()).canMove(board, end, start)) {
-							return true;
+						return true;
 				}
 			} 
 			return false;
 		} else {
-			if(!(board.isCheck(isWhite(), end)) && board.simulateMoveForCheck(start, end)) {
-				return false;
+			if( (!(board.isCheck(isWhite(), end))) && (board.simulateMoveForCheck(start, end)) ) {
+				return(super.canMove(board, start, end));
 			}
-			return(super.canMove(board, start, end));
+			return false;
 		}
 	}
 	
@@ -63,9 +63,9 @@ public class King extends ChessPiece {
 		return spacesCanCapture;
 	}
 	
-	private void spacesHelper(ArrayList<Space> spacesCanCapture,Space start, Board board,final int ROW_ADDENDS, final int COL_ADDENDS) {
-		int currentCol = start.getRow() + ROW_ADDENDS;
-		int currentRow = start.getCol() + COL_ADDENDS;
+	private void spacesHelper(ArrayList<Space> spacesCanCapture, Space start, Board board,final int ROW_ADDENDS, final int COL_ADDENDS) {
+		int currentRow = start.getRow() + ROW_ADDENDS;
+		int currentCol = start.getCol() + COL_ADDENDS;
 		if(isWithinBounds(currentRow) && isWithinBounds(currentCol) && isAvailable(start,board.getSpace(currentRow, currentCol))) {
 			spacesCanCapture.add(board.getSpace(currentRow, currentCol));
 		}

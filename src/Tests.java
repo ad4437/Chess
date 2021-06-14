@@ -475,6 +475,55 @@ class testMisc {
 		
 		assertTrue((game.getBoard().getSpace(0, 2).getPiece() != null) && ((game.getBoard().getSpace(0, 3).getPiece() != null)));
 	}
+	
+	@Test
+	void test7() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		whatShouldBeThere.add(game.getBoard().getSpace(0, 3));
+		whatShouldBeThere.add(game.getBoard().getSpace(0, 2));
+		Space s = TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 0, 4);
+		Space end = TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 0,0);
+		game.attemptMove(s, end);
+		
+		assertTrue(TestingMethods.areEqual(game.getBoard().getColorSpacePieces(true),whatShouldBeThere));
+	}
+	
+	@Test
+	void test8() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		ArrayList<Space> whatShouldBeThere = new ArrayList<Space>();
+		whatShouldBeThere.add(game.getBoard().getSpace(0, 3));
+		whatShouldBeThere.add(game.getBoard().getSpace(0, 2));
+		Space s = TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 0, 4);
+		Piece p = s.getPiece();
+		Space end = TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 0,0);
+		game.attemptMove(s, end);
+		
+		assertTrue(p == game.getBoard().getSpace(0, 2).getPiece());
+	}
+	
+	@Test
+	void test9() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		Space s = TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 0, 0);
+		System.out.println(game.getBoard().movePiece(true, s, game.getBoard().getSpace(0, 1)));
+		System.out.println(((ChessPiece)game.getBoard().getSpace(0, 1).getPiece()).getMoveableSpaces(game.getBoard().getSpace(0, 1), game.getBoard()));
+		assertTrue(game.attemptMove(game.getBoard().getSpace(0, 1), game.getBoard().getSpace(0, 2)));
+	}
+	
+	@Test
+	void test10() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		Space s = TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 0, 4);
+		Space end = TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 0,0);
+		
+		assertTrue(game.attemptMove(game.getBoard().getSpace(0, 0), game.getBoard().getSpace(1, 0)));
+	}
 }
 
 
