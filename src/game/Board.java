@@ -234,7 +234,7 @@ public class Board {
 		}
 		
 		kingOriginalSpace = this.findKingSpace(colorSpacePieces);
-		if(!(isCheck(kingColor, kingOringalSpace))) return false;  
+		if(!(isCheck(kingColor, kingOriginalSpace))) return false;  
 		enemySpaces = getEnemyCheckPieces(kingColor,kingOriginalSpace);
 		if(checkmateCanMoveHelper(kingColor)) return false;
 		if(checkmateCanCaptureHelper(enemySpaces,kingColor)) return false;

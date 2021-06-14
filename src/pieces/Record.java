@@ -30,7 +30,7 @@ public class Record {
 		if(a instanceof Record) {
 			return ( ((Record)a).getRow() == this.getRow() && ((Record)a).getCol() == this.getCol() && ((Record)a).getPiece() == this.getPiece());
 		} else if(a instanceof Space) {
-			return( ((Space)a).getRow() == this.getRow() && ((Space)a).getCol() == this.getCol && ((Space)a).getPiece == this.getPiece() ))	
+			return( ((Space)a).getRow() == this.getRow() && ((Space)a).getCol() == this.getCol() && ((Space)a).getPiece() == this.getPiece() );	
 		}
 		return false;
 	}

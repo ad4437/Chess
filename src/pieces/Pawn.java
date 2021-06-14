@@ -58,6 +58,7 @@ public class Pawn extends ChessPiece {
 		return spacesCanMove;
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	private boolean isInPassing(Space start,Space end,Board board) {
 		if(isWhite()) {
 			if(6 - start.getRow() != 3) return false;
@@ -69,7 +70,7 @@ public class Pawn extends ChessPiece {
 		if(((ChessPiece)piece).isWhite() == this.isWhite()) return false;
 		if(board.pieceMoveCount(piece) != 1) return false;
 		ArrayList<Record> a = board.getRecordings();
-		if(!(a.get(a.size() - 1).equals(board.getSpace(start.getRow(), end.getCol)))) return false;
+		if(!(a.get(a.size() - 1).equals(board.getSpace(start.getRow(), end.getCol())))) return false;
 		return true;
 	}
 	

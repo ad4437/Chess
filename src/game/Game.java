@@ -90,7 +90,7 @@ public class Game {
 	private boolean hasNoMoreMoves(boolean color) {
 		ArrayList<Space> arrayList = board.getColorSpacePieces(color);
 		for(int i = 0; i < arrayList.size(); i++) {
-			if(((ChessPiece)arrayList.get(i)).getMoveableSpaces().size() != 0) return false; 	
+			if(((ChessPiece)arrayList.get(i).getPiece()).getMoveableSpaces(arrayList.get(i),board).size() != 0) return false; 	
 		}
 		return true;
 	}
