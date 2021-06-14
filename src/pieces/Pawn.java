@@ -68,7 +68,8 @@ public class Pawn extends ChessPiece {
 		if(!(piece instanceof Pawn)) return false;
 		if(((ChessPiece)piece).isWhite() == this.isWhite()) return false;
 		if(board.pieceMoveCount(piece) != 1) return false;
-		
+		ArrayList<Record> a = board.getRecordings();
+		if(!(a.get(a.size() - 1).equals(board.getSpace(start.getRow(), end.getCol)))) erturn false;
 		return true;
 	}
 	
