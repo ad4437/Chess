@@ -121,6 +121,8 @@ public class GridPanel extends JPanel {
 	                	Space clicked = gameState.getBoard().getSpace(piecePic.getRow(), piecePic.getCol());
 	                	if (piecesSelected == 0) {
 		                	if (clicked.getPiece() == null) return;
+		                	if (((ChessPiece)clicked.getPiece()).isWhite() && !gameState.isWhiteTurn() || 
+		                			!((ChessPiece)clicked.getPiece()).isWhite() && gameState.isWhiteTurn()) return;
 		                	piecesSelected++;
 		                	System.out.println(piecesSelected);
 	                		start = clicked;
@@ -141,7 +143,7 @@ public class GridPanel extends JPanel {
 									e2.printStackTrace();
 								}
 	                		} else {
-//	                			gameState.nextTurn();
+	                			gameState.nextTurn();
 	                		}
 	                		resetBackground(start);
 	                		resetBackground(end);

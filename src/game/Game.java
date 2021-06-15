@@ -46,6 +46,10 @@ public class Game {
 		turn = !turn;
 	}
 	
+	public boolean isWhiteTurn() {
+		return turn;
+	}
+	
 	public boolean isInteractable(Space space) {
 		if(space.getPiece() instanceof ChessPiece) {
 			return(((ChessPiece)space.getPiece()).isWhite() == turn);
