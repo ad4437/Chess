@@ -19,9 +19,10 @@ public class Game {
 	
 	public boolean attemptMove(Space start, Space end) {
 		if (start.getPiece() == null) return false;
+		piece startPiece = start.getPiece();
 		Piece endPiece = end.getPiece();
 		if(board.movePiece(turn, start, end)) {
-			if(start.getPiece() instanceof Pawn || endPiece != null ) {
+			if(startPiece instanceof Pawn || endPiece != null ) {
 				moveRuleCount = 0;
 			} else {
 				moveRuleCount++;
@@ -32,9 +33,20 @@ public class Game {
 		}
 	}
 	
+	public boolean kingInCheck() {
+		return(board.isCheck(turn,getKingSpace()));
+	}
+	
+	public Space getKingSpace() {
+		ArrayList<Space> currentTurnPieces =  board.getColorSpacePieces(turn);
+		return(board.findKingSpace(currentTurnPieces));
+	}
+	
 	public void nextTurn() {
 		turn = !turn;
 	}
+	
+	public voi 
 	
 	public boolean isInteractable(Space space) {
 		if(space.getPiece() instanceof ChessPiece) {
@@ -96,19 +108,6 @@ public class Game {
 		return true;
 	}
 	
-	/*
-	private boolean hasRepetition() {
-		ArrayList<Record> record = board.getRecordings();
-		
-		if(record.size() < 6 || record.size() % 2 == 1) return false;
-		
-		return(hasRepetionHelper(record, record.size() - 1) && hasRepetionHelper(record, record.size() - 2));
-	}
-	
-	private boolean hasRepetionHelper(ArrayList<Record> record, int index) {
-		return(record.get(index).equals(record.get(index - 2)) && record.get(index).equals(record.get(index - 4)));
-	}
-	*/
 
 	public int getMoveRuleCount() {
 		return moveRuleCount;
