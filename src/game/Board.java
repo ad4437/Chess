@@ -338,7 +338,7 @@ public class Board {
 	}
 	
 
-	protected Space findKingSpace(ArrayList<Space> colorSpacePieces) {
+	public Space findKingSpace(ArrayList<Space> colorSpacePieces) {
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
 			if(colorSpacePieces.get(i).getPiece() instanceof King) {
 				return colorSpacePieces.get(i);
