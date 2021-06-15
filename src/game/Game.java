@@ -19,7 +19,7 @@ public class Game {
 	
 	public boolean attemptMove(Space start, Space end) {
 		if (start.getPiece() == null) return false;
-		piece startPiece = start.getPiece();
+		Piece startPiece = start.getPiece();
 		Piece endPiece = end.getPiece();
 		if(board.movePiece(turn, start, end)) {
 			if(startPiece instanceof Pawn || endPiece != null ) {
