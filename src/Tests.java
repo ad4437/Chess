@@ -452,7 +452,7 @@ class testMisc {
 		
 		Space s = TestingMethods.addPieceToBoard(new King(true), board, 7, 4);
 		Space end = TestingMethods.addPieceToBoard(new Rook(true), board, 7,0);
-		System.out.println(((ChessPiece)end.getPiece()).getMoveableSpaces(end, board));
+
 		assertTrue(board.movePiece(true, s, end));
 	}
 	@Test
@@ -523,6 +523,19 @@ class testMisc {
 		Space end = TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 0,0);
 		
 		assertTrue(game.attemptMove(game.getBoard().getSpace(0, 0), game.getBoard().getSpace(1, 0)));
+	}
+	
+	@Test
+	void test11() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 0, 4);
+		for(int i = 0; i < 26; i++) {
+			game.attemptMove(game.getBoard().getSpace(0, 4), game.getBoard().getSpace(0, 3));
+			game.attemptMove(game.getBoard().getSpace(0, 3), game.getBoard().getSpace(0, 4));
+		}
+		
+		assertTrue(game.getMoveRuleCount() > 50);
 	}
 }
 

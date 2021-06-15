@@ -19,16 +19,17 @@ public class Game {
 	
 	public boolean attemptMove(Space start, Space end) {
 		if (start.getPiece() == null) return false;
+		Piece endPiece = end.getPiece();
 		if(board.movePiece(turn, start, end)) {
-			if(start.getPiece() instanceof Pawn || end.getPiece() instanceof ChessPiece) {
+			if(start.getPiece() instanceof Pawn || endPiece != null ) {
 				moveRuleCount = 0;
 			} else {
 				moveRuleCount++;
 			}
-			
 			return true;
+		} else {
+			return false;
 		}
-		return(board.movePiece(turn, start, end));
 	}
 	
 	public void nextTurn() {
@@ -109,6 +110,10 @@ public class Game {
 	}
 	*/
 
+	public int getMoveRuleCount() {
+		return moveRuleCount;
+	}
+	
 	public void reset() {
 		board = new Board(false);
 		turn = true;
