@@ -3,12 +3,13 @@ package game;
 import java.util.ArrayList;
 
 import pieces.*;
-import pieces.Record;
 
 public class Game {
 	private Board board;
 	private String state;
 	private boolean turn;
+	private boolean whiteSurrendered = false;
+	private boolean blackSurrendered = false;
 	public int moveRuleCount;
 
 	public Game() {
@@ -71,18 +72,22 @@ public class Game {
 	
 	//userInput values: 1 = Queen, 2 = Rook, 3 = Bishop, 4 = Knight
 	public void transformPawn(Space pawnSpace, int userInput) {
-		board.pawnTransform(turn, pawnSpace, userInput);
+		board.pawnTransform(!turn, pawnSpace, userInput);
 	}
 	
 	
 	
 	public boolean isGameOver() {
 		 if(board.isCheckmate(!turn)) {
-			if(turn) state = "white wins";
-			else state = "black wins";
+			if(turn) state = "White Wins!";
+			else state = "Black Wins!";
 			return true;
 		} else if(moveRuleCount > 50 || hasInsufficientPieces() || hasNoMoreMoves(!turn)){
-			state = "draw";
+			state = "Draw";
+			return true;
+		} else if (whiteSurrendered || blackSurrendered) {
+			if (blackSurrendered) state = "White Wins!";
+			else state = "Black Wins!";
 			return true;
 		} else {
 			return false;
@@ -120,6 +125,18 @@ public class Game {
 		return true;
 	}
 	
+	public void setSurrendered(boolean surrendered) {
+		if (turn) setWhiteSurrendered(surrendered);
+		else setBlackSurrendered(surrendered);
+	}
+	
+	public void setWhiteSurrendered(boolean surrendered) {
+		whiteSurrendered = surrendered;
+	}
+	
+	public void setBlackSurrendered(boolean surrendered) {
+		blackSurrendered = surrendered;
+	}
 
 	public int getMoveRuleCount() {
 		return moveRuleCount;
