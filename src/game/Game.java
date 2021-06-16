@@ -72,7 +72,7 @@ public class Game {
 	
 	//userInput values: 1 = Queen, 2 = Rook, 3 = Bishop, 4 = Knight
 	public void transformPawn(Space pawnSpace, int userInput) {
-		board.pawnTransform(turn, pawnSpace, userInput);
+		board.pawnTransform(!turn, pawnSpace, userInput);
 	}
 	
 	public boolean isGameOver() {

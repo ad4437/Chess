@@ -31,6 +31,8 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import pieces.Space;
+
 public class SidePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
@@ -65,13 +67,13 @@ public class SidePanel extends JPanel {
 		this.isGameOver = isGameOver;
 	}
 	
-	private BufferedImage getSmImage(String name, boolean isWhite) throws IOException {
+	private BufferedImage getImage(String name, boolean isWhite, boolean small) throws IOException {
 		// returns small Piece Image
 		String color;
 		if (isWhite) color = "white";
 		else color = "black";
 		
-		String path = "assets/images/pieces/" + color + "/" + name + "-sm.png";
+		String path = "assets/images/pieces/" + color + "/" + name + ((small) ? "-sm" : "") + ".png";
 		
 		return ImageIO.read(new File(path));
 	}
@@ -98,7 +100,7 @@ public class SidePanel extends JPanel {
 		// white captured
 		for (String piece : board.getWhiteCaptured()) {
 			JLabel label = new JLabel();
-			ImageIcon img = new ImageIcon(getSmImage(piece, true));
+			ImageIcon img = new ImageIcon(getImage(piece, true, true));
 			label.setIcon(img);
 			whiteCaptured.add(label);
 		}
@@ -106,7 +108,7 @@ public class SidePanel extends JPanel {
 		// black captured
 		for (String piece : board.getBlackCaptured()) {
 			JLabel label = new JLabel();
-			ImageIcon img = new ImageIcon(getSmImage(piece, false));
+			ImageIcon img = new ImageIcon(getImage(piece, false, true));
 			label.setIcon(img);
 			blackCaptured.add(label);
 		}
@@ -204,6 +206,73 @@ public class SidePanel extends JPanel {
         popup.add(panel);
         popup.pack();
 
+	}
+	
+	private void transform(Space end, int piece) {
+		gameState.transformPawn(end, piece);
+		try {
+			gridPanel.sync();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		gridPanel.setDisabled(false);
+		sideDisplay.removeAll();
+		sideDisplay.repaint();
+	}
+	
+	public void newPieceInput(Space end) throws IOException {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setOpaque(false);
+		
+		JLabel queen = new JLabel();
+		queen.setIcon(new ImageIcon(getImage("queen", gameState.isWhiteTurn(), false)));
+		queen.setAlignmentX(Component.CENTER_ALIGNMENT);
+		queen.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	transform(end, 1);
+            }
+		});	
+		
+		JLabel rook = new JLabel();
+		rook.setIcon(new ImageIcon(getImage("rook", gameState.isWhiteTurn(), false)));
+		rook.setAlignmentX(Component.CENTER_ALIGNMENT);
+		rook.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	transform(end, 2);
+            }
+		});	
+		
+		JLabel bishop = new JLabel();
+		bishop.setIcon(new ImageIcon(getImage("bishop", gameState.isWhiteTurn(), false)));
+		bishop.setAlignmentX(Component.CENTER_ALIGNMENT);
+		bishop.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	transform(end, 3);
+            }
+		});	
+		
+		JLabel knight = new JLabel();
+		knight.setIcon(new ImageIcon(getImage("knight", gameState.isWhiteTurn(), false)));
+		knight.setAlignmentX(Component.CENTER_ALIGNMENT);
+		knight.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	transform(end, 4);
+            }
+		});	
+		
+		panel.add( Box.createVerticalGlue() );
+		panel.add(queen);
+		panel.add(rook);
+		panel.add(bishop);
+		panel.add(knight);
+		panel.add( Box.createVerticalGlue() );
+
+		sideDisplay.add(panel);
 	}
 	
 	public void endGame(String outcome) throws IOException {
