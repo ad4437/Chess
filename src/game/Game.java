@@ -36,7 +36,7 @@ public class Game {
 	
 	//precondition use after attemptMove returns true
 	public boolean pieceCanTransform(Space end) {
-		if(!(end.getPiece() instanceof pawn)) return false;
+		if(!(end.getPiece() instanceof Pawn)) return false;
 		
 		if(turn == true) {
 			return(end.getRow() == 0);
