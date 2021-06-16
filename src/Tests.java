@@ -561,6 +561,106 @@ class testMisc {
 		
 		assertTrue(game.getMoveRuleCount() == 0);
 	}
+	
+	@Test
+	void test14() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		TestingMethods.addPieceToBoard(new Pawn(true), game.getBoard(), 4, 4);
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 1, 1);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 7, 7);
+		
+		assertFalse(game.isGameOver());
+	}
+	
+	@Test
+	void test15() {
+		game = new Game();
+		game.getBoard().initEmpty();
+	
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 1, 1);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 7, 7);
+		
+		assertTrue(game.isGameOver());
+	}
+	
+	@Test
+	void test16() {
+		game = new Game();
+		game.getBoard().initEmpty();
+	
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 1, 1);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 7, 7);
+		game.nextTurn();
+		assertTrue(game.isGameOver());
+	}
+	
+	@Test
+	void test17() {
+		game = new Game();
+		game.getBoard().initEmpty();
+	
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 1, 1);
+		TestingMethods.addPieceToBoard(new Bishop(true), game.getBoard(), 3, 3);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 7, 7);
+		
+		assertTrue(game.isGameOver());
+	}
+	
+	@Test
+	void test18() {
+		game = new Game();
+		game.getBoard().initEmpty();
+	
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 1, 1);
+		TestingMethods.addPieceToBoard(new Knight(false), game.getBoard(), 3, 3);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 7, 7);
+		
+		game.nextTurn();
+		assertTrue(game.isGameOver());
+	}
+	
+	@Test
+	void test19() {
+		game = new Game();
+		game.getBoard().initEmpty();
+	
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 1, 1);
+		TestingMethods.addPieceToBoard(new Knight(false), game.getBoard(), 4, 4);
+		TestingMethods.addPieceToBoard(new Knight(false), game.getBoard(), 3, 3);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 7, 7);
+		
+		game.nextTurn();
+		assertTrue(game.isGameOver());
+	}
+	
+	@Test
+	void test20() {
+		game = new Game();
+		game.getBoard().initEmpty();
+	
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 1, 1);
+		TestingMethods.addPieceToBoard(new Knight(false), game.getBoard(), 4, 4);
+		TestingMethods.addPieceToBoard(new Knight(true), game.getBoard(), 3, 3);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 7, 7);
+		
+		game.nextTurn();
+		assertTrue(game.isGameOver());
+	}
+	@Test
+	void test21() {
+		game = new Game();
+		game.getBoard().initEmpty();
+	
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 1, 1);
+		TestingMethods.addPieceToBoard(new Knight(false), game.getBoard(), 4, 4);
+		TestingMethods.addPieceToBoard(new Knight(true), game.getBoard(), 3, 3);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 7, 7);
+		TestingMethods.addPieceToBoard(new Pawn(true), game.getBoard(), 3, 1);
+		
+		game.nextTurn();
+		assertFalse(game.isGameOver());
+	}
 }
 
 
