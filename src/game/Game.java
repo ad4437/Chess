@@ -144,6 +144,8 @@ public class Game {
 	
 	public void reset() {
 		board = new Board(false);
+		whiteSurrendered = false;
+		blackSurrendered = false;
 		turn = true;
 	}
 	
