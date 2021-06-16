@@ -58,13 +58,20 @@ public class GridPanel extends JPanel {
 		return ImageIO.read(new File(path));
 	}
     
-	private void select(Space space) {
+	private void setSelectColor(Space space) {
 		// Highlights selected space
 		int r = space.getRow();
 		int c = space.getCol();
 		
 		grid[r][c].setBackground(Color.decode("#f6f668"));
-
+	}
+	
+	private void setCheckColor(Space space) {
+		// Highlights selected space
+		int r = space.getRow();
+		int c = space.getCol();
+		
+		grid[r][c].setBackground(Color.decode("#b33430"));
 	}
     
 	private void resetBackground(Space space) {
@@ -77,7 +84,11 @@ public class GridPanel extends JPanel {
 	private void resetBackground(int r, int c) {
 		// Resets the background color of a space to original w/b color
 		grid[r][c].setOpaque(true);
-
+		
+		if (gameState.kingInCheck()) {
+			setCheckColor(gameState.getKingSpace());
+		}
+		
 		if (r % 2 == 0) {
 			if (c % 2 == 0) grid[r][c].setBackground(Color.decode("#ebecd0"));
 			else grid[r][c].setBackground(Color.decode("#779556"));
@@ -126,7 +137,7 @@ public class GridPanel extends JPanel {
 		                	piecesSelected++;
 		                	System.out.println(piecesSelected);
 	                		start = clicked;
-							select(start);
+	                		setSelectColor(start);
 	                	} else {
 		                	piecesSelected++;
 		                	System.out.println(piecesSelected);
@@ -143,7 +154,12 @@ public class GridPanel extends JPanel {
 									e2.printStackTrace();
 								}
 	                		} else {
+	                			resetBackground(gameState.getKingSpace());
 	                			gameState.nextTurn();
+	                			if (gameState.kingInCheck()) {
+	                				System.out.println(true);
+	                				setCheckColor(gameState.getKingSpace());
+	                			}
 	                		}
 	                		resetBackground(start);
 	                		resetBackground(end);
