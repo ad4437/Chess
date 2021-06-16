@@ -19,6 +19,7 @@ public class Game {
 	
 	public boolean attemptMove(Space start, Space end) {
 		if (start.getPiece() == null) return false;
+		
 		Piece startPiece = start.getPiece();
 		Piece endPiece = end.getPiece();
 		if(board.movePiece(turn, start, end)) {
@@ -30,6 +31,17 @@ public class Game {
 			return true;
 		} else {
 			return false;
+		}
+	}
+	
+	//precondition use after attemptMove returns true
+	public boolean pieceCanTransform(Space end) {
+		if(!(end.getPiece() instanceof pawn)) return false;
+		
+		if(turn == true) {
+			return(end.getRow() == 0);
+		} else {
+			return(end.getRow() == 7); 
 		}
 	}
 	
@@ -55,10 +67,6 @@ public class Game {
 			return(((ChessPiece)space.getPiece()).isWhite() == turn);
 		}
 		return false;
-	}
-	
-	public Space getThisTurnPawnForTransform() {
-		return board.getAnyPawnAtEnd(turn);
 	}
 	
 	//userInput values: 1 = Queen, 2 = Rook, 3 = Bishop, 4 = Knight
