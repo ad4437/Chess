@@ -14,14 +14,14 @@ public class King extends ChessPiece {
 	public boolean canMove(Board board,Space start,Space end) {
 		boolean inCheck = board.isCheck(isWhite(), start);
 		if(end.getPiece() instanceof Rook && ((ChessPiece)end.getPiece()).isWhite() == this.isWhite() && !(inCheck) && !(board.isCheck(isWhite(), end))) {
-			if(((Rook)end.getPiece()).getMoveFirst() == true && this.getFirstMove() == true) {
+			if(((Rook)end.getPiece()).getMoveFirst() == true && this.getFirstMove() == true ) {
 				if(((Rook)end.getPiece()).canMove(board, end, start)) {
 						return true;
 				}
 			} 
 			return false;
 		} else {
-			if( (!(board.isCheck(isWhite(), end))) && isAvailable(start,end)) {
+			if( (!(board.isCheck(isWhite(), end))) && isAvailable(start,end) && board.simulateMoveForCheck(start, end)) {
 				return(super.canMove(board, start, end));
 			}
 			return false;

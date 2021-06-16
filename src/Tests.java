@@ -833,5 +833,19 @@ class testKing {
 		
 		assertFalse(board.isCheckmate(false));
 	}
+	
+
+	@Test
+	void Test7() {
+		Game game = new Game();
+		game.getBoard().initEmpty();
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 0, 7);
+		TestingMethods.addPieceToBoard(new Queen(true), game.getBoard(), 1, 6);
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 1, 5);
+		
+		assertTrue(game.isGameOver());
+	}
+
+
 }
 
