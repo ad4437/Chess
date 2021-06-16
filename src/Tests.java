@@ -661,6 +661,18 @@ class testMisc {
 		game.nextTurn();
 		assertFalse(game.isGameOver());
 	}
+	
+	
+	@Test
+	void test22() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		TestingMethods.addPieceToBoard(new Pawn(true), game.getBoard(), 0, 7);
+		game.transformPawn(game.getBoard().getSpace(0, 7), 1);
+		System.out.println(game.getBoard().getSpace(0, 7).getPiece());
+		
+		assertTrue(game.getBoard().getSpace(0, 7).getPiece() instanceof Queen);
+	}
 }
 
 

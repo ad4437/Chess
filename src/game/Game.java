@@ -74,6 +74,8 @@ public class Game {
 		board.pawnTransform(turn, pawnSpace, userInput);
 	}
 	
+	
+	
 	public boolean isGameOver() {
 		 if(board.isCheckmate(!turn)) {
 			if(turn) state = "white wins";
