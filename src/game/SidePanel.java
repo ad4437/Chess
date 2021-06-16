@@ -68,7 +68,7 @@ public class SidePanel extends JPanel {
 	}
 	
 	private BufferedImage getImage(String name, boolean isWhite, boolean small) throws IOException {
-		// returns small Piece Image
+		// returns Piece Image
 		String color;
 		if (isWhite) color = "white";
 		else color = "black";
@@ -215,6 +215,7 @@ public class SidePanel extends JPanel {
 	}
 	
 	private void transform(Space end, int piece) {
+		// pawn transformation
 		gameState.transformPawn(end, piece);
 		try {
 			gridPanel.sync();
@@ -227,6 +228,7 @@ public class SidePanel extends JPanel {
 	}
 	
 	public void newPieceInput(Space end) throws IOException {
+		// get pawn transformation user input
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setOpaque(false);
@@ -282,6 +284,7 @@ public class SidePanel extends JPanel {
 	}
 	
 	public void endGame(String outcome) throws IOException {
+		// Display End Game Text
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.setOpaque(false);
@@ -366,10 +369,11 @@ public class SidePanel extends JPanel {
             	gridPanel.setIsGameOver(isGameOver);
 				try {
 					endGame(gameState.getState());
+					revalidate();
+					repaint();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				sideDisplay.repaint();
             }
 		});	
 		panel.add(settingsIcon);
