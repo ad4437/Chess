@@ -485,7 +485,7 @@ public class Board {
 	public int pieceMoveCount(Piece piece) {
 		int count = 0;
 		for(int i = 0; i < recordings.size(); i++) {
-			if(recordings.get(i).getPiece().equals(piece)) count++; 
+			if(recordings.get(i).getPiece() != null && recordings.get(i).getPiece() == piece) count++; 
 		}
 		return count;
 	}
