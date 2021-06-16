@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
@@ -29,20 +31,26 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
-import com.sun.glass.events.WindowEvent;
-
-import pieces.ChessPiece;
-import pieces.Piece;
-
 public class SidePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
 	private Board board;	
+	private Game gameState;
+	private GridPanel gridPanel;
+	private boolean isGameOver = false;
 	private JPanel whiteCaptured;
 	private JPanel blackCaptured;
+	private JPanel sideDisplay;
 	private String currentSound = "hilo";
 	private SimpleAudioPlayer audio;
+	
+	public void setGameState(Game game) {
+        gameState = game;
+	}
+	
+	public void setGridPanel(GridPanel grid) {
+		gridPanel = grid;
+	}
 	
 	public void setAudio(SimpleAudioPlayer audioIn) {
 		audio = audioIn;
@@ -51,6 +59,10 @@ public class SidePanel extends JPanel {
 	
 	public void setBoardState(Board brd) {
 		board = brd;
+	}
+	
+	public void setIsGameOver(boolean isGameOver) {
+		this.isGameOver = isGameOver;
 	}
 	
 	private BufferedImage getSmImage(String name, boolean isWhite) throws IOException {
@@ -74,7 +86,6 @@ public class SidePanel extends JPanel {
 			if (name == null) audio.setPath(name);
 			else audio.setPath("assets/sounds/" + name + ".wav");
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -83,8 +94,6 @@ public class SidePanel extends JPanel {
 		// sync the side panel with the current board state
 		whiteCaptured.removeAll();
 		blackCaptured.removeAll();
-		System.out.println(board.getWhiteCaptured().toString());
-		System.out.println(board.getBlackCaptured().toString());
 
 		// white captured
 		for (String piece : board.getWhiteCaptured()) {
@@ -135,30 +144,35 @@ public class SidePanel extends JPanel {
         hiLo.setSelected(currentSound.equals("hilo"));
         hiLo.setOpaque(false);
         hiLo.setForeground(Color.WHITE);
+        hiLo.setFocusPainted(false);
 
         JRadioButton quack = new JRadioButton("Quack");
         quack.setActionCommand("quack");
         quack.setSelected(currentSound.equals("quack"));
         quack.setOpaque(false);
         quack.setForeground(Color.WHITE);
+        quack.setFocusPainted(false);
         
         JRadioButton bruh = new JRadioButton("Bruh");
         bruh.setActionCommand("bruh");
         bruh.setSelected(currentSound.equals("bruh"));
         bruh.setOpaque(false);
         bruh.setForeground(Color.WHITE);
+        bruh.setFocusPainted(false);
 
         JRadioButton wrong = new JRadioButton("Wrong");
         wrong.setActionCommand("wrong");
         wrong.setSelected(currentSound.equals("wrong"));
         wrong.setOpaque(false);
         wrong.setForeground(Color.WHITE);
+        wrong.setFocusPainted(false);
 
         JRadioButton none = new JRadioButton("No Sound");
         none.setActionCommand("none");
         none.setSelected(currentSound.equals("none"));
         none.setOpaque(false);
         none.setForeground(Color.WHITE);
+        none.setFocusPainted(false);
 
         ButtonGroup group = new ButtonGroup();
         group.add(hiLo);
@@ -192,6 +206,49 @@ public class SidePanel extends JPanel {
 
 	}
 	
+	public void endGame(String outcome) throws IOException {
+		JPanel panel = new JPanel();
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+		panel.setOpaque(false);
+		
+		JLabel winner = new JLabel(outcome, SwingConstants.CENTER);
+		winner.setForeground(Color.WHITE);
+		winner.setFont(new Font("Montserrat", Font.PLAIN, 32));
+		winner.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		JLabel newGame = new JLabel("New Game", SwingConstants.CENTER);
+		newGame.setIcon(new ImageIcon(getIcon("plus")));
+		newGame.setForeground(Color.WHITE);
+		newGame.setFont(new Font("Montserrat", Font.PLAIN, 16));
+		newGame.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		newGame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	// TODO: Reset game
+            	gameState.reset();
+            	gridPanel.setIsGameOver(false);
+            	isGameOver = false;
+            	sideDisplay.removeAll();
+            	sideDisplay.repaint();
+            	try {
+					gridPanel.sync();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+            }
+		});	
+
+		panel.add( Box.createVerticalGlue() );
+		panel.add(winner);
+		panel.add(newGame);
+		panel.add( Box.createVerticalGlue() );
+
+		sideDisplay.add(panel, BorderLayout.CENTER);
+		System.out.println(outcome);
+	}
+	
 	public void draw(JPanel panel) throws IOException {
 		this.setOpaque(false);
 		
@@ -201,22 +258,49 @@ public class SidePanel extends JPanel {
 		blackCaptured = new JPanel(new WrapLayout(FlowLayout.LEFT));
 		blackCaptured.setOpaque(false);
 
+		sideDisplay = new JPanel(new BorderLayout());
+		sideDisplay.setOpaque(false);
+		
+		this.add(blackCaptured, BorderLayout.PAGE_END);
+		this.add(whiteCaptured, BorderLayout.PAGE_START);
+		this.add(sideDisplay, BorderLayout.CENTER);
+		
 		JLabel settingsIcon = new JLabel();
 		settingsIcon.setIcon(new ImageIcon(getIcon("settings")));
-		settingsIcon.setBorder(new EmptyBorder(10, 10, 10, 10));
+		settingsIcon.setBorder(new EmptyBorder(10, 10, 10, 0));
 		settingsIcon.setOpaque(false);
 		settingsIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	if (isGameOver) return;
             	JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(settingsIcon);
             	topFrame.setEnabled(false);
             	settingsPopup();
             }
 		});	
-
+				
+		JLabel surrenderIcon = new JLabel();
+		surrenderIcon.setIcon(new ImageIcon(getIcon("flag")));
+		surrenderIcon.setBorder(new EmptyBorder(10, 0, 10, 10));
+		surrenderIcon.setOpaque(false);
+		surrenderIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	// TODO: surrender doesn't update GUI
+            	if (isGameOver) return;
+            	gameState.setSurrendered(true);
+            	isGameOver = gameState.isGameOver();
+            	gridPanel.setIsGameOver(isGameOver);
+				try {
+					endGame(gameState.getState());
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				sideDisplay.repaint();
+            }
+		});	
 		panel.add(settingsIcon);
-		this.add(blackCaptured, BorderLayout.PAGE_END);
-		this.add(whiteCaptured, BorderLayout.PAGE_START);		
+		panel.add(surrenderIcon);
 	}
 	
 	

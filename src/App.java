@@ -49,6 +49,7 @@ public class App  {
 		settingsPanel.setBackground(Color.decode("#413e3c"));
 				
 		sidePanel = new SidePanel();
+		sidePanel.setGameState(gameState);
 		sidePanel.setAudio(audio);
 		sidePanel.setBoardState(gameState.getBoard());
 		sidePanel.setPreferredSize(new Dimension(200,600));
@@ -58,10 +59,12 @@ public class App  {
 		boardPanel = new GridPanel();
 		boardPanel.setGame(gameState);
 		boardPanel.setAudio(audio);
-		boardPanel.setSidePanel(sidePanel);
 		boardPanel.setPreferredSize(new Dimension(600,600));
 		boardPanel.setLayout(new GridLayout(8,8));
 		boardPanel.draw();
+		
+		boardPanel.setSidePanel(sidePanel);
+		sidePanel.setGridPanel(boardPanel);
 
 		panel.add(sidePanel);
 		panel.add(settingsPanel);

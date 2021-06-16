@@ -23,6 +23,7 @@ public class GridPanel extends JPanel {
 	private Space start;
 	private Space end;
 	private int piecesSelected = 0;
+	private boolean isGameOver = false;
 	private SidePanel sidePanel;
 	private SimpleAudioPlayer audio;
 
@@ -98,10 +99,15 @@ public class GridPanel extends JPanel {
 		}
 	}
 	
+	public void setIsGameOver(boolean isGameOver) {
+		this.isGameOver = isGameOver;
+	}
+	
 	public void sync() throws IOException {
 		// sync the grid state with the current board state
 		for (int r = 0; r < 8; r++) {
 			for (int c = 0; c < 8; c++) {
+				resetBackground(r,c);
 				if (getImage(r,c) != null) {
 					ImageIcon piece = new ImageIcon(getImage(r,c));
 					pieces[r][c].setIcon(piece);
@@ -129,6 +135,7 @@ public class GridPanel extends JPanel {
 				piecePic.addMouseListener(new MouseAdapter() {
 	                @Override
 	                public void mouseClicked(MouseEvent e) {
+	                	if (isGameOver) return;
 	                	Space clicked = gameState.getBoard().getSpace(piecePic.getRow(), piecePic.getCol());
 	                	if (piecesSelected == 0) {
 		                	if (clicked.getPiece() == null) return;
@@ -154,10 +161,21 @@ public class GridPanel extends JPanel {
 									e2.printStackTrace();
 								}
 	                		} else {
+	                			if (gameState.isGameOver()) {
+	                				isGameOver = true;
+	                				sidePanel.setIsGameOver(true);
+	                				System.out.println("Game Over");
+	                				try {
+										sidePanel.endGame(gameState.getState());
+									} catch (IOException e1) {
+										e1.printStackTrace();
+									}
+	                			}
+
 	                			resetBackground(gameState.getKingSpace());
 	                			gameState.nextTurn();
 	                			if (gameState.kingInCheck()) {
-	                				System.out.println(true);
+	                				System.out.println("In Check");
 	                				setCheckColor(gameState.getKingSpace());
 	                			}
 	                		}
