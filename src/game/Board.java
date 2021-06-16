@@ -468,12 +468,16 @@ public class Board {
 		switch(input) {
 		case 1:
 			end.setPiece(new Queen(pieceColor));
+			break;
 		case 2:
 			end.setPiece(new Rook(pieceColor));
+			break;
 		case 3:
 			end.setPiece(new Bishop(pieceColor));
+			break;
 		case 4:
 			end.setPiece(new Knight(pieceColor));
+			break;
 		}
 	}
 	
