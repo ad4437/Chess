@@ -21,7 +21,7 @@ public class King extends ChessPiece {
 			} 
 			return false;
 		} else {
-			if( (!(board.isCheck(isWhite(), end))) && isAvailable(start,end) && (board.simulateMoveForCheck(start, end)) ) {
+			if( (!(board.isCheck(isWhite(), end))) && isAvailable(start,end)) {
 				return(super.canMove(board, start, end));
 			}
 			return false;
