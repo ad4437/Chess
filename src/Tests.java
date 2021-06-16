@@ -537,6 +537,30 @@ class testMisc {
 		
 		assertTrue(game.getMoveRuleCount() > 50);
 	}
+	
+	@Test
+	void test12() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 0, 4);
+		for(int i = 0; i < 26; i++) {
+			game.attemptMove(game.getBoard().getSpace(0, 4), game.getBoard().getSpace(0, 3));
+			game.attemptMove(game.getBoard().getSpace(0, 3), game.getBoard().getSpace(0, 4));
+		}
+		TestingMethods.addPieceToBoard(new Pawn(false), game.getBoard(), 0, 3);
+		game.attemptMove(game.getBoard().getSpace(0, 4), game.getBoard().getSpace(0, 3));
+		assertFalse(game.getMoveRuleCount() > 50);
+	}
+	
+	@Test
+	void test13() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		TestingMethods.addPieceToBoard(new Pawn(true), game.getBoard(), 4, 4);
+			game.attemptMove(game.getBoard().getSpace(4, 4), game.getBoard().getSpace(3, 4));
+		
+		assertTrue(game.getMoveRuleCount() == 0);
+	}
 }
 
 
