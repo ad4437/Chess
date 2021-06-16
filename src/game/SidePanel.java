@@ -139,6 +139,7 @@ public class SidePanel extends JPanel {
 
         JLabel soundLabel = new JLabel("<html><u>Invalid Move Soud Effect</u><html>");
         soundLabel.setForeground(Color.WHITE);
+        soundLabel.setFont(new Font("Montserrat", Font.PLAIN, 14));
         
         // Sound Radio Buttons
         JRadioButton hiLo = new JRadioButton("High Low Note");
@@ -146,6 +147,7 @@ public class SidePanel extends JPanel {
         hiLo.setSelected(currentSound.equals("hilo"));
         hiLo.setOpaque(false);
         hiLo.setForeground(Color.WHITE);
+        hiLo.setFont(new Font("Montserrat", Font.PLAIN, 12));
         hiLo.setFocusPainted(false);
 
         JRadioButton quack = new JRadioButton("Quack");
@@ -153,6 +155,7 @@ public class SidePanel extends JPanel {
         quack.setSelected(currentSound.equals("quack"));
         quack.setOpaque(false);
         quack.setForeground(Color.WHITE);
+        quack.setFont(new Font("Montserrat", Font.PLAIN, 12));
         quack.setFocusPainted(false);
         
         JRadioButton bruh = new JRadioButton("Bruh");
@@ -160,6 +163,7 @@ public class SidePanel extends JPanel {
         bruh.setSelected(currentSound.equals("bruh"));
         bruh.setOpaque(false);
         bruh.setForeground(Color.WHITE);
+        bruh.setFont(new Font("Montserrat", Font.PLAIN, 12));
         bruh.setFocusPainted(false);
 
         JRadioButton wrong = new JRadioButton("Wrong");
@@ -167,6 +171,7 @@ public class SidePanel extends JPanel {
         wrong.setSelected(currentSound.equals("wrong"));
         wrong.setOpaque(false);
         wrong.setForeground(Color.WHITE);
+        wrong.setFont(new Font("Montserrat", Font.PLAIN, 12));
         wrong.setFocusPainted(false);
 
         JRadioButton none = new JRadioButton("No Sound");
@@ -174,6 +179,7 @@ public class SidePanel extends JPanel {
         none.setSelected(currentSound.equals("none"));
         none.setOpaque(false);
         none.setForeground(Color.WHITE);
+        none.setFont(new Font("Montserrat", Font.PLAIN, 12));
         none.setFocusPainted(false);
 
         ButtonGroup group = new ButtonGroup();
@@ -294,7 +300,6 @@ public class SidePanel extends JPanel {
 		newGame.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	// TODO: Reset game
             	gameState.reset();
             	gridPanel.setIsGameOver(false);
             	isGameOver = false;
@@ -302,8 +307,7 @@ public class SidePanel extends JPanel {
             	sideDisplay.repaint();
             	try {
 					gridPanel.sync();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
+				} catch (IOException e1) {					
 					e1.printStackTrace();
 				}
             }
@@ -371,6 +375,5 @@ public class SidePanel extends JPanel {
 		panel.add(settingsIcon);
 		panel.add(surrenderIcon);
 	}
-	
 	
 }
