@@ -83,10 +83,10 @@ public class Pawn extends ChessPiece {
 			INCREMENT = 1;
 		}
 		
-		if(isWithinBounds(start.getRow() + INCREMENT) && isWithinBounds(start.getCol() + 1)) {
+		if(isWithinBounds(start.getRow() + INCREMENT) && isWithinBounds(start.getCol() + 1) && isWithinBounds(start.getRow() + INCREMENT)) {
 			spacesCanCapture.add(board.getSpace(start.getRow() + INCREMENT, start.getCol() + 1));
 		}
-		if(isWithinBounds(start.getRow() + INCREMENT) && isWithinBounds(start.getCol() - 1)) {
+		if(isWithinBounds(start.getRow() + INCREMENT) && isWithinBounds(start.getCol() - 1) && isWithinBounds(start.getRow() + INCREMENT)) {
 			spacesCanCapture.add(board.getSpace(start.getRow() + INCREMENT, start.getCol() - 1));
 		}
 		

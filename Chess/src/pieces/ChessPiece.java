@@ -38,7 +38,7 @@ public abstract class ChessPiece extends Piece implements Cloneable{
 		return false;
 	}
 	
-	protected static boolean isWithinBounds(int value) {	
+	public static boolean isWithinBounds(int value) {	
 		final int LOWER_BOUNDS = 0;
 		final int UPPER_BOUNDS = 7;
 		return(value >= LOWER_BOUNDS && value <= UPPER_BOUNDS);	

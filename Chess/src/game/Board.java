@@ -234,28 +234,59 @@ public class Board {
 		Space kingOriginalSpace;
 		colorSpacePieces = getColorSpacePieces(kingColor);
 		kingOriginalSpace = this.findKingSpace(colorSpacePieces);
-		boolean first = (((King)kingOriginalSpace.getPiece()).getFirstMove());
+		ArrayList<Space> s = storeHelper();
 		if(!(isCheck(kingColor, kingOriginalSpace))) return false;  
 		enemySpaces = getEnemyCheckPieces(kingColor,kingOriginalSpace);
-		if(checkmateCanMoveHelper(kingColor) || checkmateCanCaptureHelper(enemySpaces,kingColor) || (enemySpaces.size() == 1 && checkmateCanBlockHelper(enemySpaces.get(0), kingColor))) {
-			((King)kingOriginalSpace.getPiece()).setFirstMove(first);
+		if(checkmateCanMoveHelper(kingColor, kingOriginalSpace)) {
+			revert(s);
 			return false;
-		} 
+		} else if (checkmateCanCaptureHelper(enemySpaces,kingColor) || (enemySpaces.size() == 1 && checkmateCanBlockHelper(enemySpaces.get(0), kingColor))) return false;
 		
 		return true;
 
 	}
 	
-	private boolean checkmateCanMoveHelper(boolean kingColor) {
+	
+	private void revert(ArrayList<Space> s) {
+		for(int i = 0; i < s.size(); i++) {
+			if(s.get(i).getPiece() instanceof Pawn) {
+				((Pawn)s.get(i).getPiece()).setFirstMove(true);
+			} else if(s.get(i).getPiece() instanceof King) {
+				((King)s.get(i).getPiece()).setFirstMove(true);
+			} else if(s.get(i).getPiece() instanceof Rook) {
+				((Rook)s.get(i).getPiece()).setFirstMove(true);
+			}
+		}
+	}
+	
+	private ArrayList<Space> storeHelper() {
+		ArrayList<Space> s = new ArrayList<Space>();
+		for(int row = 0; row < 8; row++) {
+			for(int col = 0; col < 8; col++) {
+				if(boardSpaces[row][col].getPiece() instanceof Pawn) {
+					if(((Pawn)this.getSpace(row, col).getPiece()).getFirstMove() == true) s.add(this.getSpace(row, col));
+				} else if (boardSpaces[row][col].getPiece() instanceof King) {
+					if(((King)this.getSpace(row, col).getPiece()).getFirstMove() == true) s.add(this.getSpace(row, col));
+				} else if(boardSpaces[row][col].getPiece() instanceof Rook) {
+					if(((Rook)this.getSpace(row, col).getPiece()).getFirstMove() == true) s.add(this.getSpace(row, col));
+				}
+			}
+		}
+		return s;
+	}
+	
+	private boolean checkmateCanMoveHelper(boolean kingColor,Space kingOriginalSpace) {
+		/*
 		Board clonedBoard = this.copy();
 		ArrayList<Space> colorSpacePieces = clonedBoard.getColorSpacePieces(kingColor);
 		Space kingLocation = clonedBoard.findKingSpace(colorSpacePieces);
 		ArrayList<Space> kingSpacesMove;
+		*/
 		
-		kingSpacesMove = ((ChessPiece)kingLocation.getPiece()).getMoveableSpaces(kingLocation, clonedBoard);
+		ArrayList<Space> kingSpacesMove = ((ChessPiece)kingOriginalSpace.getPiece()).getMoveableSpaces(kingOriginalSpace, this);
 		
 		for(int i = 0; i < kingSpacesMove.size(); i++) {
-			if(clonedBoard.simulateMoveForCheck(kingLocation, kingSpacesMove.get(i))) {
+			if(this.simulateMoveForCheck(kingOriginalSpace, kingSpacesMove.get(i))) {
 				return true;
 			}
 		}
