@@ -158,11 +158,9 @@ public class Board {
 				ROOK_END_SPACE = getSpace(start.getRow(),5);
 			}
 			KING_END_SPACE.setPiece(start.getPiece());
-			movePieceHelperFirstMove(start);
 			start.setPiece(null);
 			replaceSpace(currentColorSpacePieces,start,KING_END_SPACE);
 			ROOK_END_SPACE.setPiece(end.getPiece());
-			movePieceHelperFirstMove(end);
 			end.setPiece(null);
 			replaceSpace(currentColorSpacePieces,end,ROOK_END_SPACE);
 		} else if(end != null) {
@@ -234,11 +232,7 @@ public class Board {
 		ArrayList<Space> colorSpacePieces;
 		ArrayList<Space> enemySpaces;
 		Space kingOriginalSpace;
-		if(kingColor) {
-			colorSpacePieces = whiteSpacePieces;
-		} else {
-			colorSpacePieces = blackSpacePieces;
-		}
+		colorSpacePieces = getColorSpacePieces(kingColor);
 		
 		kingOriginalSpace = this.findKingSpace(colorSpacePieces);
 		if(!(isCheck(kingColor, kingOriginalSpace))) return false;  
@@ -253,18 +247,14 @@ public class Board {
 	
 	private boolean checkmateCanMoveHelper(boolean kingColor) {
 		Board clonedBoard = this.copy();
-		ArrayList<Space> colorSpacePieces;
-		if(kingColor) {
-			colorSpacePieces = clonedBoard.getWhiteSpacePieces();
-		} else {
-			colorSpacePieces = clonedBoard.getBlackSpacePieces();
-		}
+		ArrayList<Space> colorSpacePieces = clonedBoard.getColorSpacePieces(kingColor);
 		Space kingLocation = clonedBoard.findKingSpace(colorSpacePieces);
 		ArrayList<Space> kingSpacesMove;
+		
 		kingSpacesMove = ((ChessPiece)kingLocation.getPiece()).getMoveableSpaces(kingLocation, clonedBoard);
 		
 		for(int i = 0; i < kingSpacesMove.size(); i++) {
-			if(this.simulateMoveForCheck(kingLocation, kingSpacesMove.get(i))) {
+			if(clonedBoard.simulateMoveForCheck(kingLocation, kingSpacesMove.get(i))) {
 				return true;
 			}
 		}
@@ -272,17 +262,14 @@ public class Board {
 	}
 	
 	private boolean checkmateCanCaptureHelper(ArrayList<Space> enemySpaces, boolean kingColor) {
-		ArrayList<Space> colorSpacePieces;
-		if(kingColor) {
-			colorSpacePieces = whiteSpacePieces;
-		} else {
-			colorSpacePieces = blackSpacePieces;
-		}
+		ArrayList<Space> colorSpacePieces = getColorSpacePieces(kingColor);
+		
 		if(enemySpaces.size() > 1)  {
 			return false;
 		}
+		
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
-				if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), enemySpaces.get(0))) {
+				if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), enemySpaces.get(0)) && this.simulateMoveForCheck(colorSpacePieces.get(i), enemySpaces.get(0))) {
 					return true;
 				}
 		}
@@ -291,13 +278,9 @@ public class Board {
 	}
 	
 	private boolean checkmateCanBlockHelper(Space enemySpace, boolean kingColor) {
-		ArrayList<Space> colorSpacePieces;
+		ArrayList<Space> colorSpacePieces = getColorSpacePieces(kingColor);
 		ArrayList<Space> enemyMoveableSpaces = ((ChessPiece)enemySpace.getPiece()).getCaptureableSpaces(enemySpace, this);
-		if(kingColor) {
-			colorSpacePieces = whiteSpacePieces;
-		} else {
-			colorSpacePieces = blackSpacePieces;
-		}
+		
 		
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
 			for(int j = 0; j < enemyMoveableSpaces.size(); j++) {
@@ -311,15 +294,11 @@ public class Board {
 	}
 	
 	private ArrayList<Space> getEnemyCheckPieces(boolean kingColor,Space kingLocation) {
-		ArrayList<Space> colorSpacePieces;
+		ArrayList<Space> colorSpacePieces = getColorSpacePieces(!kingColor);
 		ArrayList<Space> enemyPieces = new ArrayList<Space>();
-		if(kingColor) {
-			colorSpacePieces = blackSpacePieces;
-		} else {
-			colorSpacePieces = whiteSpacePieces;
-		}
+
 		for(int i = 0; i < colorSpacePieces.size(); i++) {
-			if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), kingLocation)) {
+			if(((ChessPiece)colorSpacePieces.get(i).getPiece()).canMove(this, colorSpacePieces.get(i), kingLocation) && this.simulateMoveForCheck(colorSpacePieces.get(i), kingLocation)) {
 				enemyPieces.add(colorSpacePieces.get(i));
 			}
 		}
@@ -356,7 +335,7 @@ public class Board {
 		}
 		return count;
 	}
-	
+	 
 	
 	public int getKnightPieceCount(ArrayList<Space> colorSpacePieces) {
 		int count = 0;
@@ -449,25 +428,12 @@ public class Board {
 		return blackCaptured;
 	}
 	
+	
 	public void clearCaptured() {
 		whiteCaptured = new ArrayList<String>();
 		blackCaptured = new ArrayList<String>();
 	}
 	
-	public Space getAnyPawnAtEnd(boolean turn) { 
-		final int ROW;
-		if(turn) {
-			ROW = 0;
-		} else {
-			ROW = 7;
-		}
-		for(int i = 0; i < 8; i++) {
-			if(getSpace(ROW,i).getPiece() instanceof Pawn && ((ChessPiece)getSpace(ROW,i).getPiece()).isWhite() == turn ) {
-				return getSpace(ROW,i);
-			}
-		} 
-		return null;
-	}
 	
 	public void pawnTransform(boolean pieceColor, Space end, int input) {
 		switch(input) {

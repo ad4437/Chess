@@ -17,7 +17,7 @@ public class App  {
 	 * yellow (selected) - #f6f668
 	 * red (check) - #b33430
 	 * hardBlack - #22201d 
-	 * softBlack - #413e3c
+	 * softBlack - #413e3c 
 	 * 
 	 */
 	

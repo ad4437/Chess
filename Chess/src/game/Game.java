@@ -17,7 +17,7 @@ public class Game {
 		turn = true;
 		moveRuleCount = 0;
 	}
-	
+	 
 	public boolean attemptMove(Space start, Space end) {
 		if (start.getPiece() == null) return false;
 		

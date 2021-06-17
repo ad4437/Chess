@@ -109,6 +109,10 @@ public class Rook extends ChessPiece{
 		 return new Rook(this.isWhite());
 	}
 
+	public boolean getFirstMove() {
+		return firstMove;
+	}
+ 
 
 
 

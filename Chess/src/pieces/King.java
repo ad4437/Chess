@@ -5,7 +5,7 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 public class King extends ChessPiece {
-	private boolean firstMove;
+	private boolean firstMove; 
 	public King(boolean stateInput) {
 		super(stateInput);
 		firstMove = true;
@@ -13,7 +13,7 @@ public class King extends ChessPiece {
 	
 	public boolean canMove(Board board,Space start,Space end) {
 		boolean inCheck = board.isCheck(isWhite(), start);
-		if(end.getPiece() instanceof Rook && ((ChessPiece)end.getPiece()).isWhite() == this.isWhite() && !(inCheck) && !(board.isCheck(isWhite(), end))) {
+		if(end.getPiece() instanceof Rook && ((ChessPiece)end.getPiece()).isWhite() == this.isWhite() && !(inCheck)) {
 			if(((Rook)end.getPiece()).getMoveFirst() == true && this.getFirstMove() == true ) {
 				if(((Rook)end.getPiece()).canMove(board, end, start)) {
 						return true;
@@ -21,7 +21,7 @@ public class King extends ChessPiece {
 			} 
 			return false;
 		} else {
-			if( (!(board.isCheck(isWhite(), end))) && isAvailable(start,end) && board.simulateMoveForCheck(start, end)) {
+			if( (!(board.isCheck(isWhite(), end))) && isAvailable(start,end)) {
 				return(super.canMove(board, start, end));
 			}
 			return false;

@@ -674,6 +674,27 @@ class testMisc {
 		
 		assertTrue(game.getBoard().getSpace(0, 7).getPiece() instanceof Queen);
 	}
+	
+	
+	/*
+	@Test
+	void test23() {
+		game = new Game();
+		game.getBoard().initEmpty();
+		TestingMethods.addPieceToBoard(new King(true), game.getBoard(), 7, 5);
+		TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 7, 0);
+		TestingMethods.addPieceToBoard(new Rook(true), game.getBoard(), 7, 1);
+		TestingMethods.addPieceToBoard(new King(false), game.getBoard(), 0
+				, 0);
+		System.out.println(((Rook)game.getBoard().getSpace(7, 0).getPiece()).getFirstMove());
+		game.isGameOver();
+		System.out.println(((Rook)game.getBoard().getSpace(7, 0).getPiece()).getFirstMove());
+		
+		
+		
+		assertTrue(game.getBoard().getSpace(0, 7).getPiece() instanceof Queen);
+	} 
+	*/
 }
 
 
