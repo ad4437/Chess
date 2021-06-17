@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
@@ -51,7 +52,7 @@ public class GridPanel extends JPanel {
 		this.isGameOver = isGameOver;
 	}
 	
-	private BufferedImage getImage(int r, int c) throws IOException {
+	private URL getImage(int r, int c) throws IOException {
 		// returns Image object with image of piece at space (r,c)
 		// null if no piece at (r,c)
 		Piece piece = gameState.getBoard().getSpace(r,c).getPiece();
@@ -61,11 +62,8 @@ public class GridPanel extends JPanel {
 		String name = piece.toString();
 		boolean isWhite = ((ChessPiece) piece).isWhite();
 		if (isWhite) color = "white";
-		else color = "black";
-		
-		String path = "assets/images/pieces/" + color + "/" + name + ".png";
-		
-		return ImageIO.read(new File(path));
+		else color = "black";		
+		return getClass().getClassLoader().getResource(color + "/" + name + ".png");
 	}
     
 	private void setSelectColor(Space space) {

@@ -449,6 +449,11 @@ public class Board {
 		return blackCaptured;
 	}
 	
+	public void clearCaptured() {
+		whiteCaptured = new ArrayList<String>();
+		blackCaptured = new ArrayList<String>();
+	}
+	
 	public Space getAnyPawnAtEnd(boolean turn) { 
 		final int ROW;
 		if(turn) {

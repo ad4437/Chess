@@ -33,13 +33,13 @@ public class SimpleAudioPlayer
 	}
 	
 	public void setPath(String path) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-		if (path == null) {
+		if (path.equals("none")) {
 			filePath = null;
 			return;
 		}
 		filePath = path;
 		// create AudioInputStream object
-		audioInputStream = AudioSystem.getAudioInputStream(new File(filePath).getAbsoluteFile());
+		audioInputStream = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource(filePath));
 		
 		// create clip reference
 		clip = AudioSystem.getClip();
@@ -73,8 +73,7 @@ public class SimpleAudioPlayer
     public void resetAudioStream() throws UnsupportedAudioFileException, IOException,
                                             LineUnavailableException 
     {
-        audioInputStream = AudioSystem.getAudioInputStream(
-        new File(filePath).getAbsoluteFile());
+        audioInputStream = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource(filePath));
         clip.open(audioInputStream);
     }
 }

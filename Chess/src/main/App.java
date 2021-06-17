@@ -1,3 +1,4 @@
+package main;
 import game.*;
 import pieces.*;
 
@@ -51,7 +52,6 @@ public class App  {
 		sidePanel = new SidePanel();
 		sidePanel.setGameState(gameState);
 		sidePanel.setAudio(audio);
-		sidePanel.setBoardState(gameState.getBoard());
 		sidePanel.setPreferredSize(new Dimension(200,600));
 		sidePanel.setLayout(new BorderLayout());
 		sidePanel.draw(settingsPanel);

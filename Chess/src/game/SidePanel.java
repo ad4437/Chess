@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
@@ -36,7 +37,6 @@ import pieces.Space;
 public class SidePanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private Board board;	
 	private Game gameState;
 	private GridPanel gridPanel;
 	private boolean isGameOver = false;
@@ -59,34 +59,26 @@ public class SidePanel extends JPanel {
         setSoundPath(currentSound); // default sound
 	}	
 	
-	public void setBoardState(Board brd) {
-		board = brd;
-	}
-	
 	public void setIsGameOver(boolean isGameOver) {
 		this.isGameOver = isGameOver;
 	}
 	
-	private BufferedImage getImage(String name, boolean isWhite, boolean small) throws IOException {
+	private URL getImage(String name, boolean isWhite, boolean small) throws IOException {
 		// returns Piece Image
 		String color;
 		if (isWhite) color = "white";
-		else color = "black";
-		
-		String path = "assets/images/pieces/" + color + "/" + name + ((small) ? "-sm" : "") + ".png";
-		
-		return ImageIO.read(new File(path));
+		else color = "black";		
+		return getClass().getClassLoader().getResource(color + "/" + name + ((small) ? "-sm" : "") + ".png");
 	}
 	
-	private BufferedImage getIcon(String name) throws IOException {
-		String path = "assets/images/icons/" + name + ".png";
-		return ImageIO.read(new File(path));
+	private URL getIcon(String name) throws IOException {
+		return getClass().getClassLoader().getResource("icons/" + name + ".png");
 	}
 	
 	private void setSoundPath(String name) {
 		try {
-			if (name == null) audio.setPath(name);
-			else audio.setPath("assets/sounds/" + name + ".wav");
+			if (name.equals("none")) audio.setPath(name);
+			else audio.setPath("sounds/" + name + ".wav");
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			e.printStackTrace();
 		}
@@ -98,7 +90,7 @@ public class SidePanel extends JPanel {
 		blackCaptured.removeAll();
 
 		// white captured
-		for (String piece : board.getWhiteCaptured()) {
+		for (String piece : gameState.getBoard().getWhiteCaptured()) {
 			JLabel label = new JLabel();
 			ImageIcon img = new ImageIcon(getImage(piece, true, true));
 			label.setIcon(img);
@@ -106,7 +98,7 @@ public class SidePanel extends JPanel {
 		}
 		
 		// black captured
-		for (String piece : board.getBlackCaptured()) {
+		for (String piece : gameState.getBoard().getBlackCaptured()) {
 			JLabel label = new JLabel();
 			ImageIcon img = new ImageIcon(getImage(piece, false, true));
 			label.setIcon(img);
@@ -306,6 +298,8 @@ public class SidePanel extends JPanel {
             	gameState.reset();
             	gridPanel.setIsGameOver(false);
             	isGameOver = false;
+        		whiteCaptured.removeAll();
+        		blackCaptured.removeAll();
             	sideDisplay.removeAll();
             	sideDisplay.repaint();
             	try {
