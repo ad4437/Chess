@@ -240,7 +240,17 @@ public class Board {
 		if(checkmateCanMoveHelper(kingColor, kingOriginalSpace)) {
 			revert(s);
 			return false;
-		} else if (checkmateCanCaptureHelper(enemySpaces,kingColor) || (enemySpaces.size() == 1 && checkmateCanBlockHelper(enemySpaces.get(0), kingColor))) return false;
+		}
+		revert(s);
+		if (checkmateCanCaptureHelper(enemySpaces,kingColor)) {
+			revert(s);
+			return false;
+		}
+		if((enemySpaces.size() == 1 && checkmateCanBlockHelper(enemySpaces.get(0), kingColor))) {
+			revert(s);
+			return false;
+		}
+		revert(s);
 		
 		return true;
 
