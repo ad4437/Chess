@@ -233,13 +233,14 @@ public class Board {
 		ArrayList<Space> enemySpaces;
 		Space kingOriginalSpace;
 		colorSpacePieces = getColorSpacePieces(kingColor);
-		
 		kingOriginalSpace = this.findKingSpace(colorSpacePieces);
+		boolean first = (((King)kingOriginalSpace.getPiece()).getFirstMove());
 		if(!(isCheck(kingColor, kingOriginalSpace))) return false;  
 		enemySpaces = getEnemyCheckPieces(kingColor,kingOriginalSpace);
-		if(checkmateCanMoveHelper(kingColor)) return false;
-		if(checkmateCanCaptureHelper(enemySpaces,kingColor)) return false;
-		if(enemySpaces.size() == 1 && checkmateCanBlockHelper(enemySpaces.get(0), kingColor)) return false;
+		if(checkmateCanMoveHelper(kingColor) || checkmateCanCaptureHelper(enemySpaces,kingColor) || (enemySpaces.size() == 1 && checkmateCanBlockHelper(enemySpaces.get(0), kingColor))) {
+			((King)kingOriginalSpace.getPiece()).setFirstMove(first);
+			return false;
+		} 
 		
 		return true;
 
